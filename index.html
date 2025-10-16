@@ -1629,6 +1629,256 @@
                             </p>
                         </div>
                     </div>
+
+                    <!-- Illustration 4: CSMA/CA Protocol -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #feda6a;">
+                            <i class="fas fa-network-wired mr-3"></i>
+                            Illustration : Protocole CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance)
+                        </h3>
+                        
+                        <!-- Controls Panel -->
+                        <div class="mb-4 p-4 rounded-xl" style="background: rgba(254, 218, 106, 0.1); border: 1px solid rgba(254, 218, 106, 0.3);">
+                            <div class="grid md:grid-cols-3 gap-4">
+                                <div>
+                                    <button id="csmaCaPlayPause" class="px-4 py-2 rounded-lg font-semibold transition" style="background: #feda6a; color: #393f4d;">
+                                        <i class="fas fa-pause mr-2"></i>Pause
+                                    </button>
+                                    <button id="csmaCaReset" class="ml-2 px-4 py-2 rounded-lg font-semibold transition" style="background: rgba(254, 218, 106, 0.3); color: #feda6a;">
+                                        <i class="fas fa-redo mr-2"></i>Réinitialiser
+                                    </button>
+                                </div>
+                                <div>
+                                    <label class="flex items-center text-sm">
+                                        <input type="checkbox" id="csmaCaShowRtsCts" checked class="mr-2">
+                                        <span style="color: #d4d4dc;">Afficher RTS/CTS</span>
+                                    </label>
+                                    <label class="flex items-center text-sm mt-2">
+                                        <input type="checkbox" id="csmaCaShowCollisions" checked class="mr-2">
+                                        <span style="color: #d4d4dc;">Afficher collisions</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label class="text-sm block mb-2" style="color: #feda6a;">Durée Slot: <span id="slotTimeValue">9</span> µs</label>
+                                    <input type="range" id="slotTimeSlider" min="5" max="20" value="9" step="1" class="w-full" style="accent-color: #feda6a;">
+                                    <p class="text-xs mt-1 opacity-80" style="color: #d4d4dc;">DIFS = SIFS + (2 × Slot) = <span id="difsCalculated">28</span> µs</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 3D Scene -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="csmaCaChart" style="width: 100%; height: 700px;"></div>
+                        </div>
+
+                        <!-- Timeline Visualization -->
+                        <div class="mb-4 p-4 rounded-xl" style="background: rgba(29, 30, 34, 0.5);">
+                            <h4 class="text-lg font-semibold mb-3" style="color: #feda6a;">
+                                <i class="fas fa-clock mr-2"></i>Timeline des Slots & Temporisations
+                            </h4>
+                            <div id="csmaCaTimeline" style="height: 120px; position: relative; background: rgba(57, 63, 77, 0.3); border-radius: 8px; overflow-x: auto;">
+                                <!-- Timeline slots will be generated here -->
+                            </div>
+                            <div class="grid md:grid-cols-3 gap-3 mt-3">
+                                <div class="p-2 rounded text-center" style="background: rgba(255, 212, 59, 0.2); border: 1px solid #ffd43b;">
+                                    <span class="text-xs font-semibold" style="color: #ffd43b;">SIFS: 10 µs</span>
+                                </div>
+                                <div class="p-2 rounded text-center" style="background: rgba(77, 171, 247, 0.2); border: 1px solid #4dabf7;">
+                                    <span class="text-xs font-semibold" style="color: #4dabf7;">DIFS: <span id="difsDisplay">28</span> µs</span>
+                                </div>
+                                <div class="p-2 rounded text-center" style="background: rgba(168, 85, 247, 0.2); border: 1px solid #a855f7;">
+                                    <span class="text-xs font-semibold" style="color: #a855f7;">Slot: <span id="slotDisplay">9</span> µs</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="mb-4 p-4 rounded-xl" style="background: rgba(254, 218, 106, 0.05);">
+                            <h4 class="text-lg font-semibold mb-3" style="color: #feda6a;">
+                                <i class="fas fa-info-circle mr-2"></i>Légende des Trames
+                            </h4>
+                            <div class="grid md:grid-cols-4 gap-3">
+                                <div class="flex items-center p-2 rounded" style="background: rgba(255, 212, 59, 0.2);">
+                                    <div class="w-4 h-4 rounded mr-2" style="background: #ffd43b;"></div>
+                                    <span class="text-sm" style="color: #d4d4dc;">RTS (Request To Send)</span>
+                                </div>
+                                <div class="flex items-center p-2 rounded" style="background: rgba(77, 171, 247, 0.2);">
+                                    <div class="w-4 h-4 rounded mr-2" style="background: #4dabf7;"></div>
+                                    <span class="text-sm" style="color: #d4d4dc;">CTS (Clear To Send)</span>
+                                </div>
+                                <div class="flex items-center p-2 rounded" style="background: rgba(168, 85, 247, 0.2);">
+                                    <div class="w-4 h-4 rounded mr-2" style="background: #a855f7;"></div>
+                                    <span class="text-sm" style="color: #d4d4dc;">DATA (Données)</span>
+                                </div>
+                                <div class="flex items-center p-2 rounded" style="background: rgba(81, 207, 102, 0.2);">
+                                    <div class="w-4 h-4 rounded mr-2" style="background: #51cf66;"></div>
+                                    <span class="text-sm" style="color: #d4d4dc;">ACK (Acknowledgment)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detailed Explanation -->
+                        <div class="p-5 rounded-xl" style="background: rgba(254, 218, 106, 0.1); border-left: 4px solid #feda6a;">
+                            <h4 class="font-semibold mb-4 flex items-center text-xl" style="color: #feda6a;">
+                                <i class="fas fa-book mr-2"></i>
+                                Explication Détaillée : CSMA/CA
+                            </h4>
+                            
+                            <div class="space-y-4 text-sm opacity-90 leading-relaxed">
+                                <div>
+                                    <h5 class="font-semibold mb-2" style="color: #feda6a;">📡 Qu'est-ce que CSMA/CA ?</h5>
+                                    <p>
+                                        <strong style="color: #feda6a;">CSMA/CA</strong> (Carrier Sense Multiple Access with Collision Avoidance) est un protocole d'accès au support 
+                                        utilisé dans les réseaux Wi-Fi (802.11). Contrairement à CSMA/CD (utilisé en Ethernet filaire), CSMA/CA <strong>évite</strong> les collisions 
+                                        plutôt que de les détecter, car la détection de collision est difficile dans les réseaux sans fil.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h5 class="font-semibold mb-2" style="color: #feda6a;">👂 Carrier Sense (Écoute du Canal)</h5>
+                                    <p>
+                                        Avant de transmettre, chaque station <strong>écoute le canal radio</strong> pour déterminer s'il est libre ou occupé. 
+                                        Si le canal est occupé, la station attend. Si le canal est libre pendant une durée minimale (DIFS), la station peut tenter de transmettre.
+                                    </p>
+                                </div>
+
+                                <div class="p-4 rounded-lg" style="background: rgba(77, 171, 247, 0.1);">
+                                    <h5 class="font-semibold mb-3" style="color: #4dabf7;">⏱️ Temporisations Critiques</h5>
+                                    
+                                    <div class="space-y-3">
+                                        <div>
+                                            <p class="font-semibold" style="color: #ffd43b;">SIFS (Short InterFrame Space)</p>
+                                            <p class="text-xs mt-1">Durée la plus courte entre deux trames (typiquement <strong>10 µs</strong>). Utilisée pour les réponses immédiates comme CTS et ACK.</p>
+                                        </div>
+                                        
+                                        <div>
+                                            <p class="font-semibold" style="color: #4dabf7;">DIFS (DCF InterFrame Space)</p>
+                                            <p class="text-xs mt-1">Durée d'attente avant de tenter une transmission. Calculée par la formule :</p>
+                                            <div class="mt-2 p-3 rounded text-center font-mono text-sm" style="background: rgba(254, 218, 106, 0.2); border: 2px solid #feda6a;">
+                                                <strong style="color: #feda6a;">DIFS = SIFS + (2 × Durée_Slot)</strong>
+                                            </div>
+                                            <p class="text-xs mt-2">Exemple : SIFS = 10 µs, Slot = 9 µs → DIFS = 10 + (2 × 9) = <strong>28 µs</strong></p>
+                                        </div>
+                                        
+                                        <div>
+                                            <p class="font-semibold" style="color: #a855f7;">Slot Time (Durée de Slot)</p>
+                                            <p class="text-xs mt-1">Unité de temps de base (typiquement <strong>9 µs</strong> en 802.11a/g). 
+                                            Utilisée pour le mécanisme de backoff. Ajustez le slider ci-dessus pour voir l'impact sur DIFS.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h5 class="font-semibold mb-2" style="color: #feda6a;">🎲 Mécanisme de Backoff</h5>
+                                    <p>
+                                        Si plusieurs stations veulent transmettre simultanément après DIFS, chacune choisit un <strong>temps de backoff aléatoire</strong> 
+                                        exprimé en nombre de slots. Le compteur de backoff se décrémente à chaque slot si le canal est libre. 
+                                        La première station à atteindre 0 peut transmettre. Ce mécanisme réduit les collisions.
+                                    </p>
+                                    <p class="mt-2 text-xs p-2 rounded" style="background: rgba(255, 212, 59, 0.1);">
+                                        <strong>Formule :</strong> Backoff = Random(0, CW) × Slot_Time, où CW (Contention Window) commence à CW_min et double après chaque collision jusqu'à CW_max.
+                                    </p>
+                                </div>
+
+                                <div>
+                                    <h5 class="font-semibold mb-2" style="color: #feda6a;">🤝 RTS/CTS Handshake</h5>
+                                    <p>
+                                        Pour éviter les collisions dues au <strong>problème du nœud caché</strong>, CSMA/CA peut utiliser un échange RTS/CTS :
+                                    </p>
+                                    <ol class="list-decimal list-inside mt-2 space-y-1 text-xs ml-4">
+                                        <li><strong style="color: #ffd43b;">RTS</strong> : Station envoie une requête (Request To Send) à l'AP</li>
+                                        <li><strong style="color: #4dabf7;">CTS</strong> : AP répond avec Clear To Send après SIFS</li>
+                                        <li><strong style="color: #a855f7;">DATA</strong> : Station envoie les données</li>
+                                        <li><strong style="color: #51cf66;">ACK</strong> : AP confirme réception après SIFS</li>
+                                    </ol>
+                                    <p class="mt-2 text-xs">Les autres stations entendant RTS ou CTS ajournent leurs transmissions (NAV - Network Allocation Vector).</p>
+                                </div>
+
+                                <div>
+                                    <h5 class="font-semibold mb-2" style="color: #ff6b6b;">💥 Gestion des Collisions</h5>
+                                    <p>
+                                        Si deux stations transmettent simultanément (collision), aucun ACK n'est reçu. Les stations détectent l'échec et :
+                                    </p>
+                                    <ul class="list-disc list-inside mt-2 space-y-1 text-xs ml-4">
+                                        <li>Doublent leur fenêtre de contention (CW × 2)</li>
+                                        <li>Choisissent un nouveau backoff aléatoire plus long</li>
+                                        <li>Retentent la transmission</li>
+                                    </ul>
+                                </div>
+
+                                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                    <div class="p-3 rounded-lg" style="background: rgba(81, 207, 102, 0.15);">
+                                        <p class="font-semibold mb-2" style="color: #51cf66;">✓ Avantages</p>
+                                        <ul class="text-xs space-y-1">
+                                            <li>• Évite les collisions de manière proactive</li>
+                                            <li>• RTS/CTS résout le problème du nœud caché</li>
+                                            <li>• Équitable : toutes les stations ont une chance</li>
+                                            <li>• Adaptatif : CW augmente en cas de congestion</li>
+                                        </ul>
+                                    </div>
+                                    <div class="p-3 rounded-lg" style="background: rgba(255, 107, 107, 0.15);">
+                                        <p class="font-semibold mb-2" style="color: #ff6b6b;">✗ Inconvénients</p>
+                                        <ul class="text-xs space-y-1">
+                                            <li>• Overhead élevé (RTS/CTS ajoutent de la latence)</li>
+                                            <li>• Moins efficace en charge faible</li>
+                                            <li>• Backoff peut être long en cas de congestion</li>
+                                            <li>• Complexité d'implémentation</li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <h5 class="font-semibold mb-2" style="color: #feda6a;">📊 Tableau Récapitulatif : Valeurs Typiques (802.11a/g)</h5>
+                                    <div class="overflow-x-auto">
+                                        <table class="w-full text-xs mt-2" style="background: rgba(29, 30, 34, 0.4); border-radius: 8px; overflow: hidden;">
+                                            <thead style="background: rgba(254, 218, 106, 0.2);">
+                                                <tr>
+                                                    <th class="px-4 py-2 text-left" style="color: #feda6a;">Paramètre</th>
+                                                    <th class="px-4 py-2 text-left" style="color: #feda6a;">Valeur Typique</th>
+                                                    <th class="px-4 py-2 text-left" style="color: #feda6a;">Description</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                                    <td class="px-4 py-2">SIFS</td>
+                                                    <td class="px-4 py-2">10 µs</td>
+                                                    <td class="px-4 py-2">Temps minimum entre trames</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                                    <td class="px-4 py-2">Slot Time</td>
+                                                    <td class="px-4 py-2">9 µs</td>
+                                                    <td class="px-4 py-2">Unité de temps pour backoff</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                                    <td class="px-4 py-2">DIFS</td>
+                                                    <td class="px-4 py-2">28 µs</td>
+                                                    <td class="px-4 py-2">SIFS + (2 × Slot) = 10 + 18</td>
+                                                </tr>
+                                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                                    <td class="px-4 py-2">CW_min</td>
+                                                    <td class="px-4 py-2">15 slots</td>
+                                                    <td class="px-4 py-2">Fenêtre de contention minimale</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="px-4 py-2">CW_max</td>
+                                                    <td class="px-4 py-2">1023 slots</td>
+                                                    <td class="px-4 py-2">Fenêtre de contention maximale</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="p-3 rounded-lg text-center" style="background: rgba(254, 218, 106, 0.15); border: 2px dashed #feda6a;">
+                                    <p class="text-xs">
+                                        <i class="fas fa-lightbulb mr-1" style="color: #feda6a;"></i>
+                                        <strong>Impact de la Durée de Slot :</strong> Une durée de slot plus longue augmente DIFS et donc le délai d'accès au canal, 
+                                        mais peut améliorer la robustesse dans des environnements bruités. Ajustez le slider ci-dessus pour visualiser l'effet !
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -4004,6 +4254,492 @@
                     'annotations[0].bgcolor': phaseBgColor
                 });
             }, 80);
+        }
+
+        // ============================================================
+        // CSMA/CA Protocol Visualization - Section 5
+        // ============================================================
+        
+        // Configuration parameters
+        let SIFS = 10; // microseconds
+        let slotTime = 9; // microseconds  
+        let DIFS = SIFS + (2 * slotTime); // calculated dynamically
+        
+        // Animation state
+        let csmaCaAnimationRunning = true;
+        let csmaCaAnimationFrame = 0;
+        let csmaCaPhase = 0; // 0: idle, 1: listen, 2: DIFS, 3: backoff, 4: RTS, 5: CTS, 6: DATA, 7: ACK
+        let csmaCaInterval = null;
+        let showRtsCts = true;
+        let showCollisions = true;
+        
+        // Station backoff counters
+        let sta1Backoff = 5;
+        let sta2Backoff = 8;
+        let sta3Backoff = 3;
+        
+        // Helper to create station device
+        function createStation3D(x, y, z, color, name) {
+            const size = 0.6;
+            
+            const station = {
+                type: 'scatter3d',
+                mode: 'markers+text',
+                x: [x],
+                y: [y],
+                z: [z],
+                marker: {
+                    size: 15,
+                    color: color,
+                    symbol: 'square',
+                    line: {
+                        color: '#393f4d',
+                        width: 2
+                    }
+                },
+                text: [name],
+                textposition: 'top center',
+                textfont: {
+                    family: 'Inter',
+                    size: 10,
+                    color: '#393f4d',
+                    weight: 'bold'
+                },
+                name: name,
+                hovertemplate: '<b>' + name + '</b><br>Station sans fil<extra></extra>',
+                showlegend: true
+            };
+            
+            return station;
+        }
+        
+        // Helper to create AP
+        function createAccessPoint3D(x, y, z) {
+            const apWidth = 1.2;
+            const apDepth = 1.2;
+            const apHeight = 2;
+            
+            const x0 = x - apWidth/2, x1 = x + apWidth/2;
+            const y0 = y - apDepth/2, y1 = y + apDepth/2;
+            const z0 = z, z1 = z + apHeight;
+            
+            const ap = {
+                type: 'mesh3d',
+                x: [x0, x0, x1, x1, x0, x0, x1, x1],
+                y: [y0, y1, y1, y0, y0, y1, y1, y0],
+                z: [z0, z0, z0, z0, z1, z1, z1, z1],
+                i: [7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2],
+                j: [3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3],
+                k: [0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6],
+                color: '#51cf66',
+                opacity: 0.9,
+                name: 'Access Point',
+                hovertemplate: '<b>Access Point</b><br>Point d\'accès Wi-Fi<extra></extra>',
+                showlegend: true
+            };
+            
+            return ap;
+        }
+        
+        // Helper to create frame packet (RTS/CTS/DATA/ACK)
+        function createFramePacket(x0, y0, z0, x1, y1, z1, color, name, visible) {
+            return {
+                type: 'scatter3d',
+                mode: 'lines+markers',
+                x: [x0, x1],
+                y: [y0, y1],
+                z: [z0, z1],
+                line: {
+                    color: color,
+                    width: 8
+                },
+                marker: {
+                    size: 8,
+                    color: color,
+                    symbol: 'diamond'
+                },
+                name: name,
+                opacity: visible ? 1 : 0,
+                hovertemplate: '<b>' + name + '</b><extra></extra>',
+                showlegend: false
+            };
+        }
+        
+        // Initialize CSMA/CA visualization
+        const csmaCaDiv = document.getElementById('csmaCaChart');
+        if (csmaCaDiv) {
+            const apPos = { x: 0, y: 0, z: 0 };
+            const sta1Pos = { x: -4, y: 3, z: 1 };
+            const sta2Pos = { x: 4, y: 3, z: 1 };
+            const sta3Pos = { x: 0, y: -4, z: 1 };
+            
+            const csmaCaData = [];
+            
+            // Create AP
+            const ap = createAccessPoint3D(apPos.x, apPos.y, apPos.z);
+            csmaCaData.push(ap);
+            
+            // Create Stations
+            const sta1 = createStation3D(sta1Pos.x, sta1Pos.y, sta1Pos.z, '#ffd43b', 'STA 1');
+            csmaCaData.push(sta1);
+            
+            const sta2 = createStation3D(sta2Pos.x, sta2Pos.y, sta2Pos.z, '#4dabf7', 'STA 2');
+            csmaCaData.push(sta2);
+            
+            const sta3 = createStation3D(sta3Pos.x, sta3Pos.y, sta3Pos.z, '#a855f7', 'STA 3');
+            csmaCaData.push(sta3);
+            
+            // Coverage zones (halos)
+            function createCoverageHalo(x, y, z, radius, color) {
+                const numPoints = 30;
+                const xCircle = [];
+                const yCircle = [];
+                const zCircle = [];
+                
+                for (let i = 0; i <= numPoints; i++) {
+                    const angle = (i / numPoints) * 2 * Math.PI;
+                    xCircle.push(x + radius * Math.cos(angle));
+                    yCircle.push(y + radius * Math.sin(angle));
+                    zCircle.push(z);
+                }
+                
+                return {
+                    type: 'scatter3d',
+                    mode: 'lines',
+                    x: xCircle,
+                    y: yCircle,
+                    z: zCircle,
+                    line: {
+                        color: color,
+                        width: 3,
+                        dash: 'dash'
+                    },
+                    opacity: 0.3,
+                    showlegend: false,
+                    hoverinfo: 'skip'
+                };
+            }
+            
+            const apHalo = createCoverageHalo(apPos.x, apPos.y, apPos.z, 5, '#51cf66');
+            csmaCaData.push(apHalo);
+            
+            // Frame packets (initially invisible)
+            const rtsFrame = createFramePacket(sta1Pos.x, sta1Pos.y, sta1Pos.z, apPos.x, apPos.y, apPos.z + 1, '#ffd43b', 'RTS', false);
+            csmaCaData.push(rtsFrame);
+            
+            const ctsFrame = createFramePacket(apPos.x, apPos.y, apPos.z + 1, sta1Pos.x, sta1Pos.y, sta1Pos.z, '#4dabf7', 'CTS', false);
+            csmaCaData.push(ctsFrame);
+            
+            const dataFrame = createFramePacket(sta1Pos.x, sta1Pos.y, sta1Pos.z, apPos.x, apPos.y, apPos.z + 1, '#a855f7', 'DATA', false);
+            csmaCaData.push(dataFrame);
+            
+            const ackFrame = createFramePacket(apPos.x, apPos.y, apPos.z + 1, sta1Pos.x, sta1Pos.y, sta1Pos.z, '#51cf66', 'ACK', false);
+            csmaCaData.push(ackFrame);
+            
+            // Collision flash (two overlapping packets)
+            const collisionFrame1 = createFramePacket(sta1Pos.x, sta1Pos.y, sta1Pos.z, apPos.x, apPos.y, apPos.z + 1, '#ff6b6b', 'Collision', false);
+            csmaCaData.push(collisionFrame1);
+            
+            const collisionFrame2 = createFramePacket(sta2Pos.x, sta2Pos.y, sta2Pos.z, apPos.x, apPos.y, apPos.z + 1, '#ff6b6b', 'Collision', false);
+            csmaCaData.push(collisionFrame2);
+            
+            const csmaCaLayout = {
+                title: {
+                    text: '<b>Scène 3D : Protocole CSMA/CA avec RTS/CTS</b>',
+                    font: { family: 'Inter', size: 16, color: '#393f4d' }
+                },
+                scene: {
+                    xaxis: {
+                        title: '<b>X</b>',
+                        range: [-6, 6],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    yaxis: {
+                        title: '<b>Y</b>',
+                        range: [-6, 6],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    zaxis: {
+                        title: '<b>Z</b>',
+                        range: [0, 5],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    camera: {
+                        eye: { x: 1.5, y: 1.5, z: 1.3 }
+                    },
+                    aspectmode: 'cube'
+                },
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#feda6a',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 10 }
+                },
+                margin: { l: 0, r: 0, b: 0, t: 40 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                annotations: [
+                    {
+                        text: 'Phase: Écoute du canal...',
+                        x: 0.5,
+                        y: 0.02,
+                        xref: 'paper',
+                        yref: 'paper',
+                        xanchor: 'center',
+                        showarrow: false,
+                        font: { size: 14, color: '#feda6a', weight: 'bold' },
+                        bgcolor: 'rgba(254, 218, 106, 0.2)',
+                        borderpad: 8
+                    },
+                    {
+                        text: 'STA 1 Backoff: 5',
+                        x: sta1Pos.x / 6 * 0.5 + 0.5,
+                        y: 0.95,
+                        xref: 'paper',
+                        yref: 'paper',
+                        showarrow: false,
+                        font: { size: 11, color: '#ffd43b', weight: 'bold' },
+                        bgcolor: 'rgba(255, 212, 59, 0.3)',
+                        borderpad: 4
+                    },
+                    {
+                        text: 'STA 2 Backoff: 8',
+                        x: sta2Pos.x / 6 * 0.5 + 0.5,
+                        y: 0.95,
+                        xref: 'paper',
+                        yref: 'paper',
+                        showarrow: false,
+                        font: { size: 11, color: '#4dabf7', weight: 'bold' },
+                        bgcolor: 'rgba(77, 171, 247, 0.3)',
+                        borderpad: 4
+                    },
+                    {
+                        text: 'STA 3 Backoff: 3',
+                        x: sta3Pos.x / 6 * 0.5 + 0.5,
+                        y: 0.90,
+                        xref: 'paper',
+                        yref: 'paper',
+                        showarrow: false,
+                        font: { size: 11, color: '#a855f7', weight: 'bold' },
+                        bgcolor: 'rgba(168, 85, 247, 0.3)',
+                        borderpad: 4
+                    }
+                ]
+            };
+            
+            const csmaCaConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false
+            };
+            
+            Plotly.newPlot('csmaCaChart', csmaCaData, csmaCaLayout, csmaCaConfig);
+            
+            // Timeline generation
+            function generateTimeline() {
+                const timeline = document.getElementById('csmaCaTimeline');
+                timeline.innerHTML = '';
+                
+                const numSlots = 30;
+                const slotWidth = 100 / numSlots;
+                
+                for (let i = 0; i < numSlots; i++) {
+                    const slot = document.createElement('div');
+                    slot.style.position = 'absolute';
+                    slot.style.left = (i * slotWidth) + '%';
+                    slot.style.width = slotWidth + '%';
+                    slot.style.height = '100%';
+                    slot.style.border = '1px solid rgba(254, 218, 106, 0.3)';
+                    slot.style.display = 'flex';
+                    slot.style.alignItems = 'center';
+                    slot.style.justifyContent = 'center';
+                    slot.style.fontSize = '10px';
+                    slot.style.color = '#d4d4dc';
+                    slot.style.transition = 'background 0.3s';
+                    slot.textContent = i;
+                    slot.id = 'slot-' + i;
+                    timeline.appendChild(slot);
+                }
+            }
+            
+            generateTimeline();
+            
+            // Animation logic
+            let currentSlot = 0;
+            
+            function animateCSMACA() {
+                if (!csmaCaAnimationRunning) return;
+                
+                csmaCaAnimationFrame++;
+                const cycleLength = 150; // frames per full cycle
+                const progress = (csmaCaAnimationFrame % cycleLength) / cycleLength;
+                
+                // Reset slot colors
+                for (let i = 0; i < 30; i++) {
+                    const slotElem = document.getElementById('slot-' + i);
+                    if (slotElem) {
+                        slotElem.style.background = 'rgba(57, 63, 77, 0.3)';
+                    }
+                }
+                
+                // Highlight current slot
+                currentSlot = Math.floor(progress * 30);
+                const currentSlotElem = document.getElementById('slot-' + currentSlot);
+                if (currentSlotElem) {
+                    currentSlotElem.style.background = 'rgba(254, 218, 106, 0.5)';
+                }
+                
+                let phaseText = '';
+                let rtsVisible = false, ctsVisible = false, dataVisible = false, ackVisible = false;
+                let collision1Visible = false, collision2Visible = false;
+                
+                // Phase sequence
+                if (progress < 0.1) {
+                    // Phase 1: Écoute du canal
+                    phaseText = '🎧 Phase 1: Écoute du canal (Carrier Sense)';
+                    sta1Backoff = 5;
+                    sta2Backoff = 8;
+                    sta3Backoff = 3;
+                } else if (progress < 0.2) {
+                    // Phase 2: DIFS wait
+                    phaseText = '⏱️ Phase 2: Attente DIFS (' + DIFS + ' µs)';
+                } else if (progress < 0.45) {
+                    // Phase 3: Backoff countdown
+                    phaseText = '🎲 Phase 3: Backoff - Décrément par slots';
+                    const backoffProgress = (progress - 0.2) / 0.25;
+                    sta1Backoff = Math.max(0, 5 - Math.floor(backoffProgress * 5));
+                    sta2Backoff = Math.max(0, 8 - Math.floor(backoffProgress * 8));
+                    sta3Backoff = Math.max(0, 3 - Math.floor(backoffProgress * 3));
+                } else if (progress < 0.55 && showRtsCts) {
+                    // Phase 4: RTS sent (STA3 wins - lowest backoff)
+                    phaseText = '📤 Phase 4: STA 3 envoie RTS (Request To Send)';
+                    rtsVisible = true;
+                    sta1Backoff = 0;
+                    sta2Backoff = 0;
+                    sta3Backoff = 0;
+                } else if (progress < 0.65 && showRtsCts) {
+                    // Phase 5: CTS received
+                    phaseText = '📥 Phase 5: AP répond avec CTS (Clear To Send) après SIFS';
+                    ctsVisible = true;
+                } else if (progress < 0.75) {
+                    // Phase 6: DATA sent
+                    phaseText = '📊 Phase 6: STA 3 envoie les DONNÉES';
+                    dataVisible = true;
+                } else if (progress < 0.85) {
+                    // Phase 7: ACK received
+                    phaseText = '✅ Phase 7: AP envoie ACK (Acknowledgment) après SIFS';
+                    ackVisible = true;
+                } else if (progress < 0.95 && showCollisions) {
+                    // Phase 8: Collision scenario
+                    phaseText = '💥 Phase 8: COLLISION - Deux stations transmettent simultanément !';
+                    collision1Visible = true;
+                    collision2Visible = true;
+                    sta1Backoff = 12; // Increased after collision
+                    sta2Backoff = 15;
+                } else {
+                    // Reset
+                    phaseText = '🔄 Cycle terminé - Réinitialisation...';
+                }
+                
+                // Update visualization
+                const rtsIndex = csmaCaData.findIndex(d => d.name === 'RTS');
+                const ctsIndex = csmaCaData.findIndex(d => d.name === 'CTS');
+                const dataIndex = csmaCaData.findIndex(d => d.name === 'DATA');
+                const ackIndex = csmaCaData.findIndex(d => d.name === 'ACK');
+                const collision1Index = csmaCaData.findIndex((d, i) => d.name === 'Collision' && i === csmaCaData.findIndex(dd => dd.name === 'Collision'));
+                const collision2Index = csmaCaData.findIndex((d, i) => d.name === 'Collision' && i > collision1Index);
+                
+                if (rtsIndex !== -1) {
+                    Plotly.restyle('csmaCaChart', { 'opacity': [rtsVisible ? 1 : 0] }, [rtsIndex]);
+                }
+                if (ctsIndex !== -1) {
+                    Plotly.restyle('csmaCaChart', { 'opacity': [ctsVisible ? 1 : 0] }, [ctsIndex]);
+                }
+                if (dataIndex !== -1) {
+                    Plotly.restyle('csmaCaChart', { 'opacity': [dataVisible ? 1 : 0] }, [dataIndex]);
+                }
+                if (ackIndex !== -1) {
+                    Plotly.restyle('csmaCaChart', { 'opacity': [ackVisible ? 1 : 0] }, [ackIndex]);
+                }
+                if (collision1Index !== -1) {
+                    Plotly.restyle('csmaCaChart', { 'opacity': [collision1Visible ? 0.8 : 0] }, [collision1Index]);
+                }
+                if (collision2Index !== -1) {
+                    Plotly.restyle('csmaCaChart', { 'opacity': [collision2Visible ? 0.8 : 0] }, [collision2Index]);
+                }
+                
+                // Update annotations
+                Plotly.relayout('csmaCaChart', {
+                    'annotations[0].text': phaseText,
+                    'annotations[1].text': 'STA 1 Backoff: ' + sta1Backoff,
+                    'annotations[2].text': 'STA 2 Backoff: ' + sta2Backoff,
+                    'annotations[3].text': 'STA 3 Backoff: ' + sta3Backoff
+                });
+            }
+            
+            // Start animation
+            csmaCaInterval = setInterval(animateCSMACA, 100);
+        }
+        
+        // Control buttons
+        const playPauseBtn = document.getElementById('csmaCaPlayPause');
+        const resetBtn = document.getElementById('csmaCaReset');
+        const rtsCtsCheckbox = document.getElementById('csmaCaShowRtsCts');
+        const collisionsCheckbox = document.getElementById('csmaCaShowCollisions');
+        const slotTimeSlider = document.getElementById('slotTimeSlider');
+        
+        if (playPauseBtn) {
+            playPauseBtn.addEventListener('click', () => {
+                csmaCaAnimationRunning = !csmaCaAnimationRunning;
+                if (csmaCaAnimationRunning) {
+                    playPauseBtn.innerHTML = '<i class="fas fa-pause mr-2"></i>Pause';
+                    playPauseBtn.style.background = '#feda6a';
+                } else {
+                    playPauseBtn.innerHTML = '<i class="fas fa-play mr-2"></i>Lecture';
+                    playPauseBtn.style.background = 'rgba(254, 218, 106, 0.5)';
+                }
+            });
+        }
+        
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                csmaCaAnimationFrame = 0;
+                sta1Backoff = 5;
+                sta2Backoff = 8;
+                sta3Backoff = 3;
+            });
+        }
+        
+        if (rtsCtsCheckbox) {
+            rtsCtsCheckbox.addEventListener('change', (e) => {
+                showRtsCts = e.target.checked;
+            });
+        }
+        
+        if (collisionsCheckbox) {
+            collisionsCheckbox.addEventListener('change', (e) => {
+                showCollisions = e.target.checked;
+            });
+        }
+        
+        if (slotTimeSlider) {
+            slotTimeSlider.addEventListener('input', (e) => {
+                slotTime = parseInt(e.target.value);
+                DIFS = SIFS + (2 * slotTime);
+                
+                document.getElementById('slotTimeValue').textContent = slotTime;
+                document.getElementById('difsCalculated').textContent = DIFS;
+                document.getElementById('difsDisplay').textContent = DIFS;
+                document.getElementById('slotDisplay').textContent = slotTime;
+            });
         }
     </script>
 </body>

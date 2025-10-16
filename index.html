@@ -154,9 +154,10 @@
                     <a href="#section2" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">Infrastructure</a>
                     <a href="#section3" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">Ad-Hoc</a>
                     <a href="#section4" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">Handover</a>
-                    <a href="#section5" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">MIMO & D2D</a>
-                    <a href="#section6" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">OFDM & CDMA</a>
-                </div>
+                <a href="#section5" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">MIMO & D2D</a>
+                <a href="#section6" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">OFDM & CDMA</a>
+                <a href="#section7" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">Quiz WLAN</a>
+            </div>
 
                 <!-- Mobile menu button -->
                 <div class="md:hidden">
@@ -174,6 +175,7 @@
                 <a href="#section4" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">Handover</a>
                 <a href="#section5" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">MIMO & D2D</a>
                 <a href="#section6" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">OFDM & CDMA</a>
+                <a href="#section7" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">Quiz WLAN</a>
             </div>
         </div>
     </nav>
@@ -2050,7 +2052,229 @@
                 </div>
             </div>
         </section>
+
+        <!-- Section 7: Quiz d'évaluation WLAN -->
+        <section id="section7" class="mb-16 animate-fadeInUp">
+            <div class="glass-card rounded-2xl p-8 hover-lift">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: #feda6a;">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style="background: rgba(254, 218, 106, 0.15);">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <span>7. Quiz d'Évaluation des Connaissances WLAN</span>
+                </h2>
+                
+                <div class="section-content">
+                    <!-- Contrôles du Quiz -->
+                    <div class="mb-6 p-6 rounded-xl" style="background: rgba(29, 30, 34, 0.4);">
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                            <!-- Sélecteur de niveau -->
+                            <div>
+                                <label class="block text-sm font-semibold mb-2" style="color: #feda6a;">
+                                    <i class="fas fa-layer-group mr-2"></i>Niveau de Difficulté
+                                </label>
+                                <select id="difficultySelect" class="w-full px-4 py-2 rounded-lg font-medium transition" style="background: rgba(254, 218, 106, 0.1); border: 1px solid rgba(254, 218, 106, 0.3); color: #d4d4dc;">
+                                    <option value="all">Tous les niveaux</option>
+                                    <option value="easy">⭐ Facile</option>
+                                    <option value="medium">⭐⭐ Moyen</option>
+                                    <option value="hard">⭐⭐⭐ Difficile</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Sélecteur de section -->
+                            <div>
+                                <label class="block text-sm font-semibold mb-2" style="color: #feda6a;">
+                                    <i class="fas fa-book mr-2"></i>Section Thématique
+                                </label>
+                                <select id="sectionSelect" class="w-full px-4 py-2 rounded-lg font-medium transition" style="background: rgba(254, 218, 106, 0.1); border: 1px solid rgba(254, 218, 106, 0.3); color: #d4d4dc;">
+                                    <option value="all">Toutes les sections</option>
+                                    <option value="1">Section 1 - Spectre & ISM</option>
+                                    <option value="2">Section 2 - BSS & ESS</option>
+                                    <option value="3">Section 3 - Techniques d'Accès</option>
+                                    <option value="4">Section 4 - Handover</option>
+                                    <option value="5">Section 5 - MIMO & D2D</option>
+                                    <option value="6">Section 6 - OFDM & CDMA</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Thème -->
+                            <div>
+                                <label class="block text-sm font-semibold mb-2" style="color: #feda6a;">
+                                    <i class="fas fa-palette mr-2"></i>Thème
+                                </label>
+                                <button id="themeToggle" class="w-full px-4 py-2 rounded-lg font-medium transition" style="background: rgba(254, 218, 106, 0.1); border: 1px solid rgba(254, 218, 106, 0.3); color: #d4d4dc;">
+                                    <i class="fas fa-moon mr-2"></i>Mode Sombre
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-4">
+                            <button id="startQuizBtn" class="flex-1 px-6 py-3 rounded-xl font-bold text-lg transition transform hover:scale-105" style="background: linear-gradient(135deg, #feda6a 0%, #f59f00 100%); color: #393f4d;">
+                                <i class="fas fa-play mr-2"></i>Commencer le Quiz
+                            </button>
+                            <button id="resetScoreBtn" class="px-6 py-3 rounded-xl font-semibold transition" style="background: rgba(255, 107, 107, 0.2); border: 1px solid #ff6b6b; color: #ff6b6b;">
+                                <i class="fas fa-redo mr-2"></i>Réinitialiser
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Zone du Quiz -->
+                    <div id="quizContainer" class="hidden">
+                        <!-- Progression -->
+                        <div class="mb-6 p-4 rounded-xl" style="background: rgba(29, 30, 34, 0.4);">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-semibold" style="color: #feda6a;">
+                                    <i class="fas fa-list-ol mr-2"></i>Question <span id="currentQuestion">1</span> / <span id="totalQuestions">90</span>
+                                </span>
+                                <span class="font-semibold" style="color: #51cf66;">
+                                    <i class="fas fa-star mr-2"></i>Score: <span id="currentScore">0</span>
+                                </span>
+                            </div>
+                            <div class="w-full h-3 rounded-full overflow-hidden" style="background: rgba(254, 218, 106, 0.1);">
+                                <div id="progressBar" class="h-full transition-all duration-300" style="background: linear-gradient(90deg, #51cf66, #feda6a); width: 0%;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Question Card -->
+                        <div id="questionCard" class="mb-6 p-6 rounded-xl accent-border quiz-card" style="background: rgba(29, 30, 34, 0.4);">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span id="difficultyBadge" class="px-3 py-1 rounded-lg font-semibold text-sm"></span>
+                                <span id="sectionBadge" class="px-3 py-1 rounded-lg font-semibold text-sm" style="background: rgba(254, 218, 106, 0.2); color: #feda6a;"></span>
+                            </div>
+                            <h3 id="questionText" class="text-xl font-semibold mb-6" style="color: #d4d4dc;"></h3>
+                            
+                            <!-- Options -->
+                            <div id="optionsContainer" class="space-y-3"></div>
+                            
+                            <!-- Feedback -->
+                            <div id="feedbackContainer" class="hidden mt-6 p-4 rounded-lg">
+                                <div class="flex items-start gap-3">
+                                    <i id="feedbackIcon" class="text-2xl mt-1"></i>
+                                    <div class="flex-1">
+                                        <p id="feedbackText" class="font-semibold mb-2"></p>
+                                        <p id="explanationText" class="text-sm opacity-90"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Boutons de navigation -->
+                        <div class="flex gap-4">
+                            <button id="nextQuestionBtn" class="flex-1 px-6 py-3 rounded-xl font-bold transition transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed" style="background: linear-gradient(135deg, #feda6a 0%, #f59f00 100%); color: #393f4d;" disabled>
+                                <i class="fas fa-arrow-right mr-2"></i>Question Suivante
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Résultats Finaux -->
+                    <div id="resultsContainer" class="hidden">
+                        <div class="text-center p-8 rounded-xl" style="background: rgba(29, 30, 34, 0.4);">
+                            <div class="mb-6">
+                                <i id="resultIcon" class="text-6xl mb-4"></i>
+                                <h3 id="resultTitle" class="text-3xl font-bold mb-2" style="color: #feda6a;"></h3>
+                                <p id="resultMessage" class="text-lg opacity-90"></p>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-3 gap-4 mb-6">
+                                <div class="p-4 rounded-lg" style="background: rgba(81, 207, 102, 0.1); border: 1px solid #51cf66;">
+                                    <div class="text-3xl font-bold mb-1" style="color: #51cf66;" id="correctAnswers">0</div>
+                                    <div class="text-sm">Bonnes réponses</div>
+                                </div>
+                                <div class="p-4 rounded-lg" style="background: rgba(255, 107, 107, 0.1); border: 1px solid #ff6b6b;">
+                                    <div class="text-3xl font-bold mb-1" style="color: #ff6b6b;" id="wrongAnswers">0</div>
+                                    <div class="text-sm">Mauvaises réponses</div>
+                                </div>
+                                <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.1); border: 1px solid #feda6a;">
+                                    <div class="text-3xl font-bold mb-1" style="color: #feda6a;" id="percentageScore">0%</div>
+                                    <div class="text-sm">Pourcentage</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-4 justify-center">
+                                <button id="retryQuizBtn" class="px-8 py-3 rounded-xl font-bold transition transform hover:scale-105" style="background: linear-gradient(135deg, #feda6a 0%, #f59f00 100%); color: #393f4d;">
+                                    <i class="fas fa-redo mr-2"></i>Rejouer
+                                </button>
+                                <button id="newQuizBtn" class="px-8 py-3 rounded-xl font-semibold transition" style="background: rgba(254, 218, 106, 0.2); border: 1px solid #feda6a; color: #feda6a;">
+                                    <i class="fas fa-random mr-2"></i>Nouveau Quiz
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <style>
+        /* Quiz Animations */
+        .quiz-card {
+            animation: fadeInScale 0.4s ease-out;
+        }
+        
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .quiz-option {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover:not(.disabled) {
+            transform: translateX(8px);
+            background: rgba(254, 218, 106, 0.15) !important;
+        }
+        
+        .quiz-option.selected-correct {
+            background: rgba(81, 207, 102, 0.2) !important;
+            border-color: #51cf66 !important;
+        }
+        
+        .quiz-option.selected-wrong {
+            background: rgba(255, 107, 107, 0.2) !important;
+            border-color: #ff6b6b !important;
+        }
+        
+        .quiz-option.correct-answer {
+            background: rgba(81, 207, 102, 0.1) !important;
+            border-color: #51cf66 !important;
+        }
+        
+        .quiz-option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        /* Light Theme */
+        body.light-theme {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        }
+        
+        body.light-theme .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            color: #393f4d;
+        }
+        
+        body.light-theme #questionCard,
+        body.light-theme .mb-6.p-6,
+        body.light-theme .mb-6.p-4 {
+            background: rgba(248, 249, 250, 0.8) !important;
+            color: #393f4d;
+        }
+        
+        body.light-theme #questionText,
+        body.light-theme .text-xl,
+        body.light-theme select,
+        body.light-theme button {
+            color: #393f4d !important;
+        }
+    </style>
 
     <script>
         // Mobile menu toggle
@@ -4741,6 +4965,1454 @@
                 document.getElementById('slotDisplay').textContent = slotTime;
             });
         }
+
+        // ============================================================
+        // QUIZ D'ÉVALUATION WLAN - SECTION 7
+        // ============================================================
+        
+        // Base de données complète de 90 questions (30 faciles, 30 moyennes, 30 difficiles)
+        // 5 questions par section (1-6) et par niveau de difficulté
+        const quizDatabase = [
+            // ========== SECTION 1: Spectre de Fréquences, Bandes ISM - FACILE ==========
+            {
+                section: 1,
+                difficulty: 'easy',
+                question: "Que signifie l'acronyme ISM dans les bandes ISM ?",
+                options: [
+                    "Industriel, Scientifique et Médical",
+                    "Internet Sans-fil Moderne",
+                    "Interface de Système Mobile",
+                    "Intelligent Spectral Management"
+                ],
+                correct: 0,
+                explanation: "ISM signifie Industriel, Scientifique et Médical. Ces bandes sont réservées pour un usage sans licence dans ces domaines."
+            },
+            {
+                section: 1,
+                difficulty: 'easy',
+                question: "Quelle est la fréquence de la bande ISM la plus utilisée pour le Wi-Fi domestique ?",
+                options: ["433 MHz", "868 MHz", "2.4 GHz", "5.8 GHz"],
+                correct: 2,
+                explanation: "La bande 2.4 GHz est la plus couramment utilisée pour le Wi-Fi, le Bluetooth et d'autres appareils sans fil."
+            },
+            {
+                section: 1,
+                difficulty: 'easy',
+                question: "Qu'est-ce que le spectre électromagnétique ?",
+                options: [
+                    "L'ensemble des ondes radioélectriques utilisées pour les communications",
+                    "Un type de câble réseau",
+                    "Un protocole de communication",
+                    "Un dispositif de mesure radio"
+                ],
+                correct: 0,
+                explanation: "Le spectre électromagnétique est l'ensemble des ondes radioélectriques classées par fréquence."
+            },
+            {
+                section: 1,
+                difficulty: 'easy',
+                question: "Quelle unité mesure la fréquence d'une onde radio ?",
+                options: ["Watt", "Hertz", "Volt", "Ampère"],
+                correct: 1,
+                explanation: "Le Hertz (Hz) mesure le nombre d'oscillations par seconde d'une onde."
+            },
+            {
+                section: 1,
+                difficulty: 'easy',
+                question: "Quel phénomène physique affecte la propagation des ondes radio en environnement urbain ?",
+                options: ["Multipath", "Photosynthèse", "Gravité", "Ionisation"],
+                correct: 0,
+                explanation: "Le multipath (multi-trajets) est causé par la réflexion des ondes sur les bâtiments et obstacles."
+            },
+
+            // ========== SECTION 1: Spectre de Fréquences, Bandes ISM - MOYEN ==========
+            {
+                section: 1,
+                difficulty: 'medium',
+                question: "Dans le modèle de propagation multi-trajets, que représente le terme 'fading' ?",
+                options: [
+                    "La variation de puissance du signal due aux interférences constructives/destructives",
+                    "L'atténuation constante du signal",
+                    "L'augmentation de la puissance du signal",
+                    "La vitesse de transmission"
+                ],
+                correct: 0,
+                explanation: "Le fading désigne les variations de puissance causées par l'interférence entre plusieurs trajets du signal."
+            },
+            {
+                section: 1,
+                difficulty: 'medium',
+                question: "Quelle bande de fréquence offre généralement une meilleure portée mais un débit plus faible ?",
+                options: ["2.4 GHz", "5 GHz", "60 GHz", "433 MHz"],
+                correct: 3,
+                explanation: "Les fréquences plus basses (comme 433 MHz) ont une meilleure portée mais supportent des débits plus faibles."
+            },
+            {
+                section: 1,
+                difficulty: 'medium',
+                question: "Qu'est-ce que le bruit AWGN dans les communications sans fil ?",
+                options: [
+                    "Additive White Gaussian Noise - bruit blanc gaussien additif",
+                    "Advanced Wireless Gain Network",
+                    "Automatic Wave Generation Node",
+                    "Adaptive WiFi Gateway Network"
+                ],
+                correct: 0,
+                explanation: "AWGN est le bruit blanc gaussien additif, un modèle de bruit présent dans tous les systèmes de communication."
+            },
+            {
+                section: 1,
+                difficulty: 'medium',
+                question: "Pourquoi les bandes ISM ne nécessitent-elles pas de licence ?",
+                options: [
+                    "Elles sont réservées pour un usage industriel, scientifique et médical",
+                    "Elles sont trop coûteuses",
+                    "Elles ne fonctionnent pas bien",
+                    "Elles sont obsolètes"
+                ],
+                correct: 0,
+                explanation: "Les bandes ISM sont libres d'utilisation pour encourager l'innovation dans ces secteurs spécifiques."
+            },
+            {
+                section: 1,
+                difficulty: 'medium',
+                question: "Quelle technique permet de contrer les effets du multipath ?",
+                options: ["MIMO", "TCP/IP", "DNS", "HTTP"],
+                correct: 0,
+                explanation: "MIMO (Multiple Input Multiple Output) utilise plusieurs antennes pour exploiter le multipath de manière positive."
+            },
+
+            // ========== SECTION 1: Spectre de Fréquences, Bandes ISM - DIFFICILE ==========
+            {
+                section: 1,
+                difficulty: 'hard',
+                question: "Dans la formule du signal reçu r(t) = Σ aᵢe^(jθᵢ) s(t-τᵢ) + n(t), que représente le terme θᵢ ?",
+                options: [
+                    "Le déphasage du i-ème trajet",
+                    "L'amplitude du signal",
+                    "La fréquence porteuse",
+                    "Le bruit gaussien"
+                ],
+                correct: 0,
+                explanation: "θᵢ représente le déphasage (phase shift) introduit par le i-ème trajet de propagation."
+            },
+            {
+                section: 1,
+                difficulty: 'hard',
+                question: "Quelle est la relation entre fréquence et longueur d'onde dans le vide ? (c = vitesse de la lumière)",
+                options: ["λ = c/f", "λ = c*f", "λ = f/c", "λ = c²/f"],
+                correct: 0,
+                explanation: "La longueur d'onde λ est inversement proportionnelle à la fréquence f : λ = c/f."
+            },
+            {
+                section: 1,
+                difficulty: 'hard',
+                question: "Quel est l'impact principal du Doppler shift sur les systèmes OFDM ?",
+                options: [
+                    "Perte d'orthogonalité entre sous-porteuses",
+                    "Augmentation du débit",
+                    "Réduction du bruit",
+                    "Amélioration de la couverture"
+                ],
+                correct: 0,
+                explanation: "L'effet Doppler cause une perte d'orthogonalité entre les sous-porteuses OFDM, dégradant les performances."
+            },
+            {
+                section: 1,
+                difficulty: 'hard',
+                question: "Dans un environnement NLOS (Non-Line-Of-Sight), quel modèle de propagation est le plus approprié ?",
+                options: [
+                    "Modèle de Rayleigh",
+                    "Modèle de l'espace libre",
+                    "Modèle déterministe",
+                    "Modèle linéaire"
+                ],
+                correct: 0,
+                explanation: "Le modèle de Rayleigh est utilisé pour les environnements NLOS avec de multiples trajets sans ligne de vue directe."
+            },
+            {
+                section: 1,
+                difficulty: 'hard',
+                question: "Quelle technique permet de combattre simultanément le fading sélectif en fréquence et temporel ?",
+                options: [
+                    "Codage spatio-temporel avec OFDM",
+                    "Amplification simple",
+                    "Filtrage passe-bas",
+                    "Modulation AM"
+                ],
+                correct: 0,
+                explanation: "Le codage spatio-temporel combiné à OFDM combat efficacement le fading sélectif en fréquence et temporel."
+            },
+
+            // ========== SECTION 2: BSS & ESS - FACILE ==========
+            {
+                section: 2,
+                difficulty: 'easy',
+                question: "Que signifie BSS ?",
+                options: [
+                    "Basic Service Set",
+                    "Better Signal System",
+                    "Broadcast Service Station",
+                    "Binary Switching Service"
+                ],
+                correct: 0,
+                explanation: "BSS (Basic Service Set) est l'unité de base d'un réseau Wi-Fi, composée d'un point d'accès et des stations associées."
+            },
+            {
+                section: 2,
+                difficulty: 'easy',
+                question: "Que signifie ESS ?",
+                options: [
+                    "Extended Service Set",
+                    "Enhanced Security System",
+                    "Ethernet Signal Station",
+                    "Electronic Service Switch"
+                ],
+                correct: 0,
+                explanation: "ESS (Extended Service Set) regroupe plusieurs BSS interconnectés par un système de distribution."
+            },
+            {
+                section: 2,
+                difficulty: 'easy',
+                question: "Quel est le rôle principal d'un point d'accès (AP) ?",
+                options: [
+                    "Connecter les stations sans fil au réseau filaire",
+                    "Charger les batteries",
+                    "Afficher des images",
+                    "Stocker des données"
+                ],
+                correct: 0,
+                explanation: "Un point d'accès (Access Point) sert de pont entre le réseau sans fil et le réseau filaire."
+            },
+            {
+                section: 2,
+                difficulty: 'easy',
+                question: "Dans une infrastructure BSS, comment les stations communiquent-elles entre elles ?",
+                options: [
+                    "Via le point d'accès",
+                    "Directement de station à station",
+                    "Par câble Ethernet",
+                    "Par Bluetooth"
+                ],
+                correct: 0,
+                explanation: "En mode infrastructure BSS, toutes les communications passent par le point d'accès."
+            },
+            {
+                section: 2,
+                difficulty: 'easy',
+                question: "Qu'est-ce qu'un SSID ?",
+                options: [
+                    "Le nom du réseau sans fil",
+                    "Un type de câble",
+                    "Un protocole de sécurité",
+                    "Une adresse IP"
+                ],
+                correct: 0,
+                explanation: "SSID (Service Set Identifier) est le nom qui identifie un réseau sans fil."
+            },
+
+            // ========== SECTION 2: BSS & ESS - MOYEN ==========
+            {
+                section: 2,
+                difficulty: 'medium',
+                question: "Quelle est la différence principale entre mode infrastructure et mode ad-hoc ?",
+                options: [
+                    "Infrastructure utilise un AP, ad-hoc est peer-to-peer",
+                    "Infrastructure est plus lent",
+                    "Ad-hoc nécessite plus d'équipement",
+                    "Aucune différence"
+                ],
+                correct: 0,
+                explanation: "Le mode infrastructure centralisé utilise un AP, tandis que le mode ad-hoc permet une communication directe peer-to-peer."
+            },
+            {
+                section: 2,
+                difficulty: 'medium',
+                question: "Comment plusieurs BSS sont-ils reliés pour former un ESS ?",
+                options: [
+                    "Via un système de distribution (DS)",
+                    "Par câbles USB",
+                    "Sans connexion",
+                    "Par ondes radio uniquement"
+                ],
+                correct: 0,
+                explanation: "Un système de distribution (Distribution System) relie plusieurs BSS pour créer un ESS étendu."
+            },
+            {
+                section: 2,
+                difficulty: 'medium',
+                question: "Quel mécanisme permet à une station de découvrir les réseaux disponibles ?",
+                options: [
+                    "Beacon frames et probe request/response",
+                    "Ping ICMP",
+                    "DNS query",
+                    "ARP request"
+                ],
+                correct: 0,
+                explanation: "Les trames Beacon (diffusées par l'AP) et les Probe Request/Response permettent la découverte de réseau."
+            },
+            {
+                section: 2,
+                difficulty: 'medium',
+                question: "Dans un ESS, que se passe-t-il quand une station se déplace d'un BSS à un autre ?",
+                options: [
+                    "Un handover (roaming) se produit",
+                    "La connexion est perdue définitivement",
+                    "Rien ne se passe",
+                    "Le réseau redémarre"
+                ],
+                correct: 0,
+                explanation: "Un handover (ou roaming) permet à la station de changer d'AP tout en maintenant la connectivité."
+            },
+            {
+                section: 2,
+                difficulty: 'medium',
+                question: "Quel est l'avantage principal d'un ESS par rapport à un BSS unique ?",
+                options: [
+                    "Couverture étendue et mobilité",
+                    "Coût réduit",
+                    "Simplicité accrue",
+                    "Moins d'interférences"
+                ],
+                correct: 0,
+                explanation: "Un ESS offre une couverture géographique étendue et permet la mobilité entre différents points d'accès."
+            },
+
+            // ========== SECTION 2: BSS & ESS - DIFFICILE ==========
+            {
+                section: 2,
+                difficulty: 'hard',
+                question: "Quel mécanisme assure la synchronisation temporelle entre les stations et l'AP dans un BSS ?",
+                options: [
+                    "Timing Synchronization Function (TSF) via Beacon frames",
+                    "NTP (Network Time Protocol)",
+                    "GPS synchronization",
+                    "Manual clock setting"
+                ],
+                correct: 0,
+                explanation: "La fonction TSF utilise les trames Beacon pour synchroniser les horloges de toutes les stations du BSS."
+            },
+            {
+                section: 2,
+                difficulty: 'hard',
+                question: "Dans un scénario ESS avec roaming, quel protocole facilite l'authentification rapide entre AP ?",
+                options: [
+                    "IEEE 802.11r (Fast BSS Transition)",
+                    "HTTP",
+                    "FTP",
+                    "SMTP"
+                ],
+                correct: 0,
+                explanation: "Le standard 802.11r permet un transfert rapide entre BSS en pré-authentifiant la station."
+            },
+            {
+                section: 2,
+                difficulty: 'hard',
+                question: "Quel est le défi principal de la gestion de mobilité dans un ESS large échelle ?",
+                options: [
+                    "Minimiser la latence de handover et éviter la perte de paquets",
+                    "Réduire le coût des équipements",
+                    "Augmenter la taille des antennes",
+                    "Diminuer la fréquence d'utilisation"
+                ],
+                correct: 0,
+                explanation: "Le principal défi est de garantir un handover rapide et transparent sans perte de paquets ni interruption de service."
+            },
+            {
+                section: 2,
+                difficulty: 'hard',
+                question: "Comment un AP gère-t-il les collisions dans un BSS à forte densité ?",
+                options: [
+                    "Utilisation de CSMA/CA avec mécanisme de backoff",
+                    "Augmentation de puissance",
+                    "Changement de fréquence automatique",
+                    "Redémarrage périodique"
+                ],
+                correct: 0,
+                explanation: "CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance) avec backoff exponentiel gère les accès multiples."
+            },
+            {
+                section: 2,
+                difficulty: 'hard',
+                question: "Dans un ESS, quel mécanisme permet de maintenir les sessions de couche supérieure lors du roaming ?",
+                options: [
+                    "Mobile IP ou gestion de contexte au niveau DS",
+                    "Redémarrage de toutes les connexions",
+                    "Utilisation d'adresses MAC statiques",
+                    "Aucun mécanisme spécifique"
+                ],
+                correct: 0,
+                explanation: "Mobile IP et la gestion de contexte au niveau du système de distribution permettent de maintenir les sessions actives."
+            },
+
+            // ========== SECTION 3: Techniques d'Accès au Canal - FACILE ==========
+            {
+                section: 3,
+                difficulty: 'easy',
+                question: "Que signifie OFDM ?",
+                options: [
+                    "Orthogonal Frequency Division Multiplexing",
+                    "Optical Fiber Data Modem",
+                    "Online Frequency Distribution Method",
+                    "Ordered File Data Management"
+                ],
+                correct: 0,
+                explanation: "OFDM divise le canal en sous-porteuses orthogonales pour transmettre des données en parallèle."
+            },
+            {
+                section: 3,
+                difficulty: 'easy',
+                question: "Que signifie CDMA ?",
+                options: [
+                    "Code Division Multiple Access",
+                    "Central Data Management Access",
+                    "Constant Digital Mode Adapter",
+                    "Compact Disk Media Access"
+                ],
+                correct: 0,
+                explanation: "CDMA permet à plusieurs utilisateurs de partager la même fréquence grâce à des codes orthogonaux uniques."
+            },
+            {
+                section: 3,
+                difficulty: 'easy',
+                question: "Quelle technologie utilise des codes orthogonaux pour séparer les utilisateurs ?",
+                options: ["CDMA", "OFDM", "TCP", "UDP"],
+                correct: 0,
+                explanation: "CDMA attribue un code orthogonal unique à chaque utilisateur pour permettre la transmission simultanée."
+            },
+            {
+                section: 3,
+                difficulty: 'easy',
+                question: "Dans quelle génération de téléphonie mobile CDMA a-t-il été principalement utilisé ?",
+                options: ["3G (UMTS)", "1G", "5G", "Wi-Fi"],
+                correct: 0,
+                explanation: "CDMA a été largement utilisé dans les réseaux 3G UMTS pour les communications mobiles."
+            },
+            {
+                section: 3,
+                difficulty: 'easy',
+                question: "Quel est l'avantage principal de l'OFDM ?",
+                options: [
+                    "Robustesse contre le multipath et les interférences",
+                    "Coût très bas",
+                    "Simplicité extrême",
+                    "Consommation énergétique nulle"
+                ],
+                correct: 0,
+                explanation: "OFDM est très robuste face aux effets de multipath et aux interférences sélectives en fréquence."
+            },
+
+            // ========== SECTION 3: Techniques d'Accès au Canal - MOYEN ==========
+            {
+                section: 3,
+                difficulty: 'medium',
+                question: "Quel est le problème majeur du CDMA appelé 'near-far problem' ?",
+                options: [
+                    "Les utilisateurs proches saturent le récepteur et masquent les utilisateurs éloignés",
+                    "Les antennes sont trop petites",
+                    "La fréquence est trop basse",
+                    "Le débit est trop élevé"
+                ],
+                correct: 0,
+                explanation: "Le 'near-far problem' survient quand les signaux forts (proches) masquent les signaux faibles (éloignés), nécessitant un contrôle de puissance."
+            },
+            {
+                section: 3,
+                difficulty: 'medium',
+                question: "Quel est l'inconvénient principal de l'OFDM ?",
+                options: [
+                    "PAPR (Peak-to-Average Power Ratio) élevé",
+                    "Débit trop faible",
+                    "Incompatibilité totale avec Wi-Fi",
+                    "Nécessite des câbles"
+                ],
+                correct: 0,
+                explanation: "OFDM souffre d'un PAPR élevé, ce qui nécessite des amplificateurs de puissance linéaires coûteux."
+            },
+            {
+                section: 3,
+                difficulty: 'medium',
+                question: "Quelle technique d'accès multiple est utilisée dans 4G LTE ?",
+                options: ["OFDMA", "CDMA", "TDMA pur", "FDMA classique"],
+                correct: 0,
+                explanation: "La 4G LTE utilise OFDMA (Orthogonal Frequency Division Multiple Access), une variante de l'OFDM."
+            },
+            {
+                section: 3,
+                difficulty: 'medium',
+                question: "Pourquoi les sous-porteuses OFDM doivent-elles être orthogonales ?",
+                options: [
+                    "Pour éviter les interférences entre sous-porteuses",
+                    "Pour réduire le coût",
+                    "Pour augmenter la taille des antennes",
+                    "Pour simplifier le protocole"
+                ],
+                correct: 0,
+                explanation: "L'orthogonalité garantit qu'il n'y a pas d'interférence entre les sous-porteuses adjacentes."
+            },
+            {
+                section: 3,
+                difficulty: 'medium',
+                question: "Dans OFDM, à quoi sert le préfixe cyclique (Cyclic Prefix) ?",
+                options: [
+                    "Éliminer les interférences inter-symboles dues au multipath",
+                    "Augmenter le débit",
+                    "Réduire la consommation",
+                    "Chiffrer les données"
+                ],
+                correct: 0,
+                explanation: "Le préfixe cyclique copie la fin du symbole au début pour absorber les échos multipath et préserver l'orthogonalité."
+            },
+
+            // ========== SECTION 3: Techniques d'Accès au Canal - DIFFICILE ==========
+            {
+                section: 3,
+                difficulty: 'hard',
+                question: "Comment l'OFDM combat-il le fading sélectif en fréquence ?",
+                options: [
+                    "En divisant le canal large bande en sous-canaux étroits à fading plat",
+                    "En augmentant la puissance de transmission",
+                    "En changeant de fréquence aléatoirement",
+                    "En réduisant le débit"
+                ],
+                correct: 0,
+                explanation: "OFDM transforme un canal à fading sélectif en plusieurs sous-canaux à fading plat, facilitant l'égalisation."
+            },
+            {
+                section: 3,
+                difficulty: 'hard',
+                question: "Quelle transformation mathématique est au cœur de l'implémentation OFDM ?",
+                options: [
+                    "FFT/IFFT (Fast Fourier Transform)",
+                    "DCT (Discrete Cosine Transform)",
+                    "Wavelet Transform",
+                    "Laplace Transform"
+                ],
+                correct: 0,
+                explanation: "L'OFDM utilise l'IFFT (Inverse Fast Fourier Transform) à l'émission et la FFT à la réception pour une implémentation efficace."
+            },
+            {
+                section: 3,
+                difficulty: 'hard',
+                question: "Dans un système CDMA, comment se calcule le gain de traitement (Processing Gain) ?",
+                options: [
+                    "Ratio entre bande d'étalement et bande du signal original",
+                    "Puissance d'émission divisée par la distance",
+                    "Nombre d'antennes multiplié par la fréquence",
+                    "Débit binaire fois la latence"
+                ],
+                correct: 0,
+                explanation: "Le gain de traitement = Bande d'étalement / Bande du signal = Longueur du code d'étalement."
+            },
+            {
+                section: 3,
+                difficulty: 'hard',
+                question: "Quel est l'impact de l'effet Doppler sur OFDM à haute mobilité ?",
+                options: [
+                    "Perte d'orthogonalité et ICI (Inter-Carrier Interference)",
+                    "Augmentation automatique du débit",
+                    "Réduction du bruit",
+                    "Amélioration de la portée"
+                ],
+                correct: 0,
+                explanation: "L'effet Doppler cause un décalage en fréquence qui brise l'orthogonalité et crée des interférences entre porteuses (ICI)."
+            },
+            {
+                section: 3,
+                difficulty: 'hard',
+                question: "Comment OFDMA (utilisé en LTE) diffère-t-il de l'OFDM classique ?",
+                options: [
+                    "OFDMA alloue dynamiquement des sous-porteuses à différents utilisateurs",
+                    "OFDMA n'utilise pas de FFT",
+                    "OFDMA est uniquement pour les câbles",
+                    "OFDMA ne supporte qu'un seul utilisateur"
+                ],
+                correct: 0,
+                explanation: "OFDMA est une extension multi-utilisateurs de l'OFDM qui alloue dynamiquement des groupes de sous-porteuses aux utilisateurs."
+            },
+
+            // ========== SECTION 4: Handover - FACILE ==========
+            {
+                section: 4,
+                difficulty: 'easy',
+                question: "Qu'est-ce qu'un handover ?",
+                options: [
+                    "Le transfert d'une connexion d'une cellule à une autre",
+                    "Le redémarrage d'un téléphone",
+                    "Le chargement d'une batterie",
+                    "L'installation d'une application"
+                ],
+                correct: 0,
+                explanation: "Le handover (ou transfert intercellulaire) permet de maintenir la connexion lors du déplacement entre cellules."
+            },
+            {
+                section: 4,
+                difficulty: 'easy',
+                question: "Quelle est la différence entre handover horizontal et vertical ?",
+                options: [
+                    "Horizontal: même technologie, Vertical: technologies différentes",
+                    "Horizontal: montant, Vertical: descendant",
+                    "Aucune différence",
+                    "Horizontal est plus rapide"
+                ],
+                correct: 0,
+                explanation: "Le handover horizontal reste dans la même technologie (ex: Wi-Fi à Wi-Fi), le vertical change de technologie (ex: Wi-Fi à 4G)."
+            },
+            {
+                section: 4,
+                difficulty: 'easy',
+                question: "Que signifie 'hard handover' ?",
+                options: [
+                    "Rupture puis nouvelle connexion (Break-Before-Make)",
+                    "Connexion très difficile",
+                    "Handover manuel",
+                    "Handover avec câble"
+                ],
+                correct: 0,
+                explanation: "Le hard handover coupe l'ancienne connexion avant d'établir la nouvelle (Break-Before-Make)."
+            },
+            {
+                section: 4,
+                difficulty: 'easy',
+                question: "Que signifie 'soft handover' ?",
+                options: [
+                    "Connexion simultanée à plusieurs cellules (Make-Before-Break)",
+                    "Handover très lent",
+                    "Handover automatique",
+                    "Handover sans fil"
+                ],
+                correct: 0,
+                explanation: "Le soft handover maintient la connexion avec l'ancienne cellule tout en établissant la nouvelle (Make-Before-Break)."
+            },
+            {
+                section: 4,
+                difficulty: 'easy',
+                question: "Quel est l'avantage principal du soft handover ?",
+                options: [
+                    "Réduction de la perte de paquets",
+                    "Coût réduit",
+                    "Simplicité",
+                    "Vitesse accrue"
+                ],
+                correct: 0,
+                explanation: "Le soft handover réduit considérablement la perte de paquets car il n'y a pas d'interruption de connexion."
+            },
+
+            // ========== SECTION 4: Handover - MOYEN ==========
+            {
+                section: 4,
+                difficulty: 'medium',
+                question: "Quels critères déclenchent typiquement un handover ?",
+                options: [
+                    "Qualité du signal (RSSI, SINR) et charge des cellules",
+                    "Heure de la journée uniquement",
+                    "Couleur du téléphone",
+                    "Nom de l'utilisateur"
+                ],
+                correct: 0,
+                explanation: "Le handover est déclenché par des mesures de qualité de signal (RSSI, SINR) et la charge des cellules voisines."
+            },
+            {
+                section: 4,
+                difficulty: 'medium',
+                question: "Quel type de handover est utilisé dans les réseaux GSM et LTE ?",
+                options: ["Hard handover", "Soft handover", "Semi-soft handover", "Aucun"],
+                correct: 0,
+                explanation: "GSM et LTE utilisent le hard handover (Break-Before-Make) pour changer de cellule."
+            },
+            {
+                section: 4,
+                difficulty: 'medium',
+                question: "Quel type de handover était utilisé dans les réseaux CDMA 3G ?",
+                options: ["Soft handover", "Hard handover", "No handover", "Manual handover"],
+                correct: 0,
+                explanation: "Les réseaux CDMA 3G utilisaient le soft handover grâce à la capacité de communication simultanée avec plusieurs cellules."
+            },
+            {
+                section: 4,
+                difficulty: 'medium',
+                question: "Quel est l'inconvénient principal du hard handover ?",
+                options: [
+                    "Interruption de service et risque de perte de paquets",
+                    "Coût trop élevé",
+                    "Complexité excessive",
+                    "Incompatibilité avec les smartphones"
+                ],
+                correct: 0,
+                explanation: "Le hard handover peut causer une brève interruption de service et une perte de paquets pendant le transfert."
+            },
+            {
+                section: 4,
+                difficulty: 'medium',
+                question: "Dans un handover vertical (ex: Wi-Fi vers 4G), quel est le défi principal ?",
+                options: [
+                    "Maintenir la session et gérer les différences de QoS et protocoles",
+                    "Trouver le bouton",
+                    "Changer la batterie",
+                    "Redémarrer le téléphone"
+                ],
+                correct: 0,
+                explanation: "Le handover vertical doit gérer les différences de QoS, débits, latences et protocoles entre technologies hétérogènes."
+            },
+
+            // ========== SECTION 4: Handover - DIFFICILE ==========
+            {
+                section: 4,
+                difficulty: 'hard',
+                question: "Expliquez pourquoi le soft handover réduit la perte de paquets comparé au hard handover.",
+                options: [
+                    "Car il maintient la connexion avec l'ancienne cellule pendant l'établissement de la nouvelle (diversité macro)",
+                    "Car il est plus rapide",
+                    "Car il utilise moins de puissance",
+                    "Car il ne change jamais de cellule"
+                ],
+                correct: 0,
+                explanation: "Le soft handover crée une fenêtre de connexion simultanée offrant une diversité macro qui assure la continuité du service."
+            },
+            {
+                section: 4,
+                difficulty: 'hard',
+                question: "Quel mécanisme LTE permet de réduire la latence de handover ?",
+                options: [
+                    "X2 interface entre eNodeB pour handover préparé",
+                    "Augmentation de puissance",
+                    "Changement de fréquence aléatoire",
+                    "Redémarrage du réseau"
+                ],
+                correct: 0,
+                explanation: "L'interface X2 permet une communication directe entre eNodeB pour préparer le handover à l'avance et réduire la latence."
+            },
+            {
+                section: 4,
+                difficulty: 'hard',
+                question: "Dans un scénario de handover inter-RAT (Radio Access Technology), quel protocole gère la continuité de session ?",
+                options: [
+                    "Mobile IP ou GTP (GPRS Tunneling Protocol)",
+                    "HTTP",
+                    "FTP",
+                    "DNS"
+                ],
+                correct: 0,
+                explanation: "Mobile IP et GTP permettent de maintenir les sessions IP actives lors du changement de technologie d'accès radio."
+            },
+            {
+                section: 4,
+                difficulty: 'hard',
+                question: "Pourquoi le soft handover consomme-t-il plus de ressources réseau ?",
+                options: [
+                    "Car il nécessite des connexions simultanées avec plusieurs cellules",
+                    "Car il est plus lent",
+                    "Car il nécessite plus d'antennes utilisateur",
+                    "Car il utilise plus de fréquences"
+                ],
+                correct: 0,
+                explanation: "Le soft handover mobilise des ressources dans plusieurs cellules simultanément pour maintenir la diversité macro."
+            },
+            {
+                section: 4,
+                difficulty: 'hard',
+                question: "Comment le handover prédictif améliore-t-il les performances ?",
+                options: [
+                    "En anticipant le mouvement de l'utilisateur et en préparant le handover à l'avance",
+                    "En bloquant le mouvement",
+                    "En augmentant la vitesse du réseau",
+                    "En changeant la couleur du signal"
+                ],
+                correct: 0,
+                explanation: "Le handover prédictif utilise des algorithmes ML/historique pour anticiper le mouvement et préparer les ressources à l'avance."
+            },
+
+            // ========== SECTION 5: MIMO & D2D - FACILE ==========
+            {
+                section: 5,
+                difficulty: 'easy',
+                question: "Que signifie MIMO ?",
+                options: [
+                    "Multiple Input Multiple Output",
+                    "Mobile Internet Modern Option",
+                    "Maximum Input Minimum Output",
+                    "Modular Integrated Mobile Operator"
+                ],
+                correct: 0,
+                explanation: "MIMO utilise plusieurs antennes à l'émission et à la réception pour améliorer les performances."
+            },
+            {
+                section: 5,
+                difficulty: 'easy',
+                question: "Quel est l'avantage principal de MIMO ?",
+                options: [
+                    "Augmentation du débit et de la fiabilité",
+                    "Réduction du coût des antennes",
+                    "Élimination totale du bruit",
+                    "Suppression des câbles"
+                ],
+                correct: 0,
+                explanation: "MIMO augmente le débit grâce au multiplexage spatial et améliore la fiabilité grâce à la diversité."
+            },
+            {
+                section: 5,
+                difficulty: 'easy',
+                question: "Que signifie D2D ?",
+                options: [
+                    "Device-to-Device",
+                    "Data-to-Display",
+                    "Digital-to-Digital",
+                    "Download-to-Disk"
+                ],
+                correct: 0,
+                explanation: "D2D (Device-to-Device) permet la communication directe entre appareils sans passer par l'infrastructure réseau."
+            },
+            {
+                section: 5,
+                difficulty: 'easy',
+                question: "Dans quel contexte D2D est-il particulièrement utile ?",
+                options: [
+                    "Communications d'urgence et déchargement du réseau",
+                    "Uniquement pour les jeux vidéo",
+                    "Seulement dans les avions",
+                    "Jamais utile"
+                ],
+                correct: 0,
+                explanation: "D2D est crucial pour les communications d'urgence (Public Safety) et pour décharger le réseau cellulaire."
+            },
+            {
+                section: 5,
+                difficulty: 'easy',
+                question: "Que signifie CSMA/CA ?",
+                options: [
+                    "Carrier Sense Multiple Access with Collision Avoidance",
+                    "Central System Management and Control Access",
+                    "Compact Signal Modulation and Channel Allocation",
+                    "Computer Security Management and Authentication"
+                ],
+                correct: 0,
+                explanation: "CSMA/CA est le mécanisme d'accès au canal utilisé par Wi-Fi pour éviter les collisions."
+            },
+
+            // ========== SECTION 5: MIMO & D2D - MOYEN ==========
+            {
+                section: 5,
+                difficulty: 'medium',
+                question: "Quelle est la différence entre diversité spatiale et multiplexage spatial en MIMO ?",
+                options: [
+                    "Diversité: améliore la fiabilité, Multiplexage: augmente le débit",
+                    "Diversité: augmente le coût, Multiplexage: réduit la portée",
+                    "Aucune différence",
+                    "Diversité est obsolète"
+                ],
+                correct: 0,
+                explanation: "La diversité spatiale envoie le même signal via plusieurs antennes pour la fiabilité, le multiplexage envoie des flux différents pour le débit."
+            },
+            {
+                section: 5,
+                difficulty: 'medium',
+                question: "Qu'est-ce que le Massive MIMO ?",
+                options: [
+                    "Utilisation d'un très grand nombre d'antennes (ex: 64-256) à la station de base",
+                    "MIMO avec des antennes très grandes",
+                    "MIMO pour les fichiers volumineux",
+                    "MIMO dans l'espace"
+                ],
+                correct: 0,
+                explanation: "Massive MIMO utilise des dizaines à centaines d'antennes pour servir simultanément de nombreux utilisateurs avec beamforming."
+            },
+            {
+                section: 5,
+                difficulty: 'medium',
+                question: "Dans CSMA/CA, quelle est la fonction du champ RTS (Request To Send) ?",
+                options: [
+                    "Réserver le canal et éviter les collisions dues au problème du terminal caché",
+                    "Demander l'heure",
+                    "Envoyer les données",
+                    "Crypter le signal"
+                ],
+                correct: 0,
+                explanation: "RTS réserve le canal avant la transmission de données pour éviter les collisions, notamment avec le problème du terminal caché."
+            },
+            {
+                section: 5,
+                difficulty: 'medium',
+                question: "Quel est le rôle du DIFS (DCF Interframe Space) dans CSMA/CA ?",
+                options: [
+                    "Temps d'attente minimum avant de tenter une transmission",
+                    "Distance entre antennes",
+                    "Fréquence de la porteuse",
+                    "Vitesse de transmission"
+                ],
+                correct: 0,
+                explanation: "DIFS est le temps minimum qu'une station doit attendre après que le canal soit libre avant de transmettre."
+            },
+            {
+                section: 5,
+                difficulty: 'medium',
+                question: "Comment D2D peut-il améliorer l'efficacité spectrale ?",
+                options: [
+                    "En réutilisant les ressources spectrales avec communications directes courte portée",
+                    "En augmentant la puissance de toutes les stations",
+                    "En changeant la fréquence continuellement",
+                    "En réduisant le nombre d'utilisateurs"
+                ],
+                correct: 0,
+                explanation: "D2D permet la réutilisation spatiale du spectre : les mêmes fréquences peuvent être utilisées pour des communications locales."
+            },
+
+            // ========== SECTION 5: MIMO & D2D - DIFFICILE ==========
+            {
+                section: 5,
+                difficulty: 'hard',
+                question: "Quelle équation théorique donne la capacité d'un canal MIMO ?",
+                options: [
+                    "C = log₂(det(I + (ρ/N_t) * H*H^H)) où H est la matrice de canal",
+                    "C = B * log₂(1 + SNR)",
+                    "C = 2^n",
+                    "C = f * λ"
+                ],
+                correct: 0,
+                explanation: "La capacité MIMO utilise la décomposition en valeurs singulières de la matrice de canal H pour créer des canaux parallèles."
+            },
+            {
+                section: 5,
+                difficulty: 'hard',
+                question: "Quel est le problème du 'terminal caché' (hidden terminal) en CSMA/CA ?",
+                options: [
+                    "Deux stations hors de portée mutuelle transmettent simultanément vers le même AP, causant des collisions",
+                    "Un terminal est physiquement caché sous une table",
+                    "Un terminal a un mot de passe inconnu",
+                    "Un terminal est éteint"
+                ],
+                correct: 0,
+                explanation: "Le problème du terminal caché survient quand deux stations ne se détectent pas mutuellement mais interfèrent au niveau de l'AP."
+            },
+            {
+                section: 5,
+                difficulty: 'hard',
+                question: "Comment le beamforming en Massive MIMO améliore-t-il les performances ?",
+                options: [
+                    "En focalisant l'énergie vers l'utilisateur cible et en réduisant les interférences",
+                    "En augmentant la température",
+                    "En changeant la couleur du signal",
+                    "En réduisant le nombre d'utilisateurs"
+                ],
+                correct: 0,
+                explanation: "Le beamforming utilise le grand nombre d'antennes pour créer des faisceaux directionnels concentrant l'énergie vers chaque utilisateur."
+            },
+            {
+                section: 5,
+                difficulty: 'hard',
+                question: "Dans D2D underlaid (sous-jacent), quel est le défi principal ?",
+                options: [
+                    "Gestion des interférences entre communications D2D et cellulaires sur les mêmes ressources",
+                    "Trouver des batteries compatibles",
+                    "Choisir la bonne couleur d'appareil",
+                    "Installer le bon câble"
+                ],
+                correct: 0,
+                explanation: "En mode underlaid, D2D et communications cellulaires partagent les mêmes ressources spectrales, nécessitant une gestion fine des interférences."
+            },
+            {
+                section: 5,
+                difficulty: 'hard',
+                question: "Quelle technique MIMO est utilisée dans le standard 802.11ac pour atteindre des débits multi-Gbps ?",
+                options: [
+                    "MU-MIMO (Multi-User MIMO) avec jusqu'à 8 flux spatiaux",
+                    "SISO (Single Input Single Output)",
+                    "Amplification simple",
+                    "Modulation AM"
+                ],
+                correct: 0,
+                explanation: "802.11ac utilise MU-MIMO pour transmettre simultanément vers plusieurs utilisateurs sur différents flux spatiaux."
+            },
+
+            // ========== SECTION 6: OFDM & CDMA - FACILE ==========
+            {
+                section: 6,
+                difficulty: 'easy',
+                question: "Dans quelles technologies modernes l'OFDM est-il utilisé ?",
+                options: [
+                    "Wi-Fi (802.11ac/ax), 4G LTE, 5G",
+                    "Uniquement dans les câbles",
+                    "Seulement pour les anciennes radios AM",
+                    "Jamais utilisé"
+                ],
+                correct: 0,
+                explanation: "OFDM est au cœur des technologies sans fil modernes : Wi-Fi, 4G LTE, et 5G."
+            },
+            {
+                section: 6,
+                difficulty: 'easy',
+                question: "Quelle est la caractéristique principale des sous-porteuses OFDM ?",
+                options: [
+                    "Elles sont orthogonales entre elles",
+                    "Elles sont parallèles",
+                    "Elles sont identiques",
+                    "Elles sont aléatoires"
+                ],
+                correct: 0,
+                explanation: "L'orthogonalité des sous-porteuses OFDM permet de transmettre sans interférence entre elles."
+            },
+            {
+                section: 6,
+                difficulty: 'easy',
+                question: "CDMA permet à plusieurs utilisateurs de partager quoi ?",
+                options: [
+                    "La même fréquence et le même temps",
+                    "Uniquement le même temps",
+                    "Uniquement la même fréquence",
+                    "Rien du tout"
+                ],
+                correct: 0,
+                explanation: "CDMA permet à tous les utilisateurs d'utiliser la même bande de fréquence simultanément grâce aux codes uniques."
+            },
+            {
+                section: 6,
+                difficulty: 'easy',
+                question: "Quel système utilise principalement CDMA ?",
+                options: ["3G (UMTS), GPS", "Wi-Fi", "Bluetooth", "Ethernet"],
+                correct: 0,
+                explanation: "CDMA a été largement utilisé dans la 3G UMTS et est toujours utilisé dans le GPS."
+            },
+            {
+                section: 6,
+                difficulty: 'easy',
+                question: "Pourquoi OFDM divise-t-il le canal en sous-porteuses ?",
+                options: [
+                    "Pour mieux résister au fading sélectif en fréquence",
+                    "Pour réduire le coût",
+                    "Pour augmenter la taille des antennes",
+                    "Pour changer la couleur du signal"
+                ],
+                correct: 0,
+                explanation: "La division en sous-porteuses étroites transforme un canal à fading sélectif en canaux à fading plat, plus faciles à gérer."
+            },
+
+            // ========== SECTION 6: OFDM & CDMA - MOYEN ==========
+            {
+                section: 6,
+                difficulty: 'medium',
+                question: "Quelle est la principale différence entre OFDM et CDMA en termes de multiplexage ?",
+                options: [
+                    "OFDM: fréquence, CDMA: codes",
+                    "OFDM: codes, CDMA: fréquence",
+                    "Aucune différence",
+                    "OFDM: temps, CDMA: espace"
+                ],
+                correct: 0,
+                explanation: "OFDM sépare les utilisateurs/données par sous-fréquences orthogonales, CDMA par codes orthogonaux."
+            },
+            {
+                section: 6,
+                difficulty: 'medium',
+                question: "Pourquoi OFDM est-il préféré à CDMA dans les réseaux 4G et 5G ?",
+                options: [
+                    "Meilleure efficacité spectrale, haut débit, et robustesse au multipath",
+                    "Coût inférieur",
+                    "Simplicité extrême",
+                    "Compatibilité avec les vieux équipements"
+                ],
+                correct: 0,
+                explanation: "OFDM offre une efficacité spectrale supérieure, des débits plus élevés et une excellente robustesse face au multipath."
+            },
+            {
+                section: 6,
+                difficulty: 'medium',
+                question: "Comment CDMA gère-t-il les interférences multi-utilisateurs ?",
+                options: [
+                    "Grâce à des codes orthogonaux et au contrôle de puissance",
+                    "En bloquant les utilisateurs supplémentaires",
+                    "En augmentant la puissance de tous",
+                    "En changeant de fréquence"
+                ],
+                correct: 0,
+                explanation: "CDMA utilise des codes orthogonaux pour séparer les utilisateurs et un contrôle de puissance strict pour minimiser les interférences."
+            },
+            {
+                section: 6,
+                difficulty: 'medium',
+                question: "Quel est l'avantage du codage canal en OFDM ?",
+                options: [
+                    "Correction d'erreurs et amélioration de la fiabilité",
+                    "Augmentation de la vitesse seulement",
+                    "Réduction du nombre d'antennes",
+                    "Changement de couleur du signal"
+                ],
+                correct: 0,
+                explanation: "Le codage canal (comme Turbo codes ou LDPC) ajoute de la redondance pour détecter et corriger les erreurs."
+            },
+            {
+                section: 6,
+                difficulty: 'medium',
+                question: "Comment l'OFDM gère-t-il le multipath ?",
+                options: [
+                    "Avec le préfixe cyclique qui absorbe les échos retardés",
+                    "En ignorant le multipath",
+                    "En augmentant la puissance",
+                    "En changeant de technologie"
+                ],
+                correct: 0,
+                explanation: "Le préfixe cyclique crée une fenêtre de garde qui absorbe les échos multipath et préserve l'orthogonalité."
+            },
+
+            // ========== SECTION 6: OFDM & CDMA - DIFFICILE ==========
+            {
+                section: 6,
+                difficulty: 'hard',
+                question: "Pourquoi le PAPR élevé est-il un problème en OFDM ?",
+                options: [
+                    "Il nécessite des amplificateurs de puissance linéaires coûteux et réduit l'efficacité énergétique",
+                    "Il augmente le débit",
+                    "Il réduit le bruit",
+                    "Il améliore la portée"
+                ],
+                correct: 0,
+                explanation: "Un PAPR élevé force l'amplificateur à fonctionner loin de son point de saturation pour éviter la distorsion, réduisant l'efficacité."
+            },
+            {
+                section: 6,
+                difficulty: 'hard',
+                question: "Comment le contrôle de puissance en CDMA résout-il le 'near-far problem' ?",
+                options: [
+                    "En demandant aux utilisateurs proches de réduire leur puissance pour égaliser les niveaux reçus",
+                    "En augmentant la puissance de tous",
+                    "En bloquant les utilisateurs proches",
+                    "En changeant la fréquence"
+                ],
+                correct: 0,
+                explanation: "Le contrôle de puissance ajuste la puissance d'émission pour que tous les signaux arrivent au récepteur avec des niveaux similaires."
+            },
+            {
+                section: 6,
+                difficulty: 'hard',
+                question: "Comment l'égalisation est-elle simplifiée en OFDM par rapport aux systèmes mono-porteuse ?",
+                options: [
+                    "Chaque sous-porteuse subit un fading plat nécessitant une simple égalisation scalaire",
+                    "L'égalisation n'est pas nécessaire",
+                    "Elle est plus complexe",
+                    "Elle nécessite des matrices énormes"
+                ],
+                correct: 0,
+                explanation: "En OFDM, chaque sous-porteuse étroite subit un fading plat, permettant une égalisation simple (scalaire) au lieu d'une égalisation complexe."
+            },
+            {
+                section: 6,
+                difficulty: 'hard',
+                question: "Quelle est la capacité théorique d'un système CDMA avec codes parfaitement orthogonaux ?",
+                options: [
+                    "Limitée par le bruit et les interférences, proportionnelle au gain de traitement",
+                    "Infinie",
+                    "Toujours égale à 1 utilisateur",
+                    "Zéro"
+                ],
+                correct: 0,
+                explanation: "Même avec codes parfaits, la capacité CDMA est limitée par le rapport signal/bruit et interférence, et croît avec le gain de traitement."
+            },
+            {
+                section: 6,
+                difficulty: 'hard',
+                question: "Quelle technique 5G NR combine avec OFDM pour améliorer la flexibilité spectrale ?",
+                options: [
+                    "Scalable numerology (sous-espacement de porteuses variable)",
+                    "Retour à l'analogique",
+                    "Suppression de toutes les sous-porteuses",
+                    "Utilisation de câbles uniquement"
+                ],
+                correct: 0,
+                explanation: "5G NR utilise une numérologie scalable permettant de varier l'espacement entre sous-porteuses selon les besoins (latence, mobilité, débit)."
+            }
+        ];
+
+        // État du quiz
+        let currentQuizData = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedDifficulty = 'all';
+        let selectedSection = 'all';
+        let isLightTheme = false;
+
+        // Éléments DOM
+        const difficultySelect = document.getElementById('difficultySelect');
+        const sectionSelect = document.getElementById('sectionSelect');
+        const themeToggle = document.getElementById('themeToggle');
+        const startQuizBtn = document.getElementById('startQuizBtn');
+        const resetScoreBtn = document.getElementById('resetScoreBtn');
+        const quizContainer = document.getElementById('quizContainer');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const questionCard = document.getElementById('questionCard');
+        const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+        const retryQuizBtn = document.getElementById('retryQuizBtn');
+        const newQuizBtn = document.getElementById('newQuizBtn');
+
+        // Filtrer les questions selon les critères sélectionnés
+        function filterQuestions() {
+            let filtered = quizDatabase.filter(q => {
+                const difficultyMatch = selectedDifficulty === 'all' || q.difficulty === selectedDifficulty;
+                const sectionMatch = selectedSection === 'all' || q.section === parseInt(selectedSection);
+                return difficultyMatch && sectionMatch;
+            });
+            
+            // Mélanger aléatoirement les questions
+            return filtered.sort(() => Math.random() - 0.5);
+        }
+
+        // Obtenir le badge de difficulté avec couleur
+        function getDifficultyBadge(difficulty) {
+            const badges = {
+                'easy': { text: '⭐ Facile', bg: 'rgba(81, 207, 102, 0.2)', color: '#51cf66' },
+                'medium': { text: '⭐⭐ Moyen', bg: 'rgba(255, 159, 67, 0.2)', color: '#ff9f43' },
+                'hard': { text: '⭐⭐⭐ Difficile', bg: 'rgba(255, 107, 107, 0.2)', color: '#ff6b6b' }
+            };
+            return badges[difficulty];
+        }
+
+        // Afficher une question
+        function displayQuestion() {
+            if (currentQuestionIndex >= currentQuizData.length) {
+                showResults();
+                return;
+            }
+
+            const question = currentQuizData[currentQuestionIndex];
+            const badge = getDifficultyBadge(question.difficulty);
+
+            // Mise à jour de la progression
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('totalQuestions').textContent = currentQuizData.length;
+            document.getElementById('currentScore').textContent = score;
+            const progress = ((currentQuestionIndex) / currentQuizData.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+
+            // Badges
+            const difficultyBadge = document.getElementById('difficultyBadge');
+            difficultyBadge.textContent = badge.text;
+            difficultyBadge.style.background = badge.bg;
+            difficultyBadge.style.color = badge.color;
+
+            document.getElementById('sectionBadge').textContent = 'Section ' + question.section;
+
+            // Question
+            document.getElementById('questionText').textContent = question.question;
+
+            // Options
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'quiz-option p-4 rounded-lg';
+                optionDiv.style.background = 'rgba(254, 218, 106, 0.05)';
+                optionDiv.style.border = '2px solid rgba(254, 218, 106, 0.2)';
+                optionDiv.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center font-bold" style="background: rgba(254, 218, 106, 0.2); color: #feda6a;">
+                            ${String.fromCharCode(65 + index)}
+                        </div>
+                        <span class="flex-1">${option}</span>
+                    </div>
+                `;
+                optionDiv.addEventListener('click', () => selectAnswer(index));
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            // Masquer le feedback
+            document.getElementById('feedbackContainer').classList.add('hidden');
+            nextQuestionBtn.disabled = true;
+
+            // Animation
+            questionCard.style.animation = 'none';
+            setTimeout(() => {
+                questionCard.style.animation = 'fadeInScale 0.4s ease-out';
+            }, 10);
+        }
+
+        // Sélectionner une réponse
+        function selectAnswer(selectedIndex) {
+            const question = currentQuizData[currentQuestionIndex];
+            const options = document.querySelectorAll('.quiz-option');
+            const isCorrect = selectedIndex === question.correct;
+
+            // Désactiver toutes les options
+            options.forEach(opt => opt.classList.add('disabled'));
+
+            // Marquer la réponse sélectionnée
+            if (isCorrect) {
+                options[selectedIndex].classList.add('selected-correct');
+                score++;
+            } else {
+                options[selectedIndex].classList.add('selected-wrong');
+                // Montrer la bonne réponse
+                options[question.correct].classList.add('correct-answer');
+            }
+
+            // Afficher le feedback
+            const feedbackContainer = document.getElementById('feedbackContainer');
+            const feedbackIcon = document.getElementById('feedbackIcon');
+            const feedbackText = document.getElementById('feedbackText');
+            const explanationText = document.getElementById('explanationText');
+
+            if (isCorrect) {
+                feedbackContainer.style.background = 'rgba(81, 207, 102, 0.1)';
+                feedbackContainer.style.border = '1px solid #51cf66';
+                feedbackIcon.className = 'fas fa-check-circle text-2xl mt-1';
+                feedbackIcon.style.color = '#51cf66';
+                feedbackText.textContent = '✅ Correct !';
+                feedbackText.style.color = '#51cf66';
+            } else {
+                feedbackContainer.style.background = 'rgba(255, 107, 107, 0.1)';
+                feedbackContainer.style.border = '1px solid #ff6b6b';
+                feedbackIcon.className = 'fas fa-times-circle text-2xl mt-1';
+                feedbackIcon.style.color = '#ff6b6b';
+                feedbackText.textContent = '❌ Incorrect';
+                feedbackText.style.color = '#ff6b6b';
+            }
+
+            explanationText.textContent = question.explanation;
+            feedbackContainer.classList.remove('hidden');
+
+            // Activer le bouton suivant
+            nextQuestionBtn.disabled = false;
+
+            // Sauvegarder le score
+            localStorage.setItem('wlanQuizScore', score);
+            localStorage.setItem('wlanQuizProgress', currentQuestionIndex + 1);
+        }
+
+        // Question suivante
+        function nextQuestion() {
+            currentQuestionIndex++;
+            displayQuestion();
+        }
+
+        // Afficher les résultats
+        function showResults() {
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+
+            const totalQuestions = currentQuizData.length;
+            const percentage = Math.round((score / totalQuestions) * 100);
+
+            document.getElementById('correctAnswers').textContent = score;
+            document.getElementById('wrongAnswers').textContent = totalQuestions - score;
+            document.getElementById('percentageScore').textContent = percentage + '%';
+
+            const resultIcon = document.getElementById('resultIcon');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultMessage = document.getElementById('resultMessage');
+
+            if (percentage >= 90) {
+                resultIcon.className = 'fas fa-trophy text-6xl mb-4';
+                resultIcon.style.color = '#ffd43b';
+                resultTitle.textContent = '🏆 Excellent !';
+                resultMessage.textContent = 'Vous maîtrisez parfaitement les concepts WLAN. Félicitations !';
+            } else if (percentage >= 70) {
+                resultIcon.className = 'fas fa-star text-6xl mb-4';
+                resultIcon.style.color = '#51cf66';
+                resultTitle.textContent = '⭐ Très bien !';
+                resultMessage.textContent = 'Bonne compréhension des concepts. Continuez comme ça !';
+            } else if (percentage >= 50) {
+                resultIcon.className = 'fas fa-thumbs-up text-6xl mb-4';
+                resultIcon.style.color = '#ff9f43';
+                resultTitle.textContent = '👍 Peut mieux faire';
+                resultMessage.textContent = 'Vous avez des bases solides. Révisez les sections difficiles.';
+            } else {
+                resultIcon.className = 'fas fa-book-reader text-6xl mb-4';
+                resultIcon.style.color = '#ff6b6b';
+                resultTitle.textContent = '📚 À réviser';
+                resultMessage.textContent = 'Relisez attentivement les sections du cours et réessayez.';
+            }
+
+            // Sauvegarder le meilleur score
+            const bestScore = localStorage.getItem('wlanQuizBestScore') || 0;
+            if (score > bestScore) {
+                localStorage.setItem('wlanQuizBestScore', score);
+                localStorage.setItem('wlanQuizBestPercentage', percentage);
+            }
+        }
+
+        // Démarrer le quiz
+        function startQuiz() {
+            selectedDifficulty = difficultySelect.value;
+            selectedSection = sectionSelect.value;
+            
+            currentQuizData = filterQuestions();
+            
+            if (currentQuizData.length === 0) {
+                alert('Aucune question ne correspond aux critères sélectionnés.');
+                return;
+            }
+
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            document.querySelector('#section7 .section-content > div:first-child').classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            
+            displayQuestion();
+        }
+
+        // Rejouer le quiz
+        function retryQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            resultsContainer.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            displayQuestion();
+        }
+
+        // Nouveau quiz
+        function newQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            resultsContainer.classList.add('hidden');
+            quizContainer.classList.add('hidden');
+            document.querySelector('#section7 .section-content > div:first-child').classList.remove('hidden');
+        }
+
+        // Réinitialiser le score
+        function resetScore() {
+            if (confirm('Voulez-vous vraiment réinitialiser tous vos scores sauvegardés ?')) {
+                localStorage.removeItem('wlanQuizScore');
+                localStorage.removeItem('wlanQuizProgress');
+                localStorage.removeItem('wlanQuizBestScore');
+                localStorage.removeItem('wlanQuizBestPercentage');
+                alert('Scores réinitialisés !');
+            }
+        }
+
+        // Toggle thème clair/sombre
+        function toggleTheme() {
+            isLightTheme = !isLightTheme;
+            document.body.classList.toggle('light-theme', isLightTheme);
+            
+            if (isLightTheme) {
+                themeToggle.innerHTML = '<i class="fas fa-sun mr-2"></i>Mode Clair';
+                localStorage.setItem('wlanQuizTheme', 'light');
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon mr-2"></i>Mode Sombre';
+                localStorage.setItem('wlanQuizTheme', 'dark');
+            }
+        }
+
+        // Event listeners
+        if (startQuizBtn) startQuizBtn.addEventListener('click', startQuiz);
+        if (nextQuestionBtn) nextQuestionBtn.addEventListener('click', nextQuestion);
+        if (retryQuizBtn) retryQuizBtn.addEventListener('click', retryQuiz);
+        if (newQuizBtn) newQuizBtn.addEventListener('click', newQuiz);
+        if (resetScoreBtn) resetScoreBtn.addEventListener('click', resetScore);
+        if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+
+        // Charger le thème sauvegardé
+        const savedTheme = localStorage.getItem('wlanQuizTheme');
+        if (savedTheme === 'light') {
+            toggleTheme();
+        }
+
+        // Charger le meilleur score au chargement de la page
+        window.addEventListener('load', () => {
+            const bestScore = localStorage.getItem('wlanQuizBestScore');
+            const bestPercentage = localStorage.getItem('wlanQuizBestPercentage');
+            if (bestScore && bestPercentage) {
+                console.log('Meilleur score WLAN:', bestScore + '/' + ' (' + bestPercentage + '%)');
+            }
+        });
     </script>
 </body>
 </html>

@@ -1,0 +1,3177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réseaux Sans Fil - Cours Détaillé</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        :root {
+            --yellow: #feda6a;
+            --silver: #d4d4dc;
+            --deep-grey: #393f4d;
+            --dark-slate: #1d1e22;
+        }
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--dark-slate) 0%, var(--deep-grey) 100%);
+            background-attachment: fixed;
+        }
+        
+        .section-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .section-content.active { 
+            max-height: none;
+            height: auto;
+        }
+        .smooth-scroll { scroll-behavior: smooth; }
+        .table-scroll { overflow-x: auto; }
+        
+        .glass-card {
+            background: rgba(57, 63, 77, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 212, 220, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-glass {
+            background: rgba(29, 30, 34, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(254, 218, 106, 0.1);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(254, 218, 106, 0.2);
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, var(--yellow) 0%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .accent-border {
+            border-left: 4px solid var(--yellow);
+        }
+        
+        .table-modern {
+            background: rgba(29, 30, 34, 0.5);
+        }
+        
+        .scrollbar-custom::-webkit-scrollbar {
+            height: 8px;
+        }
+        
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: rgba(57, 63, 77, 0.3);
+            border-radius: 10px;
+        }
+        
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: var(--yellow);
+            border-radius: 10px;
+        }
+        
+        .nav-link-modern {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link-modern::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--yellow);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link-modern:hover::after,
+        .nav-link-modern.active::after {
+            width: 100%;
+        }
+        
+        .badge {
+            background: rgba(254, 218, 106, 0.2);
+            border: 1px solid var(--yellow);
+            color: var(--yellow);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeInUp {
+            animation: fadeInUp 0.6s ease-out;
+        }
+    </style>
+</head>
+<body class="smooth-scroll" style="color: #d4d4dc;">
+    <!-- Navigation -->
+    <nav class="nav-glass fixed w-full z-50 top-0">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center py-5">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background: rgba(254, 218, 106, 0.15);">
+                        <i class="fas fa-wifi text-2xl" style="color: #feda6a;"></i>
+                    </div>
+                    <span class="text-xl font-bold gradient-text">Réseaux Sans Fil</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-1">
+                    <a href="#section1" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">Spectre & ISM</a>
+                    <a href="#section2" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">Infrastructure</a>
+                    <a href="#section3" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">Ad-Hoc</a>
+                    <a href="#section4" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">Handover</a>
+                    <a href="#section5" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">MIMO & D2D</a>
+                    <a href="#section6" class="nav-link nav-link-modern px-4 py-2 rounded-lg transition duration-300 font-medium text-sm" style="color: #d4d4dc;">OFDM & CDMA</a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="focus:outline-none" style="color: #feda6a;">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="md:hidden hidden pb-4 space-y-2">
+                <a href="#section1" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">Spectre & ISM</a>
+                <a href="#section2" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">Infrastructure</a>
+                <a href="#section3" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">Ad-Hoc</a>
+                <a href="#section4" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">Handover</a>
+                <a href="#section5" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">MIMO & D2D</a>
+                <a href="#section6" class="block nav-link px-4 py-2 rounded-lg transition hover:bg-opacity-10" style="color: #d4d4dc;">OFDM & CDMA</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-20 max-w-7xl mx-auto px-4 py-8">
+        <!-- Section 1: Spectre de Fréquences -->
+        <section id="section1" class="mb-16 animate-fadeInUp">
+            <div class="glass-card rounded-2xl p-8 hover-lift">
+                <h1 class="text-3xl font-bold mb-6 flex items-center" style="color: #feda6a;">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style="background: rgba(254, 218, 106, 0.15);">
+                        <i class="fas fa-satellite"></i>
+                    </div>
+                    <span>1. Spectre de Fréquences, Réglementation et Bandes ISM</span>
+                </h1>
+                
+                <div class="section-content active">
+                    <div class="grid md:grid-cols-2 gap-8 mb-8">
+                        <div class="accent-border pl-4">
+                            <h3 class="text-xl font-semibold mb-3" style="color: #feda6a;">Le spectre électromagnétique</h3>
+                            <p class="mb-4 opacity-90">Ensemble des ondes radioélectriques utilisées pour les communications sans fil.</p>
+                            <div class="space-y-2">
+                                <p><strong style="color: #feda6a;">Fréquence</strong>: Nombre d'oscillations par seconde, mesurée en <strong>Hertz (Hz)</strong></p>
+                                <ul class="list-disc list-inside text-sm opacity-80 ml-4 space-y-1">
+                                    <li>1 kHz = 1 000 Hz</li>
+                                    <li>1 MHz = 1 million Hz</li>
+                                    <li>1 GHz = 1 milliard Hz</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="accent-border pl-4">
+                            <h4 class="text-lg font-semibold mb-3" style="color: #feda6a;">Exemples concrets</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                    <span class="font-medium" style="color: #feda6a;">Radio FM:</span> <span class="opacity-90">88-108 MHz</span>
+                            </div>
+                                <div class="p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                    <span class="font-medium" style="color: #feda6a;">Wi-Fi:</span> <span class="opacity-90">2,4 GHz et 5 GHz</span>
+                                </div>
+                                <div class="p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                    <span class="font-medium" style="color: #feda6a;">5G:</span> <span class="opacity-90">Jusqu'à plusieurs dizaines de GHz</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 p-4 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-xl font-semibold mb-3" style="color: #feda6a;">Pourquoi la réglementation ?</h3>
+                        <p class="opacity-90">Le spectre est une <strong style="color: #feda6a;">ressource rare et partagée</strong>. Risque de brouillage si plusieurs émetteurs utilisent la même fréquence.</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Organismes de gestion</h3>
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-lg flex items-center" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="badge mr-3">UIT</span>
+                                <span class="opacity-90">Niveau mondial 🌍</span>
+                            </div>
+                            <div class="p-4 rounded-lg flex items-center" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="badge mr-3">ANFR/INT</span>
+                                <span class="opacity-90"><strong>ANFR</strong> (France) ou <strong>INT</strong> (Tunisie): Niveau national 🇫🇷🇹🇳</span>
+                            </div>
+                            <div class="p-4 rounded-lg flex items-center" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="badge mr-3">LOCAL</span>
+                                <span class="opacity-90"><strong>Autorités locales</strong>: Attribuent les licences aux opérateurs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll scrollbar-custom mb-6">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Bandes ISM</h3>
+                        <table class="w-full table-modern rounded-xl overflow-hidden">
+                            <thead style="background: linear-gradient(135deg, rgba(254, 218, 106, 0.2) 0%, rgba(254, 218, 106, 0.1) 100%);">
+                                <tr>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">Bande</th>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">Fréquence</th>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">Utilisations</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="hover:bg-opacity-5 transition" style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                    <td class="px-6 py-4 font-medium" style="color: #feda6a;">2,4 GHz</td>
+                                    <td class="px-6 py-4 opacity-90">2,400-2,483 GHz</td>
+                                    <td class="px-6 py-4 opacity-90">Wi-Fi, Bluetooth, micro-ondes</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-5 transition" style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                    <td class="px-6 py-4 font-medium" style="color: #feda6a;">5 GHz</td>
+                                    <td class="px-6 py-4 opacity-90">5,150-5,825 GHz</td>
+                                    <td class="px-6 py-4 opacity-90">Wi-Fi haut débit</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-5 transition" style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                    <td class="px-6 py-4 font-medium" style="color: #feda6a;">868 MHz</td>
+                                    <td class="px-6 py-4 opacity-90">868-870 MHz</td>
+                                    <td class="px-6 py-4 opacity-90">Domotique, capteurs IoT</td>
+                                </tr>
+                                <tr class="hover:bg-opacity-5 transition">
+                                    <td class="px-6 py-4 font-medium" style="color: #feda6a;">915 MHz</td>
+                                    <td class="px-6 py-4 opacity-90">902-928 MHz</td>
+                                    <td class="px-6 py-4 opacity-90">RFID (Amérique du Nord)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Illustration 1: Spectre de Fréquences -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #feda6a;">
+                            <i class="fas fa-wave-square mr-3"></i>
+                            Illustration : Spectre de Fréquences
+                        </h3>
+                        
+                        <!-- Plotly Chart -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="frequencySpectrumChart" style="width: 100%; height: 500px;"></div>
+                        </div>
+                        
+                        <!-- Explication -->
+                        <div class="p-5 rounded-xl" style="background: rgba(254, 218, 106, 0.1); border-left: 4px solid #feda6a;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #feda6a;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Spectre de fréquences
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed">
+                                Le <strong style="color: #feda6a;">spectre de fréquences</strong> représente la répartition des ondes électromagnétiques selon leur fréquence. 
+                                Chaque bande de fréquence est utilisée pour des applications spécifiques (radio, Wi-Fi, lumière, rayons X, etc.). 
+                                Les différentes zones colorées illustrent comment le spectre est divisé en régions distinctes, 
+                                des ondes radio de basse fréquence aux rayons gamma de très haute fréquence.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 2: Bandes ISM -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #feda6a;">
+                            <i class="fas fa-broadcast-tower mr-3"></i>
+                            Illustration : Bandes ISM (Industrial, Scientific and Medical)
+                        </h3>
+                        
+                        <!-- Plotly Chart -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="ismBandsChart" style="width: 100%; height: 450px;"></div>
+                        </div>
+                        
+                        <!-- Explication -->
+                        <div class="p-5 rounded-xl" style="background: rgba(254, 218, 106, 0.1); border-left: 4px solid #feda6a;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #feda6a;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Bandes ISM
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed">
+                                Les <strong style="color: #feda6a;">bandes ISM</strong> sont des bandes de fréquences réservées à un usage industriel, scientifique et médical. 
+                                Elles sont librement utilisables sans licence, notamment pour le Wi-Fi, le Bluetooth et les objets connectés. 
+                                Chaque bande a ses propres caractéristiques et applications spécifiques, allant des télécommandes à 433 MHz 
+                                aux réseaux Wi-Fi haut débit à 5.8 GHz.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 3: Propagation par trajets multiples -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #feda6a;">
+                            <i class="fas fa-signal mr-3"></i>
+                            Propagation par trajets multiples dans le canal radio mobile
+                        </h3>
+                        
+                        <!-- SVG Interactive Diagram -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <svg id="multipathDiagram" viewBox="0 0 1200 700" style="width: 100%; height: auto; max-height: 700px;">
+                                <defs>
+                                    <!-- Gradients -->
+                                    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:0.3" />
+                                        <stop offset="100%" style="stop-color:#E0F6FF;stop-opacity:0.2" />
+                                    </linearGradient>
+                                    <linearGradient id="groundGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#90EE90;stop-opacity:0.3" />
+                                        <stop offset="100%" style="stop-color:#228B22;stop-opacity:0.2" />
+                                    </linearGradient>
+                                    <linearGradient id="btsGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#FF6B6B;stop-opacity:1" />
+                                        <stop offset="100%" style="stop-color:#CC5555;stop-opacity:1" />
+                                    </linearGradient>
+                                    
+                                    <!-- Arrow markers for different path types -->
+                                    <marker id="arrowLOS" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                                        <path d="M0,0 L0,6 L9,3 z" fill="#22C55E" />
+                                    </marker>
+                                    <marker id="arrowReflection" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                                        <path d="M0,0 L0,6 L9,3 z" fill="#3B82F6" />
+                                    </marker>
+                                    <marker id="arrowDiffraction" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                                        <path d="M0,0 L0,6 L9,3 z" fill="#F97316" />
+                                    </marker>
+                                    <marker id="arrowScattering" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                                        <path d="M0,0 L0,6 L9,3 z" fill="#A855F7" />
+                                    </marker>
+                                    
+                                    <!-- Wave pattern for signal emission -->
+                                    <pattern id="wavePattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                                        <circle cx="10" cy="10" r="2" fill="#FF6B6B" opacity="0.3"/>
+                                    </pattern>
+                                </defs>
+                                
+                                <!-- Background -->
+                                <rect width="1200" height="700" fill="url(#skyGradient)"/>
+                                <rect y="600" width="1200" height="100" fill="url(#groundGradient)"/>
+                                
+                                <!-- Buildings -->
+                                <!-- Large building (for reflection) -->
+                                <g id="building1">
+                                    <rect x="450" y="350" width="120" height="250" fill="#64748B" stroke="#475569" stroke-width="2"/>
+                                    <rect x="465" y="370" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="495" y="370" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="525" y="370" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="465" y="410" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="495" y="410" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="525" y="410" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="465" y="450" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="495" y="450" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="525" y="450" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="465" y="490" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="495" y="490" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="525" y="490" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="465" y="530" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="495" y="530" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="525" y="530" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="465" y="570" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="495" y="570" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="525" y="570" width="20" height="25" fill="#FCD34D" opacity="0.8"/>
+                                </g>
+                                
+                                <!-- Building for diffraction -->
+                                <g id="building2">
+                                    <rect x="600" y="450" width="100" height="150" fill="#94A3B8" stroke="#64748B" stroke-width="2"/>
+                                    <rect x="615" y="470" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="642" y="470" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="669" y="470" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="615" y="505" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="642" y="505" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="669" y="505" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="615" y="540" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="642" y="540" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="669" y="540" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="615" y="575" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="642" y="575" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                    <rect x="669" y="575" width="18" height="22" fill="#FCD34D" opacity="0.8"/>
+                                </g>
+                                
+                                <!-- Small objects for scattering -->
+                                <g id="scatteringObjects">
+                                    <circle cx="750" cy="580" r="12" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+                                    <circle cx="780" cy="565" r="10" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+                                    <circle cx="810" cy="575" r="11" fill="#F59E0B" stroke="#D97706" stroke-width="1.5"/>
+                                    <rect x="770" y="540" width="15" height="15" fill="#EAB308" stroke="#CA8A04" stroke-width="1.5" transform="rotate(45 777.5 547.5)"/>
+                                    <rect x="800" y="550" width="12" height="12" fill="#EAB308" stroke="#CA8A04" stroke-width="1.5" transform="rotate(45 806 556)"/>
+                                </g>
+                                
+                                <!-- BTS (Base Transceiver Station) -->
+                                <g id="bts" class="interactive-element" data-type="bts">
+                                    <!-- Tower base -->
+                                    <rect x="130" y="400" width="60" height="200" fill="url(#btsGradient)" stroke="#CC5555" stroke-width="2"/>
+                                    <!-- Tower top -->
+                                    <polygon points="140,400 180,400 160,370" fill="#FF6B6B" stroke="#CC5555" stroke-width="2"/>
+                                    <!-- Antenna -->
+                                    <line x1="160" y1="370" x2="160" y2="320" stroke="#DC2626" stroke-width="4"/>
+                                    <line x1="160" y1="320" x2="145" y2="340" stroke="#DC2626" stroke-width="2.5"/>
+                                    <line x1="160" y1="320" x2="175" y2="340" stroke="#DC2626" stroke-width="2.5"/>
+                                    <line x1="160" y1="330" x2="148" y2="345" stroke="#DC2626" stroke-width="2"/>
+                                    <line x1="160" y1="330" x2="172" y2="345" stroke="#DC2626" stroke-width="2"/>
+                                    <!-- Signal emission circles -->
+                                    <circle cx="160" cy="320" r="25" fill="none" stroke="#FF6B6B" stroke-width="2" opacity="0.6">
+                                        <animate attributeName="r" from="25" to="45" dur="1.5s" repeatCount="indefinite"/>
+                                        <animate attributeName="opacity" from="0.6" to="0" dur="1.5s" repeatCount="indefinite"/>
+                                    </circle>
+                                    <circle cx="160" cy="320" r="25" fill="none" stroke="#FF6B6B" stroke-width="2" opacity="0.6">
+                                        <animate attributeName="r" from="25" to="45" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
+                                        <animate attributeName="opacity" from="0.6" to="0" dur="1.5s" begin="0.5s" repeatCount="indefinite"/>
+                                    </circle>
+                                    <circle cx="160" cy="320" r="25" fill="none" stroke="#FF6B6B" stroke-width="2" opacity="0.6">
+                                        <animate attributeName="r" from="25" to="45" dur="1.5s" begin="1s" repeatCount="indefinite"/>
+                                        <animate attributeName="opacity" from="0.6" to="0" dur="1.5s" begin="1s" repeatCount="indefinite"/>
+                                    </circle>
+                                    <!-- Label -->
+                                    <text x="160" y="630" text-anchor="middle" fill="#1D1E22" font-size="16" font-weight="bold">BTS</text>
+                                    <text x="160" y="650" text-anchor="middle" fill="#1D1E22" font-size="12">Station de base</text>
+                                </g>
+                                
+                                <!-- Mobile Unit -->
+                                <g id="mobile" class="interactive-element" data-type="mobile">
+                                    <!-- Phone body -->
+                                    <rect x="950" y="540" width="50" height="80" rx="8" fill="#1F2937" stroke="#374151" stroke-width="2"/>
+                                    <rect x="955" y="545" width="40" height="60" fill="#60A5FA" opacity="0.7"/>
+                                    <circle cx="975" cy="615" r="5" fill="#6B7280"/>
+                                    <!-- Signal bars -->
+                                    <rect x="960" y="560" width="4" height="8" fill="#22C55E"/>
+                                    <rect x="966" y="555" width="4" height="13" fill="#22C55E"/>
+                                    <rect x="972" y="550" width="4" height="18" fill="#22C55E"/>
+                                    <rect x="978" y="545" width="4" height="23" fill="#22C55E"/>
+                                    <!-- Antenna wave -->
+                                    <line x1="975" y1="540" x2="975" y2="525" stroke="#22C55E" stroke-width="2"/>
+                                    <circle cx="975" cy="525" r="8" fill="none" stroke="#22C55E" stroke-width="1.5" opacity="0.6">
+                                        <animate attributeName="r" from="8" to="18" dur="1.2s" repeatCount="indefinite"/>
+                                        <animate attributeName="opacity" from="0.6" to="0" dur="1.2s" repeatCount="indefinite"/>
+                                    </circle>
+                                    <circle cx="975" cy="525" r="8" fill="none" stroke="#22C55E" stroke-width="1.5" opacity="0.6">
+                                        <animate attributeName="r" from="8" to="18" dur="1.2s" begin="0.4s" repeatCount="indefinite"/>
+                                        <animate attributeName="opacity" from="0.6" to="0" dur="1.2s" begin="0.4s" repeatCount="indefinite"/>
+                                    </circle>
+                                    <!-- Label -->
+                                    <text x="975" y="645" text-anchor="middle" fill="#1D1E22" font-size="15" font-weight="bold">Unité Mobile</text>
+                                </g>
+                                
+                                <!-- Signal Paths -->
+                                
+                                <!-- 1. LOS (Line of Sight) - Direct path - GREEN -->
+                                <g id="pathLOS" class="interactive-element signal-path" data-type="los">
+                                    <line x1="175" y1="330" x2="950" y2="560" stroke="#22C55E" stroke-width="4" marker-end="url(#arrowLOS)" stroke-dasharray="10,5" opacity="0.8">
+                                        <animate attributeName="stroke-dashoffset" from="0" to="30" dur="0.8s" repeatCount="indefinite"/>
+                                    </line>
+                                    <!-- Label with background -->
+                                    <rect x="520" y="410" width="140" height="30" fill="#22C55E" opacity="0.9" rx="5"/>
+                                    <text x="590" y="430" text-anchor="middle" fill="white" font-size="14" font-weight="bold">LOS – Ligne directe</text>
+                                </g>
+                                
+                                <!-- 2. Reflection - BLUE -->
+                                <g id="pathReflection" class="interactive-element signal-path" data-type="reflection">
+                                    <polyline points="175,340 510,420 950,570" fill="none" stroke="#3B82F6" stroke-width="3.5" marker-end="url(#arrowReflection)" stroke-dasharray="8,4" opacity="0.8">
+                                        <animate attributeName="stroke-dashoffset" from="0" to="24" dur="1s" repeatCount="indefinite"/>
+                                    </polyline>
+                                    <!-- Reflection point indicator -->
+                                    <circle cx="510" cy="420" r="6" fill="#3B82F6" stroke="white" stroke-width="2"/>
+                                    <!-- Label -->
+                                    <rect x="385" y="370" width="100" height="28" fill="#3B82F6" opacity="0.9" rx="5"/>
+                                    <text x="435" y="390" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Réflexion</text>
+                                </g>
+                                
+                                <!-- 3. Diffraction - ORANGE -->
+                                <g id="pathDiffraction" class="interactive-element signal-path" data-type="diffraction">
+                                    <path d="M 180 350 Q 500 300 650 450 Q 750 520 950 575" fill="none" stroke="#F97316" stroke-width="3.5" marker-end="url(#arrowDiffraction)" stroke-dasharray="8,4" opacity="0.8">
+                                        <animate attributeName="stroke-dashoffset" from="0" to="24" dur="1.1s" repeatCount="indefinite"/>
+                                    </path>
+                                    <!-- Diffraction point -->
+                                    <circle cx="650" cy="450" r="6" fill="#F97316" stroke="white" stroke-width="2"/>
+                                    <!-- Label -->
+                                    <rect x="675" y="410" width="95" height="28" fill="#F97316" opacity="0.9" rx="5"/>
+                                    <text x="722" y="430" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Diffraction</text>
+                                </g>
+                                
+                                <!-- 4. Scattering - PURPLE -->
+                                <g id="pathScattering" class="interactive-element signal-path" data-type="scattering">
+                                    <!-- Main path to scattering objects -->
+                                    <path d="M 185 360 Q 600 500 780 565" fill="none" stroke="#A855F7" stroke-width="3" stroke-dasharray="6,3" opacity="0.7">
+                                        <animate attributeName="stroke-dashoffset" from="0" to="18" dur="0.9s" repeatCount="indefinite"/>
+                                    </path>
+                                    <!-- Scattered rays -->
+                                    <line x1="780" y1="565" x2="890" y2="540" stroke="#A855F7" stroke-width="2.5" marker-end="url(#arrowScattering)" stroke-dasharray="4,2" opacity="0.7">
+                                        <animate attributeName="stroke-dashoffset" from="0" to="12" dur="0.7s" repeatCount="indefinite"/>
+                                    </line>
+                                    <line x1="780" y1="565" x2="920" y2="560" stroke="#A855F7" stroke-width="2.5" stroke-dasharray="4,2" opacity="0.7">
+                                        <animate attributeName="stroke-dashoffset" from="0" to="12" dur="0.7s" begin="0.2s" repeatCount="indefinite"/>
+                                    </line>
+                                    <line x1="780" y1="565" x2="900" y2="580" stroke="#A855F7" stroke-width="2.5" stroke-dasharray="4,2" opacity="0.7">
+                                        <animate attributeName="stroke-dashoffset" from="0" to="12" dur="0.7s" begin="0.4s" repeatCount="indefinite"/>
+                                    </line>
+                                    <!-- Scattering center -->
+                                    <circle cx="780" cy="565" r="7" fill="#A855F7" stroke="white" stroke-width="2"/>
+                                    <!-- Label -->
+                                    <rect x="720" y="520" width="85" height="28" fill="#A855F7" opacity="0.9" rx="5"/>
+                                    <text x="762" y="540" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Diffusion</text>
+                                </g>
+                                
+                                <!-- Legend Box -->
+                                <g id="legend">
+                                    <rect x="30" y="30" width="300" height="260" fill="white" stroke="#1D1E22" stroke-width="2" rx="8" opacity="0.95"/>
+                                    <text x="180" y="60" text-anchor="middle" fill="#1D1E22" font-size="18" font-weight="bold" text-decoration="underline">Légende des trajets</text>
+                                    
+                                    <!-- LOS -->
+                                    <line x1="50" y1="85" x2="110" y2="85" stroke="#22C55E" stroke-width="4" stroke-dasharray="10,5"/>
+                                    <text x="120" y="90" fill="#1D1E22" font-size="13" font-weight="600">LOS (Ligne directe)</text>
+                                    
+                                    <!-- Reflection -->
+                                    <line x1="50" y1="115" x2="110" y2="115" stroke="#3B82F6" stroke-width="4" stroke-dasharray="8,4"/>
+                                    <text x="120" y="120" fill="#1D1E22" font-size="13" font-weight="600">Réflexion</text>
+                                    
+                                    <!-- Diffraction -->
+                                    <line x1="50" y1="145" x2="110" y2="145" stroke="#F97316" stroke-width="4" stroke-dasharray="8,4"/>
+                                    <text x="120" y="150" fill="#1D1E22" font-size="13" font-weight="600">Diffraction</text>
+                                    
+                                    <!-- Scattering -->
+                                    <line x1="50" y1="175" x2="110" y2="175" stroke="#A855F7" stroke-width="4" stroke-dasharray="6,3"/>
+                                    <text x="120" y="180" fill="#1D1E22" font-size="13" font-weight="600">Diffusion</text>
+                                    
+                                    <line x1="40" y1="200" x2="320" y2="200" stroke="#94A3B8" stroke-width="1"/>
+                                    <text x="180" y="220" text-anchor="middle" fill="#1D1E22" font-size="11" font-style="italic">Survolez les éléments</text>
+                                    <text x="180" y="235" text-anchor="middle" fill="#1D1E22" font-size="11" font-style="italic">pour plus d'informations</text>
+                                    <text x="180" y="260" text-anchor="middle" fill="#1D1E22" font-size="10" font-weight="600">📱 Compatible mobile</text>
+                                </g>
+                            </svg>
+                        </div>
+                        
+                        <!-- Interactive Tooltip -->
+                        <div id="multipathTooltip" style="display: none; position: fixed; background: rgba(29, 30, 34, 0.98); color: #d4d4dc; padding: 20px; border-radius: 12px; border: 2px solid #feda6a; max-width: 500px; z-index: 10000; box-shadow: 0 10px 40px rgba(0,0,0,0.5); pointer-events: none;">
+                            <div id="tooltipContent"></div>
+                        </div>
+                        
+                        <!-- Detailed Explanations -->
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <!-- BTS Explanation -->
+                            <div class="p-5 rounded-xl" style="background: rgba(255, 107, 107, 0.1); border-left: 4px solid #FF6B6B;">
+                                <h4 class="font-semibold mb-3 flex items-center" style="color: #FF6B6B;">
+                                    <i class="fas fa-broadcast-tower mr-2"></i>
+                                    Station de Base (BTS)
+                                </h4>
+                                <div class="text-sm space-y-2">
+                                    <p><strong style="color: #FF6B6B;">Fonction pratique :</strong> Émettre et recevoir des signaux radio vers les unités mobiles dans une cellule donnée.</p>
+                                    <p><strong style="color: #FF6B6B;">Fonction mathématique :</strong>Émet un signal modulé   s(t) = A<sub>c</sub> cos(2π f<sub>c</sub> t + ϕ(t))  avec une puissance d'émission P<sub>t</sub> (en Watts). </p>
+                                    <p>
+                                        <strong style="color: #FF6B6B;">Équation de puissance :</strong> 
+                                        P<sub>t</sub> = (E<sub>b</sub> · R<sub>b</sub>) / 1 
+                                        où E<sub>b</sub> est l'énergie par bit et R<sub>b</sub> le débit binaire.
+                                      </p>
+                                      
+                                    <p><strong style="color: #FF6B6B;">Objectif :</strong> Assurer la connectivité et la couverture réseau de la cellule.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Mobile Unit Explanation -->
+                            <div class="p-5 rounded-xl" style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22C55E;">
+                                <h4 class="font-semibold mb-3 flex items-center" style="color: #22C55E;">
+                                    <i class="fas fa-mobile-alt mr-2"></i>
+                                    Unité Mobile
+                                </h4>
+                                <div class="text-sm space-y-2">
+                                    <p><strong style="color: #22C55E;">Fonction pratique :</strong> Recevoir et transmettre les signaux vers/depuis la BTS.</p>
+                                    <p>
+                                        <strong style="color: #22C55E;">Fonction mathématique :</strong> 
+                                        Reçoit r(t) = ∑<sub>i=0</sub><sup>N-1</sup> a<sub>i</sub> s(t - τ<sub>i</sub>) e<sup>jθ<sub>i</sub></sup> + n(t)
+                                      </p>
+                                      
+                                      <p>
+                                        <strong style="color: #22C55E;">Paramètres :</strong> 
+                                        a<sub>i</sub> = amplitude du trajet i, 
+                                        τ<sub>i</sub> = retard temporel, 
+                                        θ<sub>i</sub> = déphasage, 
+                                        n(t) = bruit AWGN.
+                                      </p>
+                                      
+                                    <p><strong style="color: #22C55E;">Objectif :</strong> Permettre une communication mobile fiable et de qualité.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Path Types Details -->
+                        <div class="grid md:grid-cols-2 gap-6 mb-6">
+                            <!-- LOS -->
+                            <div class="p-5 rounded-xl" style="background: rgba(34, 197, 94, 0.1); border-left: 4px solid #22C55E;">
+                                <h4 class="font-semibold mb-3 flex items-center" style="color: #22C55E;">
+                                    <span class="mr-2">📡</span>
+                                    LOS – Ligne Directe
+                                </h4>
+                                <div class="text-sm space-y-2">
+                                    <p><strong style="color: #22C55E;">Fonction pratique :</strong> Transmission directe sans obstacle, signal le plus fort et stable.</p>
+                                    <p>
+                                        <strong style="color: #22C55E;">Fonction mathématique :</strong> 
+                                        r<sub>LOS</sub>(t) = a<sub>0</sub> s(t - τ<sub>0</sub>) e<sup>jθ<sub>0</sub></sup> 
+                                        où a<sub>0</sub> est l'amplitude du trajet direct.
+                                      </p>
+                                      
+                                      <p>
+                                        <strong style="color: #22C55E;">Atténuation en espace libre :</strong> 
+                                        L<sub>fs</sub>(dB) = 20 log<sub>10</sub>(d) + 20 log<sub>10</sub>(f) + 32.45 
+                                        avec d en km, f en MHz.
+                                      </p>
+                                      
+                                    <p><strong style="color: #22C55E;">Objectif :</strong> Assurer un signal stable et de forte puissance pour une communication optimale.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Reflection -->
+                            <div class="p-5 rounded-xl" style="background: rgba(59, 130, 246, 0.1); border-left: 4px solid #3B82F6;">
+                                <h4 class="font-semibold mb-3 flex items-center" style="color: #3B82F6;">
+                                    <span class="mr-2">🏢</span>
+                                    Réflexion
+                                </h4>
+                                <div class="text-sm space-y-2">
+                                    <p><strong style="color: #3B82F6;">Fonction pratique :</strong> Le signal rebondit sur des obstacles solides (bâtiments, murs).</p>
+                                    <p>
+                                        <strong style="color: #3B82F6;">Fonction mathématique :</strong> 
+                                        r<sub>ref</sub>(t) = Γ · a<sub>1</sub> s(t - τ<sub>1</sub>) e<sup>jθ<sub>1</sub></sup>
+                                      </p>
+                                      
+                                      <p>
+                                        <strong style="color: #3B82F6;">Coefficient de réflexion :</strong> 
+                                        Γ = (Z<sub>2</sub> cos θ<sub>i</sub> - Z<sub>1</sub> cos θ<sub>t</sub>) / (Z<sub>2</sub> cos θ<sub>i</sub> + Z<sub>1</sub> cos θ<sub>t</sub>) 
+                                        (Fresnel) où Z<sub>1</sub>, Z<sub>2</sub> sont les impédances caractéristiques.
+                                      </p>
+                                      
+                                    <p><strong style="color: #3B82F6;">Objectif :</strong> Permettre la couverture derrière les obstacles et améliorer la portée du signal.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Diffraction -->
+                            <div class="p-5 rounded-xl" style="background: rgba(249, 115, 22, 0.1); border-left: 4px solid #F97316;">
+                                <h4 class="font-semibold mb-3 flex items-center" style="color: #F97316;">
+                                    <span class="mr-2">🌊</span>
+                                    Diffraction
+                                </h4>
+                                <div class="text-sm space-y-2">
+                                    <p><strong style="color: #F97316;">Fonction pratique :</strong> Le signal contourne les objets bloquants en se courbant autour d'eux.</p>
+                                    <p>
+                                        <strong style="color: #F97316;">Fonction mathématique :</strong> 
+                                        r<sub>diff</sub>(t) = D(v) · a<sub>k</sub> s(t - τ<sub>k</sub>) e<sup>jθ<sub>k</sub></sup> 
+                                        où D(v) est le coefficient de diffraction.
+                                      </p>
+                                      
+                                      <p>
+                                        <strong style="color: #F97316;">Paramètre de Fresnel-Kirchhoff :</strong> 
+                                        v = h √( 2(d<sub>1</sub> + d<sub>2</sub>) / (λ d<sub>1</sub> d<sub>2</sub>) ), 
+                                        avec h = hauteur de l'obstacle, d<sub>1</sub>, d<sub>2</sub> = distances, λ = longueur d'onde.
+                                      </p>
+                                      
+                                    <p><strong style="color: #F97316;">Objectif :</strong> Maintenir la communication même en présence d'obstacles majeurs.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Scattering -->
+                            <div class="p-5 rounded-xl" style="background: rgba(168, 85, 247, 0.1); border-left: 4px solid #A855F7;">
+                                <h4 class="font-semibold mb-3 flex items-center" style="color: #A855F7;">
+                                    <span class="mr-2">✨</span>
+                                    Diffusion (Scattering)
+                                </h4>
+                                <div class="text-sm space-y-2">
+                                    <p><strong style="color: #A855F7;">Fonction pratique :</strong> Le signal se disperse sur des surfaces irrégulières ou des objets petits.</p>
+                                    <p>
+                                        <strong style="color: #A855F7;">Fonction mathématique :</strong> 
+                                        r<sub>scat</sub>(t) = ∑<sub>m=1</sub><sup>M</sup> S<sub>m</sub> · a<sub>m</sub> s(t - τ<sub>m</sub>) e<sup>jθ<sub>m</sub></sup> 
+                                        où S<sub>m</sub> est le coefficient de diffusion.
+                                      </p>
+                                      
+                                      <p>
+                                        <strong style="color: #A855F7;">Modèle de diffusion :</strong> 
+                                        Dépend de la rugosité de surface σ<sub>h</sub>, de la taille des objets par rapport à λ, et de la distribution spatiale des diffuseurs.
+                                      </p>
+                                      
+                                    <p><strong style="color: #A855F7;">Objectif :</strong> Réduire les zones d'ombre et améliorer la couverture globale du réseau.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Main Explanation -->
+                        <div class="p-5 rounded-xl" style="background: rgba(254, 218, 106, 0.1); border-left: 4px solid #feda6a;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #feda6a;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Explication détaillée : Propagation multi-trajets
+                            </h4>
+                            <div class="text-sm opacity-90 leading-relaxed space-y-3">
+                                <p>
+                                    Les signaux émis par la <strong style="color: #feda6a;">Station de Base (BTS)</strong> peuvent suivre plusieurs chemins pour atteindre l'unité mobile : 
+                                    <span style="color: #22C55E; font-weight: 600;">ligne directe (LOS)</span>, 
+                                    <span style="color: #3B82F6; font-weight: 600;">réflexion</span>, 
+                                    <span style="color: #F97316; font-weight: 600;">diffraction</span>, et 
+                                    <span style="color: #A855F7; font-weight: 600;">diffusion</span>.
+                                </p>
+                                <p>
+                                    Chaque trajet a un <strong style="color: #feda6a;">rôle pratique</strong> (améliorer la couverture et contourner les obstacles), 
+                                    un <strong style="color: #feda6a;">rôle mathématique</strong> (modélisation multi-trajets avec atténuations et déphasages), 
+                                    et un <strong style="color: #feda6a;">objectif</strong> : garantir la fiabilité et la qualité du signal dans tous les environnements.
+                                </p>
+                                <p>
+                                    Le <strong style="color: #feda6a;">modèle multi-trajets</strong> provoque des phénomènes comme les interférences constructives/destructives 
+                                    et les variations de puissance du signal (<strong>fading</strong>). Ces effets peuvent être analysés et corrigés avec des techniques avancées comme 
+                                    <strong style="color: #feda6a;">MIMO</strong> (Multiple Input Multiple Output), 
+                                    l'<strong style="color: #feda6a;">égalisation adaptative</strong>, et le 
+                                    <strong style="color: #feda6a;">codage canal</strong>.
+                                </p>
+                                <p>
+                                    <strong style="color: #feda6a;">Formule globale du signal reçu :</strong><br/>
+                                    r(t) = <span style="text-decoration: underline;">∑<sub>i=0</sub><sup>N-1</sup> a<sub>i</sub> e<sup>jθ<sub>i</sub></sup> s(t - τ<sub>i</sub>)</span> 
+                                    <em>(Trajets multiples (LOS + NLOS))</em> 
+                                    + <span style="text-decoration: underline;">n(t)</span> <em>(Bruit AWGN)</em>
+                                  </p>
+                                  
+                                  <p>
+                                    Où : i=0 représente le trajet direct (LOS), i ≥ 1 représentent les trajets indirects (réflexion, diffraction, diffusion), 
+                                    a<sub>i</sub> est l'amplitude atténuée, 
+                                    θ<sub>i</sub> = -2π f<sub>c</sub> τ<sub>i</sub> + φ<sub>i</sub> est le déphasage total, 
+                                    et n(t) est le bruit additif.
+                                  </p>
+                                  
+                                <p class="pt-2 border-t border-gray-600">
+                                    <strong style="color: #feda6a;">Applications pratiques :</strong> 
+                                    La compréhension de la propagation multi-trajets est essentielle pour la planification de réseaux cellulaires (4G/5G), 
+                                    l'optimisation de la couverture Wi-Fi, et le développement de systèmes de communication robustes dans les environnements urbains denses.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- JavaScript for Interactivity -->
+                        <script>
+                            (function() {
+                                const tooltip = document.getElementById('multipathTooltip');
+                                const tooltipContent = document.getElementById('tooltipContent');
+                                const interactiveElements = document.querySelectorAll('.interactive-element');
+                                
+                                const tooltipData = {
+                                    'bts': {
+                                        title: '🗼 Station de Base (BTS)',
+                                        content: `
+                                            <div style="line-height: 1.6;">
+                                                <p style="margin-bottom: 10px;"><strong style="color: #FF6B6B;">Fonction pratique :</strong><br/>
+                                                Émettre et recevoir des signaux radio vers les unités mobiles dans une cellule.</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #FF6B6B;">Fonction mathématique :</strong><br/>
+                                                Émet un signal modulé \\( s(t) = A_c \\cos(2\\pi f_c t + \\phi(t)) \\) avec une puissance d'émission \\( P_t \\) (en Watts).</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #FF6B6B;">Équation de puissance :</strong><br/>
+                                                \\( P_t = E_b \\cdot R_b \\) où \\( E_b \\) est l'énergie par bit et \\( R_b \\) le débit binaire.</p>
+                                                <p><strong style="color: #FF6B6B;">Objectif :</strong><br/>
+                                                Assurer la connectivité et la couverture réseau de toute la cellule.</p>
+                                            </div>
+                                        `
+                                    },
+                                    'mobile': {
+                                        title: '📱 Unité Mobile',
+                                        content: `
+                                            <div style="line-height: 1.6;">
+                                                <p style="margin-bottom: 10px;"><strong style="color: #22C55E;">Fonction pratique :</strong><br/>
+                                                Recevoir et transmettre les signaux pour communiquer avec la BTS.</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #22C55E;">Fonction mathématique :</strong><br/>
+                                                Reçoit \\( r(t) = \\sum_{i=0}^{N-1} a_i s(t-\\tau_i) e^{j\\theta_i} + n(t) \\)</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #22C55E;">Paramètres :</strong><br/>
+                                                • \\( a_i \\) = amplitude atténuée du trajet i<br/>
+                                                • \\( \\tau_i \\) = retard temporel du trajet i<br/>
+                                                • \\( \\theta_i \\) = déphasage dû au trajet<br/>
+                                                • \\( n(t) \\) = bruit AWGN (Additive White Gaussian Noise)</p>
+                                                <p><strong style="color: #22C55E;">Objectif :</strong><br/>
+                                                Permettre une communication mobile fiable et de qualité.</p>
+                                            </div>
+                                        `
+                                    },
+                                    'los': {
+                                        title: '📡 LOS – Ligne Directe (Line of Sight)',
+                                        content: `
+                                            <div style="line-height: 1.6;">
+                                                <p style="margin-bottom: 10px;"><strong style="color: #22C55E;">Fonction pratique :</strong><br/>
+                                                Transmission directe sans obstacle, produit le signal le plus fort et le plus stable.</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #22C55E;">Fonction mathématique :</strong><br/>
+                                                \\( r_{LOS}(t) = a_0 s(t-\\tau_0) e^{j\\theta_0} \\)</p>
+                                                <p style="margin-bottom: 10px;">où \\( a_0 \\) est l'amplitude du trajet direct, \\( \\tau_0 \\) le retard minimal, et \\( \\theta_0 \\) le déphasage.</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #22C55E;">Atténuation en espace libre :</strong><br/>
+                                                \\( L_{fs}(dB) = 20\\log_{10}(d) + 20\\log_{10}(f) + 32.45 \\)<br/>
+                                                avec \\( d \\) en km et \\( f \\) en MHz.</p>
+                                                <p><strong style="color: #22C55E;">Objectif :</strong><br/>
+                                                Assurer un signal stable et de forte puissance pour une communication optimale.</p>
+                                            </div>
+                                        `
+                                    },
+                                    'reflection': {
+                                        title: '🏢 Réflexion',
+                                        content: `
+                                            <div style="line-height: 1.6;">
+                                                <p style="margin-bottom: 10px;"><strong style="color: #3B82F6;">Fonction pratique :</strong><br/>
+                                                Le signal rebondit sur des obstacles solides comme les bâtiments, murs, ou surfaces métalliques.</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #3B82F6;">Fonction mathématique :</strong><br/>
+                                                \\( r_{ref}(t) = \\Gamma \\cdot a_1 s(t-\\tau_1) e^{j\\theta_1} \\)</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #3B82F6;">Coefficient de réflexion (Fresnel) :</strong><br/>
+                                                \\( \\Gamma = \\frac{Z_2 \\cos\\theta_i - Z_1 \\cos\\theta_t}{Z_2 \\cos\\theta_i + Z_1 \\cos\\theta_t} \\)<br/>
+                                                où \\( Z_1, Z_2 \\) sont les impédances caractéristiques, \\( \\theta_i \\) l'angle d'incidence, \\( \\theta_t \\) l'angle de transmission.</p>
+                                                <p style="margin-bottom: 10px;">L'atténuation dépend de l'angle d'incidence et des propriétés du matériau réfléchissant (béton, métal, verre).</p>
+                                                <p><strong style="color: #3B82F6;">Objectif :</strong><br/>
+                                                Permettre la couverture derrière les obstacles et améliorer la portée du signal.</p>
+                                            </div>
+                                        `
+                                    },
+                                    'diffraction': {
+                                        title: '🌊 Diffraction',
+                                        content: `
+                                            <div style="line-height: 1.6;">
+                                                <p style="margin-bottom: 10px;"><strong style="color: #F97316;">Fonction pratique :</strong><br/>
+                                                Le signal contourne les objets bloquants en se courbant autour de leurs bords.</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #F97316;">Fonction mathématique :</strong><br/>
+                                                \\( r_{diff}(t) = D(v) \\cdot a_k s(t-\\tau_k) e^{j\\theta_k} \\)<br/>
+                                                où \\( D(v) \\) est le coefficient de diffraction (loi de Fresnel-Kirchhoff).</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #F97316;">Paramètre de Fresnel-Kirchhoff :</strong><br/>
+                                                \\( v = h\\sqrt{\\frac{2(d_1+d_2)}{\\lambda d_1 d_2}} \\)<br/>
+                                                où \\( h \\) = hauteur de l'obstacle au-dessus de la ligne de vue, \\( d_1, d_2 \\) = distances TX-obstacle et obstacle-RX, \\( \\lambda \\) = longueur d'onde.</p>
+                                                <p style="margin-bottom: 10px;">La perte par diffraction peut atteindre 6 à 20 dB selon la géométrie et la position de l'obstacle.</p>
+                                                <p><strong style="color: #F97316;">Objectif :</strong><br/>
+                                                Maintenir la communication même en présence d'obstacles majeurs sur le trajet direct.</p>
+                                            </div>
+                                        `
+                                    },
+                                    'scattering': {
+                                        title: '✨ Diffusion (Scattering)',
+                                        content: `
+                                            <div style="line-height: 1.6;">
+                                                <p style="margin-bottom: 10px;"><strong style="color: #A855F7;">Fonction pratique :</strong><br/>
+                                                Le signal se disperse sur des surfaces irrégulières ou des objets de petite taille (végétation, mobilier urbain, véhicules).</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #A855F7;">Fonction mathématique :</strong><br/>
+                                                \\( r_{scat}(t) = \\sum_{m=1}^{M} S_m \\cdot a_m s(t-\\tau_m) e^{j\\theta_m} \\)<br/>
+                                                où \\( S_m \\) est le coefficient de diffusion du diffuseur m, \\( M \\) le nombre de diffuseurs.</p>
+                                                <p style="margin-bottom: 10px;">Chaque rayon dispersé a une amplitude faible mais leur somme contribue au signal total reçu.</p>
+                                                <p style="margin-bottom: 10px;"><strong style="color: #A855F7;">Modèle de diffusion :</strong><br/>
+                                                Dépend de la rugosité de surface \\( \\sigma_h \\), de la taille des objets par rapport à \\( \\lambda \\), et de la distribution spatiale des diffuseurs.</p>
+                                                <p><strong style="color: #A855F7;">Objectif :</strong><br/>
+                                                Réduire les zones d'ombre et améliorer la couverture globale du réseau dans les environnements complexes.</p>
+                                            </div>
+                                        `
+                                    }
+                                };
+                                
+                                function showTooltip(e, type) {
+                                    const data = tooltipData[type];
+                                    if (!data) return;
+                                    
+                                    tooltipContent.innerHTML = `
+                                        <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 12px; color: #feda6a; border-bottom: 2px solid #feda6a; padding-bottom: 8px;">
+                                            ${data.title}
+                                        </h3>
+                                        ${data.content}
+                                    `;
+                                    
+                                    tooltip.style.display = 'block';
+                                    
+                                    // Re-render MathJax for the tooltip
+                                    if (window.MathJax && window.MathJax.typesetPromise) {
+                                        window.MathJax.typesetPromise([tooltip]).catch((err) => console.log('MathJax error:', err));
+                                    }
+                                    
+                                    positionTooltip(e);
+                                }
+                                
+                                function hideTooltip() {
+                                    tooltip.style.display = 'none';
+                                }
+                                
+                                function positionTooltip(e) {
+                                    const tooltipWidth = 500;
+                                    const tooltipHeight = tooltip.offsetHeight || 300;
+                                    const padding = 20;
+                                    
+                                    let left = e.clientX + padding;
+                                    let top = e.clientY + padding;
+                                    
+                                    // Adjust if tooltip goes off screen
+                                    if (left + tooltipWidth > window.innerWidth) {
+                                        left = e.clientX - tooltipWidth - padding;
+                                    }
+                                    
+                                    if (top + tooltipHeight > window.innerHeight) {
+                                        top = e.clientY - tooltipHeight - padding;
+                                    }
+                                    
+                                    // Ensure tooltip doesn't go off top or left
+                                    left = Math.max(padding, left);
+                                    top = Math.max(padding, top);
+                                    
+                                    tooltip.style.left = left + 'px';
+                                    tooltip.style.top = top + 'px';
+                                }
+                                
+                                // Add event listeners
+                                interactiveElements.forEach(element => {
+                                    const type = element.getAttribute('data-type');
+                                    
+                                    // Mouse events for desktop
+                                    element.addEventListener('mouseenter', (e) => {
+                                        element.style.opacity = '1';
+                                        element.style.filter = 'drop-shadow(0 0 8px currentColor)';
+                                        showTooltip(e, type);
+                                    });
+                                    
+                                    element.addEventListener('mousemove', (e) => {
+                                        positionTooltip(e);
+                                    });
+                                    
+                                    element.addEventListener('mouseleave', () => {
+                                        element.style.opacity = '';
+                                        element.style.filter = '';
+                                        hideTooltip();
+                                    });
+                                    
+                                    // Touch events for mobile
+                                    element.addEventListener('touchstart', (e) => {
+                                        e.preventDefault();
+                                        element.style.opacity = '1';
+                                        element.style.filter = 'drop-shadow(0 0 8px currentColor)';
+                                        const touch = e.touches[0];
+                                        showTooltip({clientX: touch.clientX, clientY: touch.clientY}, type);
+                                    });
+                                    
+                                    element.addEventListener('touchend', () => {
+                                        element.style.opacity = '';
+                                        element.style.filter = '';
+                                        setTimeout(hideTooltip, 2000); // Auto-hide after 2 seconds on mobile
+                                    });
+                                });
+                                
+                                // Hide tooltip when scrolling
+                                window.addEventListener('scroll', hideTooltip);
+                                
+                                // Adjust SVG viewBox on window resize for better responsiveness
+                                window.addEventListener('resize', () => {
+                                    hideTooltip();
+                                });
+                            })();
+                        </script>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #feda6a;">
+                                <i class="fas fa-check-circle mr-2"></i> Avantages
+                            </h4>
+                            <ul class="text-sm space-y-2 opacity-90">
+                                <li class="flex items-start"><span class="mr-2">•</span> Gratuit et accessible</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> Idéal pour usage domestique</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #ff6b6b;">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Inconvénients
+                            </h4>
+                            <ul class="text-sm space-y-2 opacity-90">
+                                <li class="flex items-start"><span class="mr-2">•</span> Risque de saturation</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> Interférences (micro-ondes, etc.)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Mode Infrastructure -->
+        <section id="section2" class="mb-16 animate-fadeInUp">
+            <div class="glass-card rounded-2xl p-8 hover-lift">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: #feda6a;">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style="background: rgba(254, 218, 106, 0.15);">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <span>2. Architecture : Mode Infrastructure</span>
+                </h2>
+                
+                <div class="section-content">
+                    <div class="mb-6 p-5 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-xl font-semibold mb-3" style="color: #feda6a;">Principe de base</h3>
+                        <p class="mb-4 opacity-90">Tous les appareils passent par un <strong style="color: #feda6a;">Point d'Accès (AP)</strong> qui connecte les stations au réseau filaire/Internet.</p>
+                        <p class="text-sm p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.1); border: 1px solid rgba(254, 218, 106, 0.2);">
+                            <i class="fas fa-info-circle mr-2" style="color: #feda6a;"></i>
+                            Pas de communication directe entre appareils
+                        </p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Éléments du réseau</h3>
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-lg flex items-start" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-router mr-3 mt-1" style="color: #feda6a;"></i>
+                                <div><strong style="color: #feda6a;">Point d'Accès (AP)</strong>: Routeur Wi-Fi, centre de la "cellule"</div>
+                    </div>
+                            <div class="p-4 rounded-lg flex items-start" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-laptop mr-3 mt-1" style="color: #feda6a;"></i>
+                                <div><strong style="color: #feda6a;">Stations (STA)</strong>: Ordinateurs, smartphones connectés</div>
+                            </div>
+                            <div class="p-4 rounded-lg flex items-start" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-ethernet mr-3 mt-1" style="color: #feda6a;"></i>
+                                <div><strong style="color: #feda6a;">Réseau LAN filaire</strong>: Connecte plusieurs AP</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="p-5 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                            <h3 class="text-xl font-semibold mb-3" style="color: #feda6a;">BSS (Basic Service Set)</h3>
+                            <p class="opacity-90">Une zone Wi-Fi = 1 AP + toutes ses stations connectées. <strong style="color: #feda6a;">BSSID</strong> = Identifiant unique (MAC de l'AP).</p>
+                        </div>
+                        <div class="p-5 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                            <h3 class="text-xl font-semibold mb-3" style="color: #feda6a;">ESS (Extended Service Set)</h3>
+                            <p class="opacity-90">Plusieurs BSS interconnectés via Ethernet. Permet le <strong style="color: #feda6a;">roaming</strong> fluide.</p>
+                    </div>
+                    </div>
+
+                    <div class="p-6 rounded-xl mb-6" style="background: rgba(29, 30, 34, 0.6); border: 1px solid rgba(254, 218, 106, 0.2);">
+                        <pre class="text-sm opacity-90" style="font-family: 'Courier New', monospace;"><code>Internet → Routeur → [AP1] [AP2] [AP3]
+                          ↓        ↓     ↓     ↓
+                       STA     STA   STA</code></pre>
+                        <p class="text-xs mt-4 p-2 rounded" style="background: rgba(254, 218, 106, 0.1); color: #feda6a;">
+                            Chaque [AP + STA] = 1 BSS | Tous les AP = 1 ESS
+                        </p>
+                    </div>
+
+                    <!-- Illustration 1: BSS (Basic Service Set) -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #51cf66;">
+                            <i class="fas fa-circle-notch mr-3"></i>
+                            Illustration : BSS (Basic Service Set)
+                        </h3>
+                        
+                        <!-- Plotly Chart -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="bssNetworkChart" style="width: 100%; height: 500px;"></div>
+                        </div>
+                        
+                        <!-- Explication -->
+                        <div class="p-5 rounded-xl" style="background: rgba(81, 207, 102, 0.1); border-left: 4px solid #51cf66;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #51cf66;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                BSS (Basic Service Set)
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed">
+                                Un <strong style="color: #51cf66;">BSS</strong> (Basic Service Set) est la plus petite unité d'un réseau Wi-Fi. 
+                                Il est constitué d'un point d'accès (AP) central et des stations (STAs) qui s'y connectent directement. 
+                                Toutes les communications passent obligatoirement par le point d'accès, formant ainsi une cellule unique et cohérente.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 2: ESS (Extended Service Set) -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #4dabf7;">
+                            <i class="fas fa-project-diagram mr-3"></i>
+                            Illustration : ESS (Extended Service Set)
+                        </h3>
+                        
+                        <!-- Plotly Chart -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="essNetworkChart" style="width: 100%; height: 550px;"></div>
+                        </div>
+                        
+                        <!-- Explication -->
+                        <div class="p-5 rounded-xl" style="background: rgba(77, 171, 247, 0.1); border-left: 4px solid #4dabf7;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #4dabf7;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                ESS (Extended Service Set)
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed">
+                                Un <strong style="color: #4dabf7;">ESS</strong> (Extended Service Set) est un réseau Wi-Fi étendu constitué de plusieurs BSS connectés 
+                                ensemble via un backbone (réseau de distribution). Il permet aux utilisateurs de se déplacer d'un BSS à un autre 
+                                tout en restant connectés au réseau (roaming), garantissant une couverture continue sur une large zone.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #feda6a;">
+                                <i class="fas fa-check-circle mr-2"></i> Avantages
+                            </h4>
+                            <ul class="text-sm space-y-2 opacity-90">
+                                <li class="flex items-start"><span class="mr-2">•</span> Couverture étendue</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> Sécurité centralisée</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> Roaming fluide</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #ff6b6b;">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Inconvénients
+                            </h4>
+                            <ul class="text-sm space-y-2 opacity-90">
+                                <li class="flex items-start"><span class="mr-2">•</span> Dépendance aux AP</li>
+                                <li class="flex items-start"><span class="mr-2">•</span> Coût d'installation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Mode Ad-Hoc -->
+        <section id="section3" class="mb-16 animate-fadeInUp">
+            <div class="glass-card rounded-2xl p-8 hover-lift">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: #feda6a;">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style="background: rgba(254, 218, 106, 0.15);">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <span>3. Architecture : Mode Ad-Hoc</span>
+                </h2>
+                
+                <div class="section-content">
+                    <div class="mb-6 p-5 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-xl font-semibold mb-3" style="color: #feda6a;">Principe</h3>
+                        <p class="opacity-90">Réseau <strong style="color: #feda6a;">pair-à-pair (P2P)</strong> sans infrastructure centrale. Communication directe entre appareils.</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Fonctionnement</h3>
+                        <ol class="space-y-3 ml-4">
+                            <li class="p-4 rounded-lg flex items-start" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="font-bold mr-3" style="color: #feda6a;">1.</span>
+                                <span class="opacity-90">Détection des autres stations via balayage Wi-Fi</span>
+                            </li>
+                            <li class="p-4 rounded-lg flex items-start" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="font-bold mr-3" style="color: #feda6a;">2.</span>
+                                <span class="opacity-90">Établissement de connexions directes</span>
+                            </li>
+                            <li class="p-4 rounded-lg flex items-start" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="font-bold mr-3" style="color: #feda6a;">3.</span>
+                                <span class="opacity-90">Transmission station ↔ station sans intermédiaire</span>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Exemples concrets</h3>
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-lg flex items-center" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-file-export mr-3" style="color: #feda6a;"></i>
+                                <span class="opacity-90">Partage de fichiers entre ordinateurs</span>
+                            </div>
+                            <div class="p-4 rounded-lg flex items-center" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-gamepad mr-3" style="color: #feda6a;"></i>
+                                <span class="opacity-90">LAN party pour jeux multijoueurs</span>
+                            </div>
+                            <div class="p-4 rounded-lg flex items-center" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-exclamation-circle mr-3" style="color: #feda6a;"></i>
+                                <span class="opacity-90">Communication d'urgence</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll scrollbar-custom mb-6">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Caractéristiques</h3>
+                        <table class="w-full table-modern rounded-xl overflow-hidden">
+                            <thead style="background: linear-gradient(135deg, rgba(254, 218, 106, 0.2) 0%, rgba(254, 218, 106, 0.1) 100%);">
+                                <tr>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">Aspect</th>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">Détail</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                    <td class="px-6 py-4 font-medium" style="color: #feda6a;">Portée</td>
+                                    <td class="px-6 py-4 opacity-90">Très limitée</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                    <td class="px-6 py-4 font-medium" style="color: #feda6a;">Sécurité</td>
+                                    <td class="px-6 py-4 opacity-90">Faible</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium" style="color: #feda6a;">Internet</td>
+                                    <td class="px-6 py-4 opacity-90">Impossible sans appareil connecté</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-scroll scrollbar-custom mb-6">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Comparaison: Ad-Hoc vs Infrastructure</h3>
+                        <table class="w-full table-modern rounded-xl overflow-hidden">
+                            <thead style="background: linear-gradient(135deg, rgba(254, 218, 106, 0.2) 0%, rgba(254, 218, 106, 0.1) 100%);">
+                                <tr>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">Critère</th>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">Ad-Hoc</th>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">Infrastructure</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                    <td class="px-6 py-4 font-medium opacity-90">AP</td>
+                                    <td class="px-6 py-4" style="color: #ff6b6b;"><i class="fas fa-times-circle mr-2"></i>Absent</td>
+                                    <td class="px-6 py-4" style="color: #51cf66;"><i class="fas fa-check-circle mr-2"></i>Présent</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                    <td class="px-6 py-4 font-medium opacity-90">Communication</td>
+                                    <td class="px-6 py-4 opacity-90">Directe P2P</td>
+                                    <td class="px-6 py-4 opacity-90">Via AP</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium opacity-90">Portée</td>
+                                    <td class="px-6 py-4 opacity-90">Courte</td>
+                                    <td class="px-6 py-4 opacity-90">Étendue</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Handover -->
+        <section id="section4" class="mb-16 animate-fadeInUp">
+            <div class="glass-card rounded-2xl p-8 hover-lift">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: #feda6a;">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style="background: rgba(254, 218, 106, 0.15);">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <span>4. Handover et Gestion de Mobilité</span>
+                </h2>
+                
+                <div class="section-content">
+                    <div class="mb-6 p-5 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-xl font-semibold mb-3" style="color: #feda6a;">Mobilité</h3>
+                        <p class="opacity-90">Déplacement physique tout en restant connecté. Ex: Marcher dans un bâtiment avec Wi-Fi continu.</p>
+                    </div>
+
+                    <div class="mb-6">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Types de Handover</h3>
+                        <div class="space-y-3">
+                            <div class="p-4 rounded-lg flex items-start" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="badge mr-3">1</span>
+                                <div><strong style="color: #feda6a;">Intra-cellulaire</strong>: <span class="opacity-90">Dans la même cellule</span></div>
+                            </div>
+                            <div class="p-4 rounded-lg flex items-start" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="badge mr-3">2</span>
+                                <div><strong style="color: #feda6a;">Inter-cellulaire</strong>: <span class="opacity-90">Entre 2 AP du même réseau</span></div>
+                            </div>
+                            <div class="p-4 rounded-lg flex items-start" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="badge mr-3">3</span>
+                                <div><strong style="color: #feda6a;">Inter-système</strong>: <span class="opacity-90">Wi-Fi → 4G/5G</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 p-5 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Étapes du Handover</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="font-bold mr-3" style="color: #feda6a;">1.</span>
+                                <strong style="color: #feda6a;" class="mr-2">Détection</strong>
+                                <span class="opacity-90">Signal AP actuel faible</span>
+                            </div>
+                            <div class="flex items-center p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="font-bold mr-3" style="color: #feda6a;">2.</span>
+                                <strong style="color: #feda6a;" class="mr-2">Scan</strong>
+                                <span class="opacity-90">Recherche autres AP</span>
+                            </div>
+                            <div class="flex items-center p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="font-bold mr-3" style="color: #feda6a;">3.</span>
+                                <strong style="color: #feda6a;" class="mr-2">Authentification</strong>
+                                <span class="opacity-90">Connexion nouvel AP</span>
+                            </div>
+                            <div class="flex items-center p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="font-bold mr-3" style="color: #feda6a;">4.</span>
+                                <strong style="color: #feda6a;" class="mr-2">Association</strong>
+                                <span class="opacity-90">Transfert session</span>
+                            </div>
+                            <div class="flex items-center p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <span class="font-bold mr-3" style="color: #feda6a;">5.</span>
+                                <strong style="color: #feda6a;" class="mr-2">Mise à jour</strong>
+                                <span class="opacity-90">IP, routage</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #feda6a;">
+                                <i class="fas fa-cog mr-2"></i> Gestion de Mobilité
+                            </h4>
+                            <ul class="text-sm space-y-2 opacity-90">
+                                <li class="flex items-start"><i class="fas fa-circle mr-2 mt-1" style="font-size: 6px; color: #feda6a;"></i> Suivi des appareils</li>
+                                <li class="flex items-start"><i class="fas fa-circle mr-2 mt-1" style="font-size: 6px; color: #feda6a;"></i> Pré-maintenance</li>
+                                <li class="flex items-start"><i class="fas fa-circle mr-2 mt-1" style="font-size: 6px; color: #feda6a;"></i> Sécurité authentification</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #ff6b6b;">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Défis
+                            </h4>
+                            <ul class="text-sm space-y-2 opacity-90">
+                                <li class="flex items-start"><i class="fas fa-circle mr-2 mt-1" style="font-size: 6px; color: #ff6b6b;"></i> Délai: 50-200 ms</li>
+                                <li class="flex items-start"><i class="fas fa-circle mr-2 mt-1" style="font-size: 6px; color: #ff6b6b;"></i> Perte de paquets</li>
+                                <li class="flex items-start"><i class="fas fa-circle mr-2 mt-1" style="font-size: 6px; color: #ff6b6b;"></i> Risque interception</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: MIMO, Massive MIMO, D2D -->
+        <section id="section5" class="mb-16 animate-fadeInUp">
+            <div class="glass-card rounded-2xl p-8 hover-lift w-full">
+
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: #feda6a;">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style="background: rgba(254, 218, 106, 0.15);">
+                        <i class="fas fa-broadcast-tower"></i>
+                    </div>
+                    <span>5. Techniques : MIMO, Massive MIMO, D2D</span>
+                </h2>
+                
+                <div class="section-content">
+                    <div class="mb-6 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center mr-3" style="background: rgba(254, 218, 106, 0.15);">
+                                <i class="fas fa-wave-square" style="color: #feda6a;"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold" style="color: #feda6a;">MIMO (Multiple Input Multiple Output)</h3>
+                        </div>
+                        <p class="mb-4 opacity-90">Plusieurs antennes émission + réception simultanées.</p>
+                        <div class="space-y-3">
+                            <div class="p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <strong style="color: #feda6a;">Spatial multiplexing</strong>: <span class="opacity-90">Plusieurs flux parallèles</span>
+                            </div>
+                            <div class="p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <strong style="color: #feda6a;">Diversity</strong>: <span class="opacity-90">Robustesse contre fading</span>
+                            </div>
+                            <div class="p-3 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <strong style="color: #feda6a;">Exemple</strong>: <span class="opacity-90">2x2 MIMO = double débit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center mr-3" style="background: rgba(254, 218, 106, 0.15);">
+                                <i class="fas fa-signal" style="color: #feda6a;"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold" style="color: #feda6a;">Massive MIMO <span class="badge ml-2">5G</span></h3>
+                        </div>
+                        <p class="mb-4 opacity-90">Dizaines à centaines d'antennes à la station de base.</p>
+                        <div class="grid md:grid-cols-3 gap-3">
+                            <div class="p-4 rounded-lg text-center" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-bullseye mb-2 text-2xl" style="color: #feda6a;"></i>
+                                <p class="text-sm"><strong style="color: #feda6a;">Beamforming</strong></p>
+                                <p class="text-xs opacity-80 mt-1">Faisceaux dirigés</p>
+                            </div>
+                            <div class="p-4 rounded-lg text-center" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-arrow-up mb-2 text-2xl" style="color: #feda6a;"></i>
+                                <p class="text-sm"><strong style="color: #feda6a;">+ Capacité</strong></p>
+                                <p class="text-xs opacity-80 mt-1">Réseau</p>
+                            </div>
+                            <div class="p-4 rounded-lg text-center" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-chart-line mb-2 text-2xl" style="color: #feda6a;"></i>
+                                <p class="text-sm"><strong style="color: #feda6a;">+ Efficacité</strong></p>
+                                <p class="text-xs opacity-80 mt-1">Spectrale</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center mr-3" style="background: rgba(254, 218, 106, 0.15);">
+                                <i class="fas fa-mobile-alt" style="color: #feda6a;"></i>
+                    </div>
+                            <h3 class="text-xl font-semibold" style="color: #feda6a;">D2D (Device-to-Device)</h3>
+                        </div>
+                        <p class="mb-4 opacity-90">Communication directe entre appareils proches, supervisée par le réseau.</p>
+                        <div class="grid md:grid-cols-3 gap-3">
+                            <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-users mr-2" style="color: #feda6a;"></i>
+                                <span class="text-sm opacity-90">Proximity services</span>
+                            </div>
+                            <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-first-aid mr-2" style="color: #feda6a;"></i>
+                                <span class="text-sm opacity-90">Réseaux ad-hoc d'urgence</span>
+                            </div>
+                            <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <i class="fas fa-route mr-2" style="color: #feda6a;"></i>
+                                <span class="text-sm opacity-90">Relais pour couverture</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 1: MIMO -->
+                    <div class="mt-8 mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #51cf66;">
+                            <i class="fas fa-signal mr-3"></i>
+                            Illustration : MIMO (Multiple Input Multiple Output)
+                        </h3>
+                        
+                        <!-- Plotly Chart -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="mimoChart" style="width: 100%; height: 500px;"></div>
+                        </div>
+                        
+                        <!-- Explication -->
+                        <div class="p-5 rounded-xl" style="background: rgba(81, 207, 102, 0.1); border-left: 4px solid #51cf66;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #51cf66;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                MIMO (Multiple Input Multiple Output)
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed">
+                                <strong style="color: #51cf66;">MIMO</strong> permet à un point d'accès et aux stations d'utiliser plusieurs antennes 
+                                pour envoyer et recevoir des données simultanément, augmentant le débit et la fiabilité. 
+                                Les flux de données multiples exploitent le multiplexage spatial pour optimiser l'utilisation du spectre.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 2: Massive MIMO -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #4dabf7;">
+                            <i class="fas fa-broadcast-tower mr-3"></i>
+                            Illustration : Massive MIMO
+                        </h3>
+                        
+                        <!-- Plotly Chart -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="massiveMimoChart" style="width: 100%; height: 550px;"></div>
+                        </div>
+                        
+                        <!-- Explication -->
+                        <div class="p-5 rounded-xl" style="background: rgba(77, 171, 247, 0.1); border-left: 4px solid #4dabf7;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #4dabf7;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Massive MIMO
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed">
+                                <strong style="color: #4dabf7;">Massive MIMO</strong> est une version évoluée du MIMO avec un très grand nombre d'antennes 
+                                au niveau de l'AP (station de base), permettant de servir plusieurs utilisateurs simultanément avec un meilleur débit 
+                                et une meilleure efficacité spectrale. Cette technologie est au cœur de la 5G.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 3: D2D -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #ff6b6b;">
+                            <i class="fas fa-exchange-alt mr-3"></i>
+                            Illustration : D2D (Device-to-Device)
+                        </h3>
+                        
+                        <!-- Plotly Chart -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="d2dChart" style="width: 100%; height: 500px;"></div>
+                        </div>
+                        
+                        <!-- Explication -->
+                        <div class="p-5 rounded-xl" style="background: rgba(255, 107, 107, 0.1); border-left: 4px solid #ff6b6b;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #ff6b6b;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                D2D (Device-to-Device)
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed">
+                                Le <strong style="color: #ff6b6b;">D2D</strong> (Device-to-Device) permet à des appareils de communiquer directement entre eux 
+                                sans passer par l'infrastructure du réseau, réduisant la latence et la charge du réseau. 
+                                Cette technologie est particulièrement utile pour les services de proximité et les situations d'urgence.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 6: OFDM & CDMA -->
+        <section id="section6" class="mb-16 animate-fadeInUp">
+            <div class="glass-card rounded-2xl p-8 hover-lift">
+                <h2 class="text-3xl font-bold mb-6 flex items-center" style="color: #feda6a;">
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center mr-4" style="background: rgba(254, 218, 106, 0.15);">
+                        <i class="fas fa-wave-square"></i>
+                    </div>
+                    <span>6. Techniques d'Accès : OFDM & CDMA</span>
+                </h2>
+                
+                <div class="section-content">
+                    <div class="mb-6 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center mr-3" style="background: rgba(254, 218, 106, 0.15);">
+                                <i class="fas fa-code" style="color: #feda6a;"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold" style="color: #feda6a;">CDMA (Code Division Multiple Access)</h3>
+                        </div>
+                        <p class="mb-4 opacity-90">Tous utilisateurs sur même fréquence/temps, séparation par codes orthogonaux.</p>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <p class="text-sm mb-2" style="color: #feda6a;"><strong>Utilisation</strong></p>
+                                <p class="text-xs opacity-80">3G (UMTS), GPS</p>
+                            </div>
+                            <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <p class="text-sm mb-2" style="color: #51cf66;"><strong>✓ Avantages</strong></p>
+                                <p class="text-xs opacity-80">+ utilisateurs, anti-brouillage</p>
+                            </div>
+                            <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <p class="text-sm mb-2" style="color: #ff6b6b;"><strong>✗ Inconvénients</strong></p>
+                                <p class="text-xs opacity-80">Complexe, "near-far problem"</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-6 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <div class="flex items-center mb-4">
+                            <div class="w-10 h-10 rounded-lg flex items-center justify-center mr-3" style="background: rgba(254, 218, 106, 0.15);">
+                                <i class="fas fa-podcast" style="color: #feda6a;"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold" style="color: #feda6a;">OFDM (Orthogonal Frequency Division Multiplexing)</h3>
+                        </div>
+                        <p class="mb-4 opacity-90">Division canal en sous-porteuses orthogonales.</p>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <p class="text-sm mb-2" style="color: #feda6a;"><strong>Utilisation</strong></p>
+                                <p class="text-xs opacity-80">Wi-Fi, 4G LTE, 5G</p>
+                            </div>
+                            <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <p class="text-sm mb-2" style="color: #51cf66;"><strong>✓ Avantages</strong></p>
+                                <p class="text-xs opacity-80">Haut débit, robustesse fading</p>
+                            </div>
+                            <div class="p-4 rounded-lg" style="background: rgba(254, 218, 106, 0.05);">
+                                <p class="text-sm mb-2" style="color: #ff6b6b;"><strong>✗ Inconvénients</strong></p>
+                                <p class="text-xs opacity-80">PAPR élevé, sensible Doppler</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-scroll scrollbar-custom mb-6">
+                        <h3 class="text-xl font-semibold mb-4" style="color: #feda6a;">Comparaison: CDMA vs OFDM</h3>
+                        <table class="w-full table-modern rounded-xl overflow-hidden">
+                            <thead style="background: linear-gradient(135deg, rgba(254, 218, 106, 0.2) 0%, rgba(254, 218, 106, 0.1) 100%);">
+                                <tr>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">Aspect</th>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">CDMA</th>
+                                    <th class="px-6 py-4 text-left font-semibold" style="color: #feda6a;">OFDM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                    <td class="px-6 py-4 font-medium opacity-90">Multiplexage</td>
+                                    <td class="px-6 py-4 opacity-90">Codes</td>
+                                    <td class="px-6 py-4 opacity-90">Sous-fréquences</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid rgba(212, 212, 220, 0.1);">
+                                    <td class="px-6 py-4 font-medium opacity-90">Sensibilité multipath</td>
+                                    <td class="px-6 py-4 opacity-90">Moyenne</td>
+                                    <td class="px-6 py-4 opacity-90">Excellente</td>
+                                </tr>
+                                <tr>
+                                    <td class="px-6 py-4 font-medium opacity-90">Complexité Rx</td>
+                                    <td class="px-6 py-4 opacity-90">Élevée</td>
+                                    <td class="px-6 py-4 opacity-90">Modérée</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Illustration 3D CDMA avec cuboïdes -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #ff6b6b;">
+                            <i class="fas fa-cubes mr-3"></i>
+                            Illustration 3D : CDMA (Code Division Multiple Access)
+                        </h3>
+                        
+                        <!-- Plotly 3D avec cuboïdes CDMA -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="cdmaCuboidChart" style="width: 100%; height: 600px;"></div>
+                        </div>
+                        
+                        <!-- Explication CDMA -->
+                        <div class="p-5 rounded-xl" style="background: rgba(255, 107, 107, 0.1); border-left: 4px solid #ff6b6b;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #ff6b6b;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Explication de la visualisation CDMA
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed">
+                                <strong style="color: #ff6b6b;">CDMA :</strong> chaque utilisateur transmet en même temps sur la <strong>même bande de fréquences</strong>, 
+                                mais avec un <strong style="color: #feda6a;">code unique</strong> (axe Z). 
+                                Les cuboïdes <strong>superposés</strong> montrent la coexistence de plusieurs signaux dans le même espace fréquentiel, 
+                                séparés uniquement par leurs codes orthogonaux. Cette approche permet à plusieurs utilisateurs de partager 
+                                simultanément le spectre sans interférence destructive.
+                            </p>
+                            <div class="mt-3 p-3 rounded-lg text-center" style="background: rgba(254, 218, 106, 0.15);">
+                                <p class="text-xs font-semibold" style="color: #393f4d;">
+                                    <i class="fas fa-hand-pointer mr-1" style="color: #feda6a;"></i>
+                                    Faites pivoter la visualisation pour mieux voir les blocs superposés !
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 3D OFDM avec cuboïdes -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #4dabf7;">
+                            <i class="fas fa-cubes mr-3"></i>
+                            Illustration 3D : OFDM (Orthogonal Frequency Division Multiplexing)
+                        </h3>
+                        
+                        <!-- Plotly 3D avec cuboïdes OFDM -->
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="ofdmCuboidChart" style="width: 100%; height: 600px;"></div>
+                        </div>
+                        
+                        <!-- Explication OFDM -->
+                        <div class="p-5 rounded-xl" style="background: rgba(77, 171, 247, 0.1); border-left: 4px solid #4dabf7;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #4dabf7;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Explication de la visualisation OFDM
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed">
+                                <strong style="color: #4dabf7;">OFDM :</strong> la bande de fréquences est <strong>divisée en sous-porteuses distinctes</strong> (axe Y), 
+                                chaque sous-porteuse transmettant en parallèle à différents instants (axe X). 
+                                Les cuboïdes <strong style="color: #feda6a;">alignés et bien séparés</strong> représentent la structure ordonnée et efficace 
+                                du multiplexage fréquentiel d'OFDM. Cette organisation permet d'éviter les interférences et d'optimiser 
+                                l'utilisation du spectre pour des débits élevés.
+                            </p>
+                            <div class="mt-3 p-3 rounded-lg text-center" style="background: rgba(254, 218, 106, 0.15);">
+                                <p class="text-xs font-semibold" style="color: #393f4d;">
+                                    <i class="fas fa-hand-pointer mr-1" style="color: #feda6a;"></i>
+                                    Faites pivoter la visualisation pour observer l'alignement parfait des sous-porteuses !
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="p-6 rounded-xl" style="background: linear-gradient(135deg, rgba(254, 218, 106, 0.15) 0%, rgba(254, 218, 106, 0.05) 100%); border: 2px solid rgba(254, 218, 106, 0.3);">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-lightbulb text-2xl mr-3" style="color: #feda6a;"></i>
+                            <p class="font-bold text-lg" style="color: #feda6a;">Concept clé</p>
+                        </div>
+                        <p class="opacity-90">Ces technologies optimisent l'utilisation du spectre radio pour supporter plus d'utilisateurs avec des débits élevés.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling and active nav highlighting
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    
+                    // Update active nav link
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Close mobile menu
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Highlight active section in nav
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            const scrollPos = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Add intersection observer for section content reveal
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelector('.section-content').classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Table responsiveness
+        document.querySelectorAll('.table-scroll table').forEach(table => {
+            table.addEventListener('touchstart', () => {
+                table.style.overflowX = 'auto';
+            }, { passive: true });
+        });
+
+        // ============================================================
+        // Fonction helper pour créer un cuboïde 3D (mesh3d)
+        // ============================================================
+        function createCuboid(xCenter, yCenter, zCenter, width, height, depth, color, name) {
+            // Définir les 8 sommets du cuboïde
+            const x0 = xCenter - width/2, x1 = xCenter + width/2;
+            const y0 = yCenter - height/2, y1 = yCenter + height/2;
+            const z0 = zCenter - depth/2, z1 = zCenter + depth/2;
+            
+            return {
+                type: 'mesh3d',
+                x: [x0, x0, x1, x1, x0, x0, x1, x1],
+                y: [y0, y1, y1, y0, y0, y1, y1, y0],
+                z: [z0, z0, z0, z0, z1, z1, z1, z1],
+                i: [7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2],
+                j: [3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3],
+                k: [0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6],
+                color: color,
+                opacity: 0.85,
+                name: name,
+                hovertemplate: 
+                    '<b>' + name + '</b><br>' +
+                    'Position X: ' + xCenter.toFixed(1) + '<br>' +
+                    'Fréquence Y: ' + yCenter.toFixed(2) + ' GHz<br>' +
+                    'Code Z: ' + zCenter.toFixed(1) + '<br>' +
+                    '<extra></extra>',
+                showlegend: true
+            };
+        }
+
+        // ============================================================
+        // Illustration 3D CDMA avec cuboïdes
+        // ============================================================
+        const cdmaCuboidDiv = document.getElementById('cdmaCuboidChart');
+        if (cdmaCuboidDiv) {
+            const cdmaData = [];
+            const cdmaColors = ['#ff6b6b', '#ff922b', '#ff6b9d', '#fa5252', '#f03e3e', '#e03131'];
+            const numUsers = 6;
+            
+            // Paramètres pour les cuboïdes
+            const cuboidWidth = 1.5;   // Temps
+            const cuboidHeight = 0.3;  // Fréquence (étroit pour montrer le chevauchement)
+            const cuboidDepth = 0.6;   // Code
+            
+            for (let user = 0; user < numUsers; user++) {
+                // Position X (temps) : décalés
+                const xPos = user * 2 + 1;
+                
+                // Position Y (fréquence) : tous proches (chevauchement)
+                const yPos = 2.4 + (user * 0.05); // Légèrement décalés pour visualisation
+                
+                // Position Z (code) : différent pour chaque utilisateur
+                const zPos = user + 1;
+                
+                const cuboid = createCuboid(
+                    xPos, yPos, zPos,
+                    cuboidWidth, cuboidHeight, cuboidDepth,
+                    cdmaColors[user],
+                    `Utilisateur ${user + 1}`
+                );
+                
+                cdmaData.push(cuboid);
+            }
+            
+            const cdmaLayout = {
+                title: {
+                    text: '<b>CDMA : Signaux superposés avec codes distincts</b>',
+                    font: {
+                        family: 'Inter',
+                        size: 16,
+                        color: '#ff6b6b'
+                    }
+                },
+                scene: {
+                    xaxis: {
+                        title: {
+                            text: '<b>Temps</b>',
+                            font: { family: 'Inter', size: 13, color: '#393f4d' }
+                        },
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    yaxis: {
+                        title: {
+                            text: '<b>Fréquence (GHz)</b>',
+                            font: { family: 'Inter', size: 13, color: '#393f4d' }
+                        },
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa',
+                        range: [2.0, 2.8]
+                    },
+                    zaxis: {
+                        title: {
+                            text: '<b>Code Utilisateur</b>',
+                            font: { family: 'Inter', size: 13, color: '#393f4d' }
+                        },
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa',
+                        range: [0, 7]
+                    },
+                    camera: {
+                        eye: { x: 1.7, y: 1.7, z: 1.3 }
+                    },
+                    aspectmode: 'cube'
+                },
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#ff6b6b',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 10 }
+                },
+                margin: { l: 0, r: 0, b: 0, t: 40 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(255, 255, 255, 0.98)'
+            };
+            
+            const cdmaConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['toImage']
+            };
+            
+            Plotly.newPlot('cdmaCuboidChart', cdmaData, cdmaLayout, cdmaConfig);
+        }
+
+        // ============================================================
+        // Illustration 3D OFDM avec cuboïdes
+        // ============================================================
+        const ofdmCuboidDiv = document.getElementById('ofdmCuboidChart');
+        if (ofdmCuboidDiv) {
+            const ofdmData = [];
+            const ofdmColors = [
+                '#1864ab', '#1971c2', '#1c7ed6', '#228be6',
+                '#339af0', '#4dabf7', '#74c0fc', '#a5d8ff'
+            ];
+            const numSubcarriers = 8;
+            
+            // Paramètres pour les cuboïdes OFDM (minces et parallèles)
+            const cuboidWidth = 1.2;   // Temps
+            const cuboidHeight = 0.15; // Fréquence (très mince)
+            const cuboidDepth = 0.4;   // Code (tous au même niveau)
+            
+            const constantCode = 0.5; // Même code pour tous
+            
+            for (let subcarrier = 0; subcarrier < numSubcarriers; subcarrier++) {
+                // Position X (temps) : décalés légèrement
+                const xPos = subcarrier * 1.5 + 1;
+                
+                // Position Y (fréquence) : bien séparés
+                const yPos = 5.0 + (subcarrier * 0.3);
+                
+                // Position Z (code) : constant pour tous
+                const zPos = constantCode;
+                
+                const cuboid = createCuboid(
+                    xPos, yPos, zPos,
+                    cuboidWidth, cuboidHeight, cuboidDepth,
+                    ofdmColors[subcarrier],
+                    `Sous-porteuse ${subcarrier + 1}`
+                );
+                
+                ofdmData.push(cuboid);
+            }
+            
+            const ofdmLayout = {
+                title: {
+                    text: '<b>OFDM : Sous-porteuses séparées et alignées</b>',
+                    font: {
+                        family: 'Inter',
+                        size: 16,
+                        color: '#4dabf7'
+                    }
+                },
+                scene: {
+                    xaxis: {
+                        title: {
+                            text: '<b>Temps</b>',
+                            font: { family: 'Inter', size: 13, color: '#393f4d' }
+                        },
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    yaxis: {
+                        title: {
+                            text: '<b>Fréquence (GHz)</b>',
+                            font: { family: 'Inter', size: 13, color: '#393f4d' }
+                        },
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa',
+                        range: [4.7, 7.5]
+                    },
+                    zaxis: {
+                        title: {
+                            text: '<b>Code (Constant)</b>',
+                            font: { family: 'Inter', size: 13, color: '#393f4d' }
+                        },
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa',
+                        range: [0, 1]
+                    },
+                    camera: {
+                        eye: { x: 1.7, y: 1.7, z: 1.3 }
+                    },
+                    aspectmode: 'cube'
+                },
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#4dabf7',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 10 }
+                },
+                margin: { l: 0, r: 0, b: 0, t: 40 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(255, 255, 255, 0.98)'
+            };
+            
+            const ofdmConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['toImage']
+            };
+            
+            Plotly.newPlot('ofdmCuboidChart', ofdmData, ofdmLayout, ofdmConfig);
+        }
+
+        // ============================================================
+        // Illustration 1: Spectre de Fréquences (Section 1)
+        // ============================================================
+        const frequencySpectrumDiv = document.getElementById('frequencySpectrumChart');
+        if (frequencySpectrumDiv) {
+            // Définition des bandes du spectre électromagnétique
+            const spectrumBands = [
+                { name: 'Ondes Radio', freqMin: 3, freqMax: 8, power: 50, color: '#3b5bdb' },
+                { name: 'Micro-ondes', freqMin: 8, freqMax: 11, power: 60, color: '#1971c2' },
+                { name: 'Infrarouge', freqMin: 11, freqMax: 14, power: 70, color: '#f59f00' },
+                { name: 'Lumière Visible', freqMin: 14, freqMax: 15, power: 85, color: '#51cf66' },
+                { name: 'Ultraviolets', freqMin: 15, freqMax: 16.5, power: 75, color: '#ae3ec9' },
+                { name: 'Rayons X', freqMin: 16.5, freqMax: 18, power: 65, color: '#e64980' },
+                { name: 'Rayons Gamma', freqMin: 18, freqMax: 20, power: 55, color: '#c92a2a' }
+            ];
+
+            const spectrumTraces = spectrumBands.map(band => {
+                // Créer des points pour former une bande rectangulaire
+                const numPoints = 100;
+                const freqRange = [];
+                const powerValues = [];
+                
+                for (let i = 0; i <= numPoints; i++) {
+                    const freq = band.freqMin + (band.freqMax - band.freqMin) * (i / numPoints);
+                    freqRange.push(freq);
+                    powerValues.push(band.power);
+                }
+                
+                return {
+                    x: freqRange,
+                    y: powerValues,
+                    fill: 'tozeroy',
+                    fillcolor: band.color,
+                    line: { color: band.color, width: 2 },
+                    name: band.name,
+                    mode: 'lines',
+                    type: 'scatter',
+                    hovertemplate: 
+                        '<b>' + band.name + '</b><br>' +
+                        'Fréquence: 10^%{x:.1f} Hz<br>' +
+                        'Intensité: %{y}<br>' +
+                        '<extra></extra>'
+                };
+            });
+
+            // Ajouter des annotations pour chaque bande
+            const annotations = spectrumBands.map(band => {
+                return {
+                    x: (band.freqMin + band.freqMax) / 2,
+                    y: band.power + 5,
+                    text: band.name,
+                    showarrow: false,
+                    font: { 
+                        family: 'Inter',
+                        size: 11,
+                        color: '#393f4d',
+                        weight: 600
+                    },
+                    bgcolor: 'rgba(255, 255, 255, 0.9)',
+                    borderpad: 4,
+                    bordercolor: band.color,
+                    borderwidth: 2
+                };
+            });
+
+            const spectrumLayout = {
+                title: {
+                    text: '<b>Spectre Électromagnétique</b>',
+                    font: {
+                        family: 'Inter',
+                        size: 18,
+                        color: '#393f4d'
+                    }
+                },
+                xaxis: {
+                    title: {
+                        text: '<b>Fréquence (log₁₀ Hz)</b>',
+                        font: { family: 'Inter', size: 14, color: '#393f4d' }
+                    },
+                    gridcolor: '#e9ecef',
+                    range: [3, 20],
+                    showgrid: true
+                },
+                yaxis: {
+                    title: {
+                        text: '<b>Intensité du Signal (u.a.)</b>',
+                        font: { family: 'Inter', size: 14, color: '#393f4d' }
+                    },
+                    gridcolor: '#e9ecef',
+                    range: [0, 100],
+                    showgrid: true
+                },
+                annotations: annotations,
+                hovermode: 'closest',
+                showlegend: true,
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#feda6a',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 11 }
+                },
+                margin: { l: 60, r: 40, b: 60, t: 60 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(248, 249, 250, 1)'
+            };
+
+            const spectrumConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['toImage', 'lasso2d', 'select2d']
+            };
+
+            Plotly.newPlot('frequencySpectrumChart', spectrumTraces, spectrumLayout, spectrumConfig);
+        }
+
+        // ============================================================
+        // Illustration 2: Bandes ISM (Section 1)
+        // ============================================================
+        const ismBandsDiv = document.getElementById('ismBandsChart');
+        if (ismBandsDiv) {
+            // Définition des bandes ISM avec leurs applications
+            const ismBands = [
+                {
+                    name: '433 MHz',
+                    frequency: 0.433,
+                    applications: 'Télécommandes, Capteurs sans fil, Domotique',
+                    color: '#339af0'
+                },
+                {
+                    name: '868 MHz',
+                    frequency: 0.868,
+                    applications: 'IoT en Europe, LoRaWAN, Zigbee',
+                    color: '#51cf66'
+                },
+                {
+                    name: '2.4 GHz',
+                    frequency: 2.4,
+                    applications: 'Wi-Fi, Bluetooth, Micro-ondes, Zigbee',
+                    color: '#ffd43b'
+                },
+                {
+                    name: '5.8 GHz',
+                    frequency: 5.8,
+                    applications: 'Wi-Fi haut débit (802.11ac/ax), Drone FPV',
+                    color: '#ff6b6b'
+                }
+            ];
+
+            const ismTrace = {
+                type: 'bar',
+                x: ismBands.map(b => b.frequency),
+                y: ismBands.map(b => b.name),
+                orientation: 'h',
+                marker: {
+                    color: ismBands.map(b => b.color),
+                    line: {
+                        color: '#393f4d',
+                        width: 2
+                    }
+                },
+                text: ismBands.map(b => b.frequency + ' GHz'),
+                textposition: 'inside',
+                textfont: {
+                    family: 'Inter',
+                    size: 14,
+                    color: '#393f4d',
+                    weight: 'bold'
+                },
+                hovertemplate: 
+                    '<b>%{y}</b><br>' +
+                    'Fréquence: %{x} GHz<br>' +
+                    'Applications: ' + ismBands.map(b => b.applications).join('<br>Applications: ') + 
+                    '<extra></extra>',
+                customdata: ismBands.map(b => b.applications),
+                hovertext: ismBands.map(b => 
+                    '<b>' + b.name + '</b><br>' +
+                    'Fréquence: ' + b.frequency + ' GHz<br>' +
+                    'Applications: ' + b.applications
+                ),
+                name: 'Bandes ISM'
+            };
+
+            // Redéfinir le hover template correctement
+            ismTrace.hovertemplate = '<b>%{y}</b><br>Fréquence: %{x} GHz<br>Applications: %{customdata}<extra></extra>';
+
+            const ismLayout = {
+                title: {
+                    text: '<b>Bandes ISM - Fréquences et Applications</b>',
+                    font: {
+                        family: 'Inter',
+                        size: 18,
+                        color: '#393f4d'
+                    }
+                },
+                xaxis: {
+                    title: {
+                        text: '<b>Fréquence (GHz)</b>',
+                        font: { family: 'Inter', size: 14, color: '#393f4d' }
+                    },
+                    gridcolor: '#e9ecef',
+                    showgrid: true,
+                    range: [0, 6.5]
+                },
+                yaxis: {
+                    title: {
+                        text: '<b>Bandes ISM</b>',
+                        font: { family: 'Inter', size: 14, color: '#393f4d' }
+                    },
+                    gridcolor: '#e9ecef',
+                    showgrid: false,
+                    automargin: true
+                },
+                hovermode: 'closest',
+                showlegend: false,
+                margin: { l: 100, r: 40, b: 60, t: 60 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(248, 249, 250, 1)',
+                bargap: 0.3
+            };
+
+            const ismConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['toImage', 'lasso2d', 'select2d']
+            };
+
+            Plotly.newPlot('ismBandsChart', [ismTrace], ismLayout, ismConfig);
+        }
+
+        // ============================================================
+        // Illustration BSS (Basic Service Set) - Section 2
+        // ============================================================
+        const bssNetworkDiv = document.getElementById('bssNetworkChart');
+        if (bssNetworkDiv) {
+            // Configuration du BSS : 1 AP au centre, 6 STAs autour
+            const apPosition = { x: 0, y: 0 };
+            const numStations = 6;
+            const radius = 3;
+            
+            // Positions des stations en cercle autour de l'AP
+            const staPositions = [];
+            for (let i = 0; i < numStations; i++) {
+                const angle = (i * 2 * Math.PI) / numStations;
+                staPositions.push({
+                    x: apPosition.x + radius * Math.cos(angle),
+                    y: apPosition.y + radius * Math.sin(angle)
+                });
+            }
+            
+            // Créer les lignes de connexion (STA vers AP)
+            const connectionLines = {
+                type: 'scatter',
+                mode: 'lines',
+                x: [],
+                y: [],
+                line: {
+                    color: '#51cf66',
+                    width: 2,
+                    dash: 'dot'
+                },
+                showlegend: false,
+                hoverinfo: 'skip'
+            };
+            
+            // Ajouter chaque connexion STA -> AP
+            staPositions.forEach(sta => {
+                connectionLines.x.push(sta.x, apPosition.x, null);
+                connectionLines.y.push(sta.y, apPosition.y, null);
+            });
+            
+            // Point d'Accès (AP) - grand cercle au centre
+            const apTrace = {
+                type: 'scatter',
+                mode: 'markers+text',
+                x: [apPosition.x],
+                y: [apPosition.y],
+                marker: {
+                    size: 50,
+                    color: '#51cf66',
+                    symbol: 'star',
+                    line: {
+                        color: '#2b8a3e',
+                        width: 3
+                    }
+                },
+                text: ['AP'],
+                textposition: 'middle center',
+                textfont: {
+                    family: 'Inter',
+                    size: 16,
+                    color: '#fff',
+                    weight: 'bold'
+                },
+                name: 'Point d\'Accès',
+                hovertemplate: '<b>Point d\'Accès (AP)</b><br>Centre du BSS<extra></extra>'
+            };
+            
+            // Stations (STAs)
+            const stasTrace = {
+                type: 'scatter',
+                mode: 'markers+text',
+                x: staPositions.map(s => s.x),
+                y: staPositions.map(s => s.y),
+                marker: {
+                    size: 30,
+                    color: '#4dabf7',
+                    symbol: 'circle',
+                    line: {
+                        color: '#1971c2',
+                        width: 2
+                    }
+                },
+                text: staPositions.map((_, i) => `STA ${i + 1}`),
+                textposition: 'top center',
+                textfont: {
+                    family: 'Inter',
+                    size: 11,
+                    color: '#393f4d',
+                    weight: 600
+                },
+                name: 'Stations',
+                hovertemplate: '<b>%{text}</b><br>Connectée à l\'AP<extra></extra>'
+            };
+            
+            // Zone de couverture BSS (cercle)
+            const coverageCircle = {
+                type: 'scatter',
+                mode: 'lines',
+                x: [],
+                y: [],
+                line: {
+                    color: 'rgba(81, 207, 102, 0.3)',
+                    width: 2,
+                    dash: 'dash'
+                },
+                fill: 'toself',
+                fillcolor: 'rgba(81, 207, 102, 0.08)',
+                showlegend: false,
+                hoverinfo: 'skip'
+            };
+            
+            // Créer le cercle de couverture
+            const coverageRadius = 4;
+            for (let i = 0; i <= 100; i++) {
+                const angle = (i * 2 * Math.PI) / 100;
+                coverageCircle.x.push(coverageRadius * Math.cos(angle));
+                coverageCircle.y.push(coverageRadius * Math.sin(angle));
+            }
+            
+            const bssLayout = {
+                title: {
+                    text: '<b>Topologie BSS - Un seul Point d\'Accès</b>',
+                    font: {
+                        family: 'Inter',
+                        size: 16,
+                        color: '#393f4d'
+                    }
+                },
+                xaxis: {
+                    range: [-5, 5],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true
+                },
+                yaxis: {
+                    range: [-5, 5],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true,
+                    scaleanchor: 'x'
+                },
+                hovermode: 'closest',
+                showlegend: true,
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#51cf66',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 11 }
+                },
+                margin: { l: 20, r: 20, b: 20, t: 50 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(248, 249, 250, 1)',
+                annotations: [
+                    {
+                        x: 0,
+                        y: -4.5,
+                        text: 'Zone de couverture BSS',
+                        showarrow: false,
+                        font: {
+                            family: 'Inter',
+                            size: 12,
+                            color: '#51cf66',
+                            weight: 600
+                        }
+                    }
+                ]
+            };
+            
+            const bssConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['toImage', 'lasso2d', 'select2d', 'zoom2d', 'pan2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d']
+            };
+            
+            Plotly.newPlot('bssNetworkChart', [coverageCircle, connectionLines, stasTrace, apTrace], bssLayout, bssConfig);
+        }
+
+        // ============================================================
+        // Illustration ESS (Extended Service Set) - Section 2
+        // ============================================================
+        const essNetworkDiv = document.getElementById('essNetworkChart');
+        if (essNetworkDiv) {
+            // Configuration : 3 BSS connectés
+            const bssConfigs = [
+                { apPos: { x: -5, y: 3 }, color: '#51cf66', label: 'BSS 1', numStas: 4 },
+                { apPos: { x: 5, y: 3 }, color: '#4dabf7', label: 'BSS 2', numStas: 4 },
+                { apPos: { x: 0, y: -3 }, color: '#ff6b6b', label: 'BSS 3', numStas: 4 }
+            ];
+            
+            const staRadius = 2;
+            const coverageRadius = 2.8;
+            
+            const essData = [];
+            
+            // Backbone (lignes entre les APs)
+            const backboneLines = {
+                type: 'scatter',
+                mode: 'lines',
+                x: [],
+                y: [],
+                line: {
+                    color: '#feda6a',
+                    width: 4
+                },
+                name: 'Backbone',
+                hovertemplate: '<b>Backbone (réseau de distribution)</b><br>Connecte les BSS entre eux<extra></extra>'
+            };
+            
+            // Créer les connexions du backbone (triangle)
+            backboneLines.x = [bssConfigs[0].apPos.x, bssConfigs[1].apPos.x, bssConfigs[2].apPos.x, bssConfigs[0].apPos.x];
+            backboneLines.y = [bssConfigs[0].apPos.y, bssConfigs[1].apPos.y, bssConfigs[2].apPos.y, bssConfigs[0].apPos.y];
+            
+            essData.push(backboneLines);
+            
+            // Pour chaque BSS
+            bssConfigs.forEach((bss, bssIndex) => {
+                // Zone de couverture
+                const coverageCircle = {
+                    type: 'scatter',
+                    mode: 'lines',
+                    x: [],
+                    y: [],
+                    line: {
+                        color: bss.color,
+                        width: 2,
+                        dash: 'dash'
+                    },
+                    fill: 'toself',
+                    fillcolor: bss.color.replace(')', ', 0.08)').replace('rgb', 'rgba').replace('#', 'rgba(').replace(/^rgba\((.*)\)/, (m, p1) => {
+                        const hex = bss.color;
+                        const r = parseInt(hex.slice(1, 3), 16);
+                        const g = parseInt(hex.slice(3, 5), 16);
+                        const b = parseInt(hex.slice(5, 7), 16);
+                        return `rgba(${r}, ${g}, ${b}, 0.08)`;
+                    }),
+                    showlegend: false,
+                    hoverinfo: 'skip'
+                };
+                
+                for (let i = 0; i <= 100; i++) {
+                    const angle = (i * 2 * Math.PI) / 100;
+                    coverageCircle.x.push(bss.apPos.x + coverageRadius * Math.cos(angle));
+                    coverageCircle.y.push(bss.apPos.y + coverageRadius * Math.sin(angle));
+                }
+                essData.push(coverageCircle);
+                
+                // Positions des stations
+                const staPositions = [];
+                for (let i = 0; i < bss.numStas; i++) {
+                    const angle = (i * 2 * Math.PI) / bss.numStas;
+                    staPositions.push({
+                        x: bss.apPos.x + staRadius * Math.cos(angle),
+                        y: bss.apPos.y + staRadius * Math.sin(angle)
+                    });
+                }
+                
+                // Lignes de connexion STA -> AP
+                const connectionLines = {
+                    type: 'scatter',
+                    mode: 'lines',
+                    x: [],
+                    y: [],
+                    line: {
+                        color: bss.color,
+                        width: 1.5,
+                        dash: 'dot'
+                    },
+                    showlegend: false,
+                    hoverinfo: 'skip'
+                };
+                
+                staPositions.forEach(sta => {
+                    connectionLines.x.push(sta.x, bss.apPos.x, null);
+                    connectionLines.y.push(sta.y, bss.apPos.y, null);
+                });
+                essData.push(connectionLines);
+                
+                // Stations
+                const stasTrace = {
+                    type: 'scatter',
+                    mode: 'markers',
+                    x: staPositions.map(s => s.x),
+                    y: staPositions.map(s => s.y),
+                    marker: {
+                        size: 18,
+                        color: bss.color,
+                        symbol: 'circle',
+                        line: {
+                            color: '#393f4d',
+                            width: 1.5
+                        }
+                    },
+                    name: `${bss.label} - STAs`,
+                    hovertemplate: `<b>${bss.label} - STA</b><br>Connectée à AP${bssIndex + 1}<extra></extra>`,
+                    showlegend: false
+                };
+                essData.push(stasTrace);
+                
+                // Point d'Accès
+                const apTrace = {
+                    type: 'scatter',
+                    mode: 'markers+text',
+                    x: [bss.apPos.x],
+                    y: [bss.apPos.y],
+                    marker: {
+                        size: 35,
+                        color: bss.color,
+                        symbol: 'star',
+                        line: {
+                            color: '#393f4d',
+                            width: 2
+                        }
+                    },
+                    text: [`AP${bssIndex + 1}`],
+                    textposition: 'middle center',
+                    textfont: {
+                        family: 'Inter',
+                        size: 11,
+                        color: '#fff',
+                        weight: 'bold'
+                    },
+                    name: bss.label,
+                    hovertemplate: `<b>${bss.label} - Point d'Accès</b><br>Centre du ${bss.label}<extra></extra>`
+                };
+                essData.push(apTrace);
+            });
+            
+            const essLayout = {
+                title: {
+                    text: '<b>Topologie ESS - Plusieurs BSS Interconnectés</b>',
+                    font: {
+                        family: 'Inter',
+                        size: 16,
+                        color: '#393f4d'
+                    }
+                },
+                xaxis: {
+                    range: [-9, 9],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true
+                },
+                yaxis: {
+                    range: [-7, 7],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true,
+                    scaleanchor: 'x'
+                },
+                hovermode: 'closest',
+                showlegend: true,
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#4dabf7',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 11 }
+                },
+                margin: { l: 20, r: 20, b: 20, t: 50 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(248, 249, 250, 1)',
+                annotations: [
+                    {
+                        x: 0,
+                        y: 0,
+                        text: 'Backbone',
+                        showarrow: false,
+                        font: {
+                            family: 'Inter',
+                            size: 13,
+                            color: '#feda6a',
+                            weight: 'bold'
+                        },
+                        bgcolor: 'rgba(254, 218, 106, 0.2)',
+                        borderpad: 4
+                    }
+                ]
+            };
+            
+            const essConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['toImage', 'lasso2d', 'select2d', 'zoom2d', 'pan2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d']
+            };
+            
+            Plotly.newPlot('essNetworkChart', essData, essLayout, essConfig);
+        }
+
+        // ============================================================
+        // Illustration 1: MIMO (Multiple Input Multiple Output) - Section 5
+        // ============================================================
+        const mimoDiv = document.getElementById('mimoChart');
+        if (mimoDiv) {
+            // Configuration: AP avec 2 antennes, 2 STAs avec 2 antennes chacun
+            const apPos = { x: -4, y: 0 };
+            const antennaSpacing = 0.8;
+            
+            // Antennes de l'AP
+            const apAntennas = [
+                { x: apPos.x, y: apPos.y + antennaSpacing/2, label: 'AP-Ant1' },
+                { x: apPos.x, y: apPos.y - antennaSpacing/2, label: 'AP-Ant2' }
+            ];
+            
+            // STAs
+            const stas = [
+                { 
+                    pos: { x: 4, y: 2 },
+                    label: 'STA 1',
+                    antennas: [
+                        { x: 4, y: 2 + antennaSpacing/2, label: 'STA1-Ant1' },
+                        { x: 4, y: 2 - antennaSpacing/2, label: 'STA1-Ant2' }
+                    ]
+                },
+                { 
+                    pos: { x: 4, y: -2 },
+                    label: 'STA 2',
+                    antennas: [
+                        { x: 4, y: -2 + antennaSpacing/2, label: 'STA2-Ant1' },
+                        { x: 4, y: -2 - antennaSpacing/2, label: 'STA2-Ant2' }
+                    ]
+                }
+            ];
+            
+            const mimoData = [];
+            const colors = ['#51cf66', '#4dabf7', '#ff6b6b', '#ffd43b'];
+            
+            // Créer les flux de données (lignes entre antennes)
+            let colorIndex = 0;
+            stas.forEach((sta, staIndex) => {
+                sta.antennas.forEach((staAnt, antIndex) => {
+                    const apAnt = apAntennas[antIndex % apAntennas.length];
+                    const color = colors[colorIndex % colors.length];
+                    colorIndex++;
+                    
+                    const streamLine = {
+                        type: 'scatter',
+                        mode: 'lines',
+                        x: [apAnt.x, staAnt.x],
+                        y: [apAnt.y, staAnt.y],
+                        line: {
+                            color: color,
+                            width: 2.5,
+                            dash: 'dash'
+                        },
+                        name: `Flux ${staIndex + 1}-${antIndex + 1}`,
+                        hovertemplate: `<b>Flux de données ${staIndex + 1}-${antIndex + 1}</b><br>${apAnt.label} → ${staAnt.label}<extra></extra>`
+                    };
+                    mimoData.push(streamLine);
+                });
+            });
+            
+            // AP body
+            const apBody = {
+                type: 'scatter',
+                mode: 'markers+text',
+                x: [apPos.x],
+                y: [apPos.y],
+                marker: {
+                    size: 45,
+                    color: '#51cf66',
+                    symbol: 'square',
+                    line: { color: '#2b8a3e', width: 3 }
+                },
+                text: ['AP<br>2x2'],
+                textposition: 'middle center',
+                textfont: {
+                    family: 'Inter',
+                    size: 11,
+                    color: '#fff',
+                    weight: 'bold'
+                },
+                name: 'Point d\'Accès',
+                hovertemplate: '<b>Point d\'Accès</b><br>MIMO 2x2<extra></extra>'
+            };
+            mimoData.push(apBody);
+            
+            // Antennes de l'AP
+            const apAntennasTrace = {
+                type: 'scatter',
+                mode: 'markers',
+                x: apAntennas.map(a => a.x),
+                y: apAntennas.map(a => a.y),
+                marker: {
+                    size: 15,
+                    color: '#51cf66',
+                    symbol: 'line-ns-open',
+                    line: { color: '#2b8a3e', width: 4 }
+                },
+                name: 'Antennes AP',
+                hovertemplate: '<b>%{text}</b><br>Antenne émission/réception<extra></extra>',
+                text: apAntennas.map(a => a.label),
+                showlegend: false
+            };
+            mimoData.push(apAntennasTrace);
+            
+            // STAs et leurs antennes
+            stas.forEach(sta => {
+                // STA body
+                const staBody = {
+                    type: 'scatter',
+                    mode: 'markers+text',
+                    x: [sta.pos.x],
+                    y: [sta.pos.y],
+                    marker: {
+                        size: 40,
+                        color: '#4dabf7',
+                        symbol: 'circle',
+                        line: { color: '#1971c2', width: 2 }
+                    },
+                    text: [sta.label + '<br>2x2'],
+                    textposition: 'middle center',
+                    textfont: {
+                        family: 'Inter',
+                        size: 10,
+                        color: '#fff',
+                        weight: 'bold'
+                    },
+                    name: sta.label,
+                    hovertemplate: `<b>${sta.label}</b><br>MIMO 2x2<extra></extra>`,
+                    showlegend: false
+                };
+                mimoData.push(staBody);
+                
+                // Antennes de la STA
+                const staAntennasTrace = {
+                    type: 'scatter',
+                    mode: 'markers',
+                    x: sta.antennas.map(a => a.x),
+                    y: sta.antennas.map(a => a.y),
+                    marker: {
+                        size: 15,
+                        color: '#4dabf7',
+                        symbol: 'line-ns-open',
+                        line: { color: '#1971c2', width: 4 }
+                    },
+                    name: `Antennes ${sta.label}`,
+                    hovertemplate: '<b>%{text}</b><br>Antenne émission/réception<extra></extra>',
+                    text: sta.antennas.map(a => a.label),
+                    showlegend: false
+                };
+                mimoData.push(staAntennasTrace);
+            });
+            
+            const mimoLayout = {
+                title: {
+                    text: '<b>Configuration MIMO 2x2 - Flux de données parallèles</b>',
+                    font: { family: 'Inter', size: 16, color: '#393f4d' }
+                },
+                xaxis: {
+                    range: [-6, 6],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true
+                },
+                yaxis: {
+                    range: [-4, 4],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true,
+                    scaleanchor: 'x'
+                },
+                hovermode: 'closest',
+                showlegend: true,
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#51cf66',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 10 }
+                },
+                margin: { l: 20, r: 20, b: 20, t: 50 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(248, 249, 250, 1)'
+            };
+            
+            const mimoConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['toImage', 'lasso2d', 'select2d', 'zoom2d', 'pan2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d']
+            };
+            
+            Plotly.newPlot('mimoChart', mimoData, mimoLayout, mimoConfig);
+        }
+
+        // ============================================================
+        // Illustration 2: Massive MIMO - Section 5
+        // ============================================================
+        const massiveMimoDiv = document.getElementById('massiveMimoChart');
+        if (massiveMimoDiv) {
+            // Configuration: Station de base avec 16 antennes, 6 utilisateurs
+            const bsPos = { x: -5, y: 0 };
+            const numAntennas = 16;
+            const antennaRows = 4;
+            const antennaCols = 4;
+            const antennaSpacing = 0.5;
+            
+            // Créer la grille d'antennes pour la station de base
+            const bsAntennas = [];
+            for (let row = 0; row < antennaRows; row++) {
+                for (let col = 0; col < antennaCols; col++) {
+                    const y = (row - antennaRows/2 + 0.5) * antennaSpacing;
+                    const x = bsPos.x + (col - antennaCols/2 + 0.5) * antennaSpacing * 0.3;
+                    bsAntennas.push({ x, y, label: `Ant-${row * antennaCols + col + 1}` });
+                }
+            }
+            
+            // Utilisateurs positionnés autour
+            const users = [
+                { x: 5, y: 3, label: 'User 1', color: '#51cf66' },
+                { x: 5, y: 1, label: 'User 2', color: '#4dabf7' },
+                { x: 5, y: -1, label: 'User 3', color: '#ff6b6b' },
+                { x: 5, y: -3, label: 'User 4', color: '#ffd43b' },
+                { x: 3, y: 3.5, label: 'User 5', color: '#ae3ec9' },
+                { x: 3, y: -3.5, label: 'User 6', color: '#ff922b' }
+            ];
+            
+            const massiveMimoData = [];
+            
+            // Créer les faisceaux (beams) vers chaque utilisateur
+            users.forEach((user, userIndex) => {
+                // Sélectionner quelques antennes pour ce faisceau
+                const selectedAntennas = [];
+                for (let i = 0; i < 3; i++) {
+                    const antIndex = (userIndex * 2 + i) % bsAntennas.length;
+                    selectedAntennas.push(bsAntennas[antIndex]);
+                }
+                
+                selectedAntennas.forEach(ant => {
+                    const beamLine = {
+                        type: 'scatter',
+                        mode: 'lines',
+                        x: [ant.x, user.x],
+                        y: [ant.y, user.y],
+                        line: {
+                            color: user.color,
+                            width: 1.5,
+                            dash: 'dot'
+                        },
+                        opacity: 0.6,
+                        showlegend: false,
+                        hoverinfo: 'skip'
+                    };
+                    massiveMimoData.push(beamLine);
+                });
+            });
+            
+            // Station de base (rectangle)
+            const bsBody = {
+                type: 'scatter',
+                mode: 'markers+text',
+                x: [bsPos.x],
+                y: [bsPos.y],
+                marker: {
+                    size: 80,
+                    color: '#51cf66',
+                    symbol: 'square',
+                    line: { color: '#2b8a3e', width: 3 }
+                },
+                text: ['BS<br>16x16'],
+                textposition: 'middle center',
+                textfont: {
+                    family: 'Inter',
+                    size: 12,
+                    color: '#fff',
+                    weight: 'bold'
+                },
+                name: 'Station de Base',
+                hovertemplate: '<b>Station de Base</b><br>Massive MIMO 16x16<extra></extra>'
+            };
+            massiveMimoData.push(bsBody);
+            
+            // Antennes de la station de base
+            const bsAntennasTrace = {
+                type: 'scatter',
+                mode: 'markers',
+                x: bsAntennas.map(a => a.x),
+                y: bsAntennas.map(a => a.y),
+                marker: {
+                    size: 8,
+                    color: '#51cf66',
+                    symbol: 'line-ns-open',
+                    line: { color: '#2b8a3e', width: 3 }
+                },
+                name: 'Antennes',
+                hovertemplate: '<b>%{text}</b><extra></extra>',
+                text: bsAntennas.map(a => a.label),
+                showlegend: false
+            };
+            massiveMimoData.push(bsAntennasTrace);
+            
+            // Utilisateurs
+            users.forEach(user => {
+                const userTrace = {
+                    type: 'scatter',
+                    mode: 'markers+text',
+                    x: [user.x],
+                    y: [user.y],
+                    marker: {
+                        size: 35,
+                        color: user.color,
+                        symbol: 'circle',
+                        line: { color: '#393f4d', width: 2 }
+                    },
+                    text: [user.label],
+                    textposition: 'top center',
+                    textfont: {
+                        family: 'Inter',
+                        size: 10,
+                        color: '#393f4d',
+                        weight: 'bold'
+                    },
+                    name: user.label,
+                    hovertemplate: `<b>${user.label}</b><br>Utilisateur connecté<extra></extra>`
+                };
+                massiveMimoData.push(userTrace);
+            });
+            
+            const massiveMimoLayout = {
+                title: {
+                    text: '<b>Massive MIMO - Beamforming vers utilisateurs multiples</b>',
+                    font: { family: 'Inter', size: 16, color: '#393f4d' }
+                },
+                xaxis: {
+                    range: [-7, 7],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true
+                },
+                yaxis: {
+                    range: [-5, 5],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true,
+                    scaleanchor: 'x'
+                },
+                hovermode: 'closest',
+                showlegend: true,
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#4dabf7',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 10 }
+                },
+                margin: { l: 20, r: 20, b: 20, t: 50 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(248, 249, 250, 1)'
+            };
+            
+            const massiveMimoConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['toImage', 'lasso2d', 'select2d', 'zoom2d', 'pan2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d']
+            };
+            
+            Plotly.newPlot('massiveMimoChart', massiveMimoData, massiveMimoLayout, massiveMimoConfig);
+        }
+
+        // ============================================================
+        // Illustration 3: D2D (Device-to-Device) - Section 5
+        // ============================================================
+        const d2dDiv = document.getElementById('d2dChart');
+        if (d2dDiv) {
+            // Configuration: plusieurs appareils communiquant en D2D
+            const devices = [
+                { x: -3, y: 3, label: 'Device 1', color: '#51cf66', group: 1 },
+                { x: -1, y: 3.5, label: 'Device 2', color: '#51cf66', group: 1 },
+                { x: 1, y: 3, label: 'Device 3', color: '#51cf66', group: 1 },
+                
+                { x: -3, y: -3, label: 'Device 4', color: '#4dabf7', group: 2 },
+                { x: -1, y: -3.5, label: 'Device 5', color: '#4dabf7', group: 2 },
+                
+                { x: 3, y: 0, label: 'Device 6', color: '#ff6b6b', group: 3 },
+                { x: 4.5, y: 1, label: 'Device 7', color: '#ff6b6b', group: 3 },
+                { x: 4.5, y: -1, label: 'Device 8', color: '#ff6b6b', group: 3 }
+            ];
+            
+            const d2dData = [];
+            
+            // Créer les connexions D2D entre appareils du même groupe
+            const groups = {};
+            devices.forEach(device => {
+                if (!groups[device.group]) groups[device.group] = [];
+                groups[device.group].push(device);
+            });
+            
+            Object.values(groups).forEach(group => {
+                // Connecter tous les appareils du groupe entre eux
+                for (let i = 0; i < group.length; i++) {
+                    for (let j = i + 1; j < group.length; j++) {
+                        const d2dConnection = {
+                            type: 'scatter',
+                            mode: 'lines',
+                            x: [group[i].x, group[j].x],
+                            y: [group[i].y, group[j].y],
+                            line: {
+                                color: group[i].color,
+                                width: 3,
+                                dash: 'solid'
+                            },
+                            name: `Groupe ${group[i].group}`,
+                            showlegend: i === 0 && j === 1,
+                            hovertemplate: `<b>Communication D2D</b><br>${group[i].label} ↔ ${group[j].label}<extra></extra>`
+                        };
+                        d2dData.push(d2dConnection);
+                    }
+                }
+                
+                // Zones de groupe (cercles)
+                const centerX = group.reduce((sum, d) => sum + d.x, 0) / group.length;
+                const centerY = group.reduce((sum, d) => sum + d.y, 0) / group.length;
+                const maxDist = Math.max(...group.map(d => Math.sqrt(Math.pow(d.x - centerX, 2) + Math.pow(d.y - centerY, 2)))) + 0.8;
+                
+                const groupCircle = {
+                    type: 'scatter',
+                    mode: 'lines',
+                    x: [],
+                    y: [],
+                    line: {
+                        color: group[0].color,
+                        width: 2,
+                        dash: 'dash'
+                    },
+                    fill: 'toself',
+                    fillcolor: group[0].color.replace(')', ', 0.05)').replace('rgb', 'rgba').replace('#', 'rgba(').replace(/^rgba\((.*)\)/, (m, p1) => {
+                        const hex = group[0].color;
+                        const r = parseInt(hex.slice(1, 3), 16);
+                        const g = parseInt(hex.slice(3, 5), 16);
+                        const b = parseInt(hex.slice(5, 7), 16);
+                        return `rgba(${r}, ${g}, ${b}, 0.05)`;
+                    }),
+                    showlegend: false,
+                    hoverinfo: 'skip'
+                };
+                
+                for (let i = 0; i <= 100; i++) {
+                    const angle = (i * 2 * Math.PI) / 100;
+                    groupCircle.x.push(centerX + maxDist * Math.cos(angle));
+                    groupCircle.y.push(centerY + maxDist * Math.sin(angle));
+                }
+                d2dData.push(groupCircle);
+            });
+            
+            // Appareils
+            devices.forEach(device => {
+                const deviceTrace = {
+                    type: 'scatter',
+                    mode: 'markers+text',
+                    x: [device.x],
+                    y: [device.y],
+                    marker: {
+                        size: 35,
+                        color: device.color,
+                        symbol: 'circle',
+                        line: { color: '#393f4d', width: 2 }
+                    },
+                    text: [device.label],
+                    textposition: 'top center',
+                    textfont: {
+                        family: 'Inter',
+                        size: 9,
+                        color: '#393f4d',
+                        weight: 'bold'
+                    },
+                    name: device.label,
+                    hovertemplate: `<b>${device.label}</b><br>Groupe ${device.group}<extra></extra>`,
+                    showlegend: false
+                };
+                d2dData.push(deviceTrace);
+            });
+            
+            const d2dLayout = {
+                title: {
+                    text: '<b>D2D - Communication directe sans infrastructure</b>',
+                    font: { family: 'Inter', size: 16, color: '#393f4d' }
+                },
+                xaxis: {
+                    range: [-5, 6],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true
+                },
+                yaxis: {
+                    range: [-5, 5],
+                    showgrid: false,
+                    zeroline: false,
+                    showticklabels: false,
+                    fixedrange: true,
+                    scaleanchor: 'x'
+                },
+                hovermode: 'closest',
+                showlegend: true,
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#ff6b6b',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 10 }
+                },
+                margin: { l: 20, r: 20, b: 20, t: 50 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(248, 249, 250, 1)',
+                annotations: [
+                    {
+                        x: 0,
+                        y: -4.5,
+                        text: '3 groupes de communication D2D',
+                        showarrow: false,
+                        font: {
+                            family: 'Inter',
+                            size: 12,
+                            color: '#393f4d',
+                            weight: 600
+                        }
+                    }
+                ]
+            };
+            
+            const d2dConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                modeBarButtonsToRemove: ['toImage', 'lasso2d', 'select2d', 'zoom2d', 'pan2d', 'zoomIn2d', 'zoomOut2d', 'autoScale2d']
+            };
+            
+            Plotly.newPlot('d2dChart', d2dData, d2dLayout, d2dConfig);
+        }
+    </script>
+</body>
+</html>

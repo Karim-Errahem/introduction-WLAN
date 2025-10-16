@@ -1316,7 +1316,7 @@
                         </div>
                     </div>
 
-                    <div class="grid md:grid-cols-2 gap-6">
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
                         <div class="p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
                             <h4 class="font-semibold mb-3 flex items-center" style="color: #feda6a;">
                                 <i class="fas fa-cog mr-2"></i> Gestion de Mobilité
@@ -1336,6 +1336,132 @@
                                 <li class="flex items-start"><i class="fas fa-circle mr-2 mt-1" style="font-size: 6px; color: #ff6b6b;"></i> Perte de paquets</li>
                                 <li class="flex items-start"><i class="fas fa-circle mr-2 mt-1" style="font-size: 6px; color: #ff6b6b;"></i> Risque interception</li>
                             </ul>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 1: Mécanisme Général de Handover -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #51cf66;">
+                            <i class="fas fa-exchange-alt mr-3"></i>
+                            Scène 1 : Mécanisme Général de Handover
+                        </h3>
+                        
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="handoverGeneralChart" style="width: 100%; height: 600px;"></div>
+                        </div>
+                        
+                        <div class="p-5 rounded-xl" style="background: rgba(81, 207, 102, 0.1); border-left: 4px solid #51cf66;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #51cf66;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Explication : Mécanisme Général de Handover
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed mb-3">
+                                Le <strong style="color: #51cf66;">mécanisme de handover</strong> permet de transférer une communication active d'une cellule à une autre sans interrompre le service. 
+                                Le processus se déroule en trois phases : <strong>mesure du signal</strong> (détection de l'affaiblissement), 
+                                <strong>décision de transfert</strong> (sélection de la meilleure cellule cible), et <strong>exécution du handover</strong> (basculement effectif).
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div class="p-3 rounded-lg" style="background: rgba(81, 207, 102, 0.15);">
+                                    <p class="text-sm"><strong style="color: #51cf66;">✓ Avantages :</strong></p>
+                                    <ul class="text-xs mt-2 space-y-1 opacity-90">
+                                        <li>• Continuité de la connexion sans interruption</li>
+                                        <li>• Meilleure couverture et mobilité des utilisateurs</li>
+                                        <li>• Optimisation de la qualité de service (QoS)</li>
+                                    </ul>
+                                </div>
+                                <div class="p-3 rounded-lg" style="background: rgba(255, 107, 107, 0.15);">
+                                    <p class="text-sm"><strong style="color: #ff6b6b;">✗ Inconvénients :</strong></p>
+                                    <ul class="text-xs mt-2 space-y-1 opacity-90">
+                                        <li>• Gestion complexe des ressources réseau</li>
+                                        <li>• Risque de délai dans la décision (50-200 ms)</li>
+                                        <li>• Consommation de ressources système</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 2: Hard Handover -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #ff6b6b;">
+                            <i class="fas fa-unlink mr-3"></i>
+                            Scène 2 : Hard Handover (Break Before Make)
+                        </h3>
+                        
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="hardHandoverChart" style="width: 100%; height: 600px;"></div>
+                        </div>
+                        
+                        <div class="p-5 rounded-xl" style="background: rgba(255, 107, 107, 0.1); border-left: 4px solid #ff6b6b;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #ff6b6b;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Explication : Hard Handover (Break Before Make)
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed mb-3">
+                                Le <strong style="color: #ff6b6b;">Hard Handover</strong> signifie que l'ancienne connexion est <strong>rompue avant</strong> d'établir la nouvelle connexion. 
+                                L'unité mobile quitte complètement la zone de couverture de la première station avant d'entrer dans celle de la seconde. 
+                                Il y a donc une <strong>interruption temporaire</strong> du service pendant la transition.
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div class="p-3 rounded-lg" style="background: rgba(81, 207, 102, 0.15);">
+                                    <p class="text-sm"><strong style="color: #51cf66;">✓ Avantages :</strong></p>
+                                    <ul class="text-xs mt-2 space-y-1 opacity-90">
+                                        <li>• Simple à implémenter techniquement</li>
+                                        <li>• Faible coût en ressources réseau</li>
+                                        <li>• Pas de gestion de connexion multiple</li>
+                                    </ul>
+                                </div>
+                                <div class="p-3 rounded-lg" style="background: rgba(255, 107, 107, 0.15);">
+                                    <p class="text-sm"><strong style="color: #ff6b6b;">✗ Inconvénients :</strong></p>
+                                    <ul class="text-xs mt-2 space-y-1 opacity-90">
+                                        <li>• Coupure temporaire possible (quelques ms)</li>
+                                        <li>• Risque de perte de données ou d'appel</li>
+                                        <li>• Mauvaise expérience utilisateur si fréquent</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Illustration 3: Soft Handover -->
+                    <div class="mb-8 p-6 rounded-xl accent-border" style="background: rgba(29, 30, 34, 0.4);">
+                        <h3 class="text-2xl font-semibold mb-6 text-center" style="color: #4dabf7;">
+                            <i class="fas fa-link mr-3"></i>
+                            Scène 3 : Soft Handover (Make Before Break)
+                        </h3>
+                        
+                        <div class="p-4 rounded-xl mb-4" style="background: rgba(255, 255, 255, 0.98);">
+                            <div id="softHandoverChart" style="width: 100%; height: 600px;"></div>
+                        </div>
+                        
+                        <div class="p-5 rounded-xl" style="background: rgba(77, 171, 247, 0.1); border-left: 4px solid #4dabf7;">
+                            <h4 class="font-semibold mb-3 flex items-center" style="color: #4dabf7;">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                Explication : Soft Handover (Make Before Break)
+                            </h4>
+                            <p class="text-sm opacity-90 leading-relaxed mb-3">
+                                Le <strong style="color: #4dabf7;">Soft Handover</strong> maintient la connexion avec <strong>deux cellules simultanément</strong> 
+                                avant de libérer la première. L'unité mobile se trouve dans une zone de chevauchement et reste connectée aux deux stations de base 
+                                pendant la transition, assurant ainsi une <strong>continuité parfaite</strong> du service.
+                            </p>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4">
+                                <div class="p-3 rounded-lg" style="background: rgba(81, 207, 102, 0.15);">
+                                    <p class="text-sm"><strong style="color: #51cf66;">✓ Avantages :</strong></p>
+                                    <ul class="text-xs mt-2 space-y-1 opacity-90">
+                                        <li>• Transition fluide sans coupure</li>
+                                        <li>• Meilleure qualité de service (QoS)</li>
+                                        <li>• Diversité de macros (signal plus robuste)</li>
+                                    </ul>
+                                </div>
+                                <div class="p-3 rounded-lg" style="background: rgba(255, 107, 107, 0.15);">
+                                    <p class="text-sm"><strong style="color: #ff6b6b;">✗ Inconvénients :</strong></p>
+                                    <ul class="text-xs mt-2 space-y-1 opacity-90">
+                                        <li>• Plus de ressources réseau utilisées</li>
+                                        <li>• Complexité accrue de gestion</li>
+                                        <li>• Nécessite coordination entre stations</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -3171,6 +3297,713 @@
             };
             
             Plotly.newPlot('d2dChart', d2dData, d2dLayout, d2dConfig);
+        }
+
+        // ============================================================
+        // Handover Visualizations - Section 4
+        // ============================================================
+
+        // Helper function to create a BTS tower (cuboid with antenna)
+        function createBTSTower(x, y, z, color, name) {
+            const towerWidth = 0.8;
+            const towerDepth = 0.8;
+            const towerHeight = 4;
+            
+            // Tower body cuboid
+            const x0 = x - towerWidth/2, x1 = x + towerWidth/2;
+            const y0 = y - towerDepth/2, y1 = y + towerDepth/2;
+            const z0 = z, z1 = z + towerHeight;
+            
+            const tower = {
+                type: 'mesh3d',
+                x: [x0, x0, x1, x1, x0, x0, x1, x1],
+                y: [y0, y1, y1, y0, y0, y1, y1, y0],
+                z: [z0, z0, z0, z0, z1, z1, z1, z1],
+                i: [7, 0, 0, 0, 4, 4, 6, 6, 4, 0, 3, 2],
+                j: [3, 4, 1, 2, 5, 6, 5, 2, 0, 1, 6, 3],
+                k: [0, 7, 2, 3, 6, 7, 1, 1, 5, 5, 7, 6],
+                color: color,
+                opacity: 0.9,
+                name: name,
+                hovertemplate: '<b>' + name + '</b><br>Station de Base<extra></extra>',
+                showlegend: true
+            };
+            
+            // Antenna (thin vertical line on top)
+            const antenna = {
+                type: 'scatter3d',
+                mode: 'lines',
+                x: [x, x],
+                y: [y, y],
+                z: [z1, z1 + 1.5],
+                line: {
+                    color: '#393f4d',
+                    width: 8
+                },
+                showlegend: false,
+                hoverinfo: 'skip'
+            };
+            
+            return [tower, antenna];
+        }
+
+        // Helper function to create coverage zone (transparent disk/cylinder)
+        function createCoverageZone(x, y, z, radius, height, color, name) {
+            const numPoints = 50;
+            const vertices_x = [];
+            const vertices_y = [];
+            const vertices_z = [];
+            
+            // Bottom circle
+            for (let i = 0; i <= numPoints; i++) {
+                const angle = (i / numPoints) * 2 * Math.PI;
+                vertices_x.push(x + radius * Math.cos(angle));
+                vertices_y.push(y + radius * Math.sin(angle));
+                vertices_z.push(z);
+            }
+            
+            // Top circle
+            for (let i = 0; i <= numPoints; i++) {
+                const angle = (i / numPoints) * 2 * Math.PI;
+                vertices_x.push(x + radius * Math.cos(angle));
+                vertices_y.push(y + radius * Math.sin(angle));
+                vertices_z.push(z + height);
+            }
+            
+            // Center points
+            vertices_x.push(x);
+            vertices_y.push(y);
+            vertices_z.push(z);
+            
+            vertices_x.push(x);
+            vertices_y.push(y);
+            vertices_z.push(z + height);
+            
+            // Create triangular faces
+            const i_indices = [];
+            const j_indices = [];
+            const k_indices = [];
+            
+            const centerBottom = vertices_x.length - 2;
+            const centerTop = vertices_x.length - 1;
+            
+            // Side faces
+            for (let i = 0; i < numPoints; i++) {
+                i_indices.push(i);
+                j_indices.push(i + 1);
+                k_indices.push(numPoints + 1 + i);
+                
+                i_indices.push(i + 1);
+                j_indices.push(numPoints + 1 + i + 1);
+                k_indices.push(numPoints + 1 + i);
+            }
+            
+            return {
+                type: 'mesh3d',
+                x: vertices_x,
+                y: vertices_y,
+                z: vertices_z,
+                i: i_indices,
+                j: j_indices,
+                k: k_indices,
+                color: color,
+                opacity: 0.15,
+                name: name,
+                hovertemplate: '<b>' + name + '</b><extra></extra>',
+                showlegend: false
+            };
+        }
+
+        // Helper function to create mobile device (small cuboid with sphere on top)
+        function createMobileDevice(x, y, z, color) {
+            const size = 0.4;
+            
+            const mobile = {
+                type: 'scatter3d',
+                mode: 'markers',
+                x: [x],
+                y: [y],
+                z: [z],
+                marker: {
+                    size: 12,
+                    color: color,
+                    symbol: 'diamond',
+                    line: {
+                        color: '#393f4d',
+                        width: 2
+                    }
+                },
+                name: 'Mobile',
+                hovertemplate: '<b>Unité Mobile</b><extra></extra>',
+                showlegend: true
+            };
+            
+            return mobile;
+        }
+
+        // Helper function to create an arrow (signal path)
+        function createArrow3D(x0, y0, z0, x1, y1, z1, color, name, dash) {
+            return {
+                type: 'scatter3d',
+                mode: 'lines',
+                x: [x0, x1],
+                y: [y0, y1],
+                z: [z0, z1],
+                line: {
+                    color: color,
+                    width: 6,
+                    dash: dash || 'solid'
+                },
+                name: name,
+                hovertemplate: '<b>' + name + '</b><extra></extra>',
+                showlegend: true
+            };
+        }
+
+        // ============================================================
+        // Scene 1: General Handover Mechanism
+        // ============================================================
+        const handoverGeneralDiv = document.getElementById('handoverGeneralChart');
+        if (handoverGeneralDiv) {
+            const bts1_x = -8, bts1_y = 0;
+            const bts2_x = 8, bts2_y = 0;
+            const coverageRadius = 7;
+            
+            const generalData = [];
+            
+            // BTS 1
+            const bts1 = createBTSTower(bts1_x, bts1_y, 0, '#51cf66', 'BTS 1');
+            generalData.push(...bts1);
+            
+            // BTS 2
+            const bts2 = createBTSTower(bts2_x, bts2_y, 0, '#4dabf7', 'BTS 2');
+            generalData.push(...bts2);
+            
+            // Coverage zones
+            const coverage1 = createCoverageZone(bts1_x, bts1_y, 0, coverageRadius, 0.2, '#51cf66', 'Zone BTS 1');
+            generalData.push(coverage1);
+            
+            const coverage2 = createCoverageZone(bts2_x, bts2_y, 0, coverageRadius, 0.2, '#4dabf7', 'Zone BTS 2');
+            generalData.push(coverage2);
+            
+            // Mobile device (will be animated)
+            const mobile = createMobileDevice(-6, 0, 1, '#ffd43b');
+            generalData.push(mobile);
+            
+            // Signal arrows (will change during animation)
+            const arrow1 = createArrow3D(bts1_x, bts1_y, 4, -6, 0, 1, '#51cf66', 'Signal BTS 1', 'dash');
+            generalData.push(arrow1);
+            
+            const generalLayout = {
+                title: {
+                    text: '<b>Mécanisme Général de Handover - Mobile en mouvement</b>',
+                    font: { family: 'Inter', size: 16, color: '#393f4d' }
+                },
+                scene: {
+                    xaxis: { 
+                        title: '<b>Distance (m)</b>',
+                        range: [-12, 12],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    yaxis: { 
+                        title: '<b>Latitude</b>',
+                        range: [-10, 10],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    zaxis: { 
+                        title: '<b>Altitude (m)</b>',
+                        range: [0, 8],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    camera: {
+                        eye: { x: 1.5, y: 1.8, z: 1.2 }
+                    },
+                    aspectmode: 'manual',
+                    aspectratio: { x: 2, y: 1.5, z: 0.8 }
+                },
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#51cf66',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 10 }
+                },
+                margin: { l: 0, r: 0, b: 0, t: 40 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                annotations: [
+                    {
+                        text: 'Phase 1: Mesure du signal',
+                        x: 0.05,
+                        y: 0.05,
+                        xref: 'paper',
+                        yref: 'paper',
+                        showarrow: false,
+                        font: { size: 13, color: '#51cf66', weight: 'bold' },
+                        bgcolor: 'rgba(81, 207, 102, 0.2)',
+                        borderpad: 6
+                    }
+                ]
+            };
+            
+            const generalConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false
+            };
+            
+            Plotly.newPlot('handoverGeneralChart', generalData, generalLayout, generalConfig);
+            
+            // Animation
+            let frame = 0;
+            const totalFrames = 120;
+            setInterval(() => {
+                frame = (frame + 1) % totalFrames;
+                const progress = frame / totalFrames;
+                
+                // Mobile moves from left to right
+                const mobile_x = -6 + progress * 12;
+                const mobile_y = 0;
+                const mobile_z = 1;
+                
+                // Update mobile position
+                const mobileIndex = generalData.length - 2; // Mobile is second to last
+                Plotly.restyle('handoverGeneralChart', {
+                    'x': [[mobile_x]],
+                    'y': [[mobile_y]],
+                    'z': [[mobile_z]]
+                }, [mobileIndex]);
+                
+                // Update arrow based on position
+                const arrowIndex = generalData.length - 1; // Arrow is last
+                let arrowColor, arrowX0, arrowY0, arrowZ0, phase;
+                
+                if (progress < 0.4) {
+                    // Phase 1: Connected to BTS1 (green)
+                    arrowColor = '#51cf66';
+                    arrowX0 = bts1_x;
+                    arrowY0 = bts1_y;
+                    arrowZ0 = 4;
+                    phase = 'Phase 1: Mesure du signal';
+                } else if (progress < 0.6) {
+                    // Phase 2: Decision phase (yellow)
+                    arrowColor = '#ffd43b';
+                    arrowX0 = bts1_x;
+                    arrowY0 = bts1_y;
+                    arrowZ0 = 4;
+                    phase = 'Phase 2: Décision de transfert';
+                } else {
+                    // Phase 3: Connected to BTS2 (blue)
+                    arrowColor = '#4dabf7';
+                    arrowX0 = bts2_x;
+                    arrowY0 = bts2_y;
+                    arrowZ0 = 4;
+                    phase = 'Phase 3: Exécution du handover';
+                }
+                
+                Plotly.restyle('handoverGeneralChart', {
+                    'x': [[arrowX0, mobile_x]],
+                    'y': [[arrowY0, mobile_y]],
+                    'z': [[arrowZ0, mobile_z]],
+                    'line.color': [arrowColor]
+                }, [arrowIndex]);
+                
+                // Update annotation
+                Plotly.relayout('handoverGeneralChart', {
+                    'annotations[0].text': phase,
+                    'annotations[0].font.color': arrowColor,
+                    'annotations[0].bgcolor': arrowColor.replace(')', ', 0.2)').replace('rgb', 'rgba').replace('#51cf66', 'rgba(81, 207, 102, 0.2)').replace('#ffd43b', 'rgba(255, 212, 59, 0.2)').replace('#4dabf7', 'rgba(77, 171, 247, 0.2)')
+                });
+            }, 80);
+        }
+
+        // ============================================================
+        // Scene 2: Hard Handover (Break Before Make)
+        // ============================================================
+        const hardHandoverDiv = document.getElementById('hardHandoverChart');
+        if (hardHandoverDiv) {
+            const bts1_x = -10, bts1_y = 0;
+            const bts2_x = 10, bts2_y = 0;
+            const coverageRadius = 6;
+            
+            const hardData = [];
+            
+            // BTS 1
+            const bts1 = createBTSTower(bts1_x, bts1_y, 0, '#ff6b6b', 'BTS 1');
+            hardData.push(...bts1);
+            
+            // BTS 2
+            const bts2 = createBTSTower(bts2_x, bts2_y, 0, '#51cf66', 'BTS 2');
+            hardData.push(...bts2);
+            
+            // Coverage zones (non-overlapping)
+            const coverage1 = createCoverageZone(bts1_x, bts1_y, 0, coverageRadius, 0.2, '#ff6b6b', 'Zone BTS 1');
+            hardData.push(coverage1);
+            
+            const coverage2 = createCoverageZone(bts2_x, bts2_y, 0, coverageRadius, 0.2, '#51cf66', 'Zone BTS 2');
+            hardData.push(coverage2);
+            
+            // Gap zone (no coverage)
+            const gapZone = {
+                type: 'scatter3d',
+                mode: 'markers',
+                x: [0],
+                y: [0],
+                z: [0.1],
+                marker: {
+                    size: 8,
+                    color: '#393f4d',
+                    symbol: 'x',
+                    opacity: 0.5
+                },
+                name: 'Zone sans signal',
+                hovertemplate: '<b>Zone de coupure</b><br>Pas de signal<extra></extra>',
+                showlegend: true
+            };
+            hardData.push(gapZone);
+            
+            // Mobile device
+            const mobile = createMobileDevice(-8, 0, 1, '#ffd43b');
+            hardData.push(mobile);
+            
+            // Signal arrow (will change)
+            const arrow = createArrow3D(bts1_x, bts1_y, 4, -8, 0, 1, '#ff6b6b', 'Signal actif', 'dash');
+            hardData.push(arrow);
+            
+            const hardLayout = {
+                title: {
+                    text: '<b>Hard Handover - Coupure puis reconnexion</b>',
+                    font: { family: 'Inter', size: 16, color: '#393f4d' }
+                },
+                scene: {
+                    xaxis: { 
+                        title: '<b>Distance (m)</b>',
+                        range: [-14, 14],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    yaxis: { 
+                        title: '<b>Latitude</b>',
+                        range: [-10, 10],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    zaxis: { 
+                        title: '<b>Altitude (m)</b>',
+                        range: [0, 8],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    camera: {
+                        eye: { x: 1.5, y: 1.8, z: 1.2 }
+                    },
+                    aspectmode: 'manual',
+                    aspectratio: { x: 2, y: 1.5, z: 0.8 }
+                },
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#ff6b6b',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 10 }
+                },
+                margin: { l: 0, r: 0, b: 0, t: 40 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                annotations: [
+                    {
+                        text: 'Connecté à BTS 1',
+                        x: 0.05,
+                        y: 0.05,
+                        xref: 'paper',
+                        yref: 'paper',
+                        showarrow: false,
+                        font: { size: 13, color: '#ff6b6b', weight: 'bold' },
+                        bgcolor: 'rgba(255, 107, 107, 0.2)',
+                        borderpad: 6
+                    }
+                ]
+            };
+            
+            const hardConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false
+            };
+            
+            Plotly.newPlot('hardHandoverChart', hardData, hardLayout, hardConfig);
+            
+            // Animation
+            let frame = 0;
+            const totalFrames = 150;
+            setInterval(() => {
+                frame = (frame + 1) % totalFrames;
+                const progress = frame / totalFrames;
+                
+                const mobile_x = -8 + progress * 16;
+                const mobile_y = 0;
+                const mobile_z = 1;
+                
+                const mobileIndex = hardData.length - 2;
+                Plotly.restyle('hardHandoverChart', {
+                    'x': [[mobile_x]],
+                    'y': [[mobile_y]],
+                    'z': [[mobile_z]]
+                }, [mobileIndex]);
+                
+                const arrowIndex = hardData.length - 1;
+                let arrowColor, arrowX0, arrowY0, arrowZ0, arrowX1, arrowY1, arrowZ1, phase, arrowVisible;
+                
+                if (progress < 0.4) {
+                    // Connected to BTS1 (red)
+                    arrowColor = '#ff6b6b';
+                    arrowX0 = bts1_x;
+                    arrowY0 = bts1_y;
+                    arrowZ0 = 4;
+                    arrowX1 = mobile_x;
+                    arrowY1 = mobile_y;
+                    arrowZ1 = mobile_z;
+                    phase = 'Connecté à BTS 1';
+                    arrowVisible = true;
+                } else if (progress < 0.55) {
+                    // Disconnected (no arrow - gap zone)
+                    arrowColor = '#393f4d';
+                    arrowX0 = 0;
+                    arrowY0 = 0;
+                    arrowZ0 = 0;
+                    arrowX1 = 0;
+                    arrowY1 = 0;
+                    arrowZ1 = 0;
+                    phase = '⚠️ COUPURE - Aucun signal';
+                    arrowVisible = false;
+                } else {
+                    // Connected to BTS2 (green)
+                    arrowColor = '#51cf66';
+                    arrowX0 = bts2_x;
+                    arrowY0 = bts2_y;
+                    arrowZ0 = 4;
+                    arrowX1 = mobile_x;
+                    arrowY1 = mobile_y;
+                    arrowZ1 = mobile_z;
+                    phase = 'Connecté à BTS 2';
+                    arrowVisible = true;
+                }
+                
+                Plotly.restyle('hardHandoverChart', {
+                    'x': [[arrowX0, arrowX1]],
+                    'y': [[arrowY0, arrowY1]],
+                    'z': [[arrowZ0, arrowZ1]],
+                    'line.color': [arrowColor],
+                    'opacity': [arrowVisible ? 1 : 0]
+                }, [arrowIndex]);
+                
+                Plotly.relayout('hardHandoverChart', {
+                    'annotations[0].text': phase,
+                    'annotations[0].font.color': arrowColor,
+                    'annotations[0].bgcolor': arrowColor.replace(')', ', 0.2)').replace('rgb', 'rgba').replace('#ff6b6b', 'rgba(255, 107, 107, 0.2)').replace('#51cf66', 'rgba(81, 207, 102, 0.2)').replace('#393f4d', 'rgba(57, 63, 77, 0.3)')
+                });
+            }, 70);
+        }
+
+        // ============================================================
+        // Scene 3: Soft Handover (Make Before Break)
+        // ============================================================
+        const softHandoverDiv = document.getElementById('softHandoverChart');
+        if (softHandoverDiv) {
+            const bts1_x = -6, bts1_y = 0;
+            const bts2_x = 6, bts2_y = 0;
+            const coverageRadius = 8;
+            
+            const softData = [];
+            
+            // BTS 1
+            const bts1 = createBTSTower(bts1_x, bts1_y, 0, '#4dabf7', 'BTS 1');
+            softData.push(...bts1);
+            
+            // BTS 2
+            const bts2 = createBTSTower(bts2_x, bts2_y, 0, '#51cf66', 'BTS 2');
+            softData.push(...bts2);
+            
+            // Coverage zones (overlapping)
+            const coverage1 = createCoverageZone(bts1_x, bts1_y, 0, coverageRadius, 0.2, '#4dabf7', 'Zone BTS 1');
+            softData.push(coverage1);
+            
+            const coverage2 = createCoverageZone(bts2_x, bts2_y, 0, coverageRadius, 0.2, '#51cf66', 'Zone BTS 2');
+            softData.push(coverage2);
+            
+            // Overlap zone marker
+            const overlapZone = {
+                type: 'scatter3d',
+                mode: 'markers',
+                x: [0],
+                y: [0],
+                z: [0.1],
+                marker: {
+                    size: 10,
+                    color: '#a855f7',
+                    symbol: 'circle',
+                    opacity: 0.6
+                },
+                name: 'Zone de chevauchement',
+                hovertemplate: '<b>Zone de chevauchement</b><br>Double connexion<extra></extra>',
+                showlegend: true
+            };
+            softData.push(overlapZone);
+            
+            // Mobile device
+            const mobile = createMobileDevice(-6, 0, 1, '#ffd43b');
+            softData.push(mobile);
+            
+            // Two signal arrows (both can be active)
+            const arrow1 = createArrow3D(bts1_x, bts1_y, 4, -6, 0, 1, '#4dabf7', 'Signal BTS 1', 'dash');
+            softData.push(arrow1);
+            
+            const arrow2 = createArrow3D(bts2_x, bts2_y, 4, -6, 0, 1, '#51cf66', 'Signal BTS 2', 'dash');
+            softData.push(arrow2);
+            
+            const softLayout = {
+                title: {
+                    text: '<b>Soft Handover - Connexion simultanée aux deux BTS</b>',
+                    font: { family: 'Inter', size: 16, color: '#393f4d' }
+                },
+                scene: {
+                    xaxis: { 
+                        title: '<b>Distance (m)</b>',
+                        range: [-12, 12],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    yaxis: { 
+                        title: '<b>Latitude</b>',
+                        range: [-10, 10],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    zaxis: { 
+                        title: '<b>Altitude (m)</b>',
+                        range: [0, 8],
+                        gridcolor: '#e9ecef',
+                        showbackground: true,
+                        backgroundcolor: '#f8f9fa'
+                    },
+                    camera: {
+                        eye: { x: 1.5, y: 1.8, z: 1.2 }
+                    },
+                    aspectmode: 'manual',
+                    aspectratio: { x: 2, y: 1.5, z: 0.8 }
+                },
+                legend: {
+                    x: 0.02,
+                    y: 0.98,
+                    bgcolor: 'rgba(255, 255, 255, 0.95)',
+                    bordercolor: '#4dabf7',
+                    borderwidth: 2,
+                    font: { family: 'Inter', size: 10 }
+                },
+                margin: { l: 0, r: 0, b: 0, t: 40 },
+                paper_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                plot_bgcolor: 'rgba(255, 255, 255, 0.98)',
+                annotations: [
+                    {
+                        text: 'Connecté à BTS 1',
+                        x: 0.05,
+                        y: 0.05,
+                        xref: 'paper',
+                        yref: 'paper',
+                        showarrow: false,
+                        font: { size: 13, color: '#4dabf7', weight: 'bold' },
+                        bgcolor: 'rgba(77, 171, 247, 0.2)',
+                        borderpad: 6
+                    }
+                ]
+            };
+            
+            const softConfig = {
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false
+            };
+            
+            Plotly.newPlot('softHandoverChart', softData, softLayout, softConfig);
+            
+            // Animation
+            let frame = 0;
+            const totalFrames = 120;
+            setInterval(() => {
+                frame = (frame + 1) % totalFrames;
+                const progress = frame / totalFrames;
+                
+                const mobile_x = -6 + progress * 12;
+                const mobile_y = 0;
+                const mobile_z = 1;
+                
+                const mobileIndex = softData.length - 3;
+                Plotly.restyle('softHandoverChart', {
+                    'x': [[mobile_x]],
+                    'y': [[mobile_y]],
+                    'z': [[mobile_z]]
+                }, [mobileIndex]);
+                
+                const arrow1Index = softData.length - 2;
+                const arrow2Index = softData.length - 1;
+                
+                let phase, arrow1Opacity, arrow2Opacity;
+                
+                if (progress < 0.35) {
+                    // Only BTS1 active (blue)
+                    phase = 'Connecté à BTS 1';
+                    arrow1Opacity = 1;
+                    arrow2Opacity = 0;
+                } else if (progress < 0.65) {
+                    // Both active (overlap zone - soft handover)
+                    phase = '🔗 Double connexion (Soft Handover)';
+                    arrow1Opacity = 1;
+                    arrow2Opacity = 1;
+                } else {
+                    // Only BTS2 active (green)
+                    phase = 'Connecté à BTS 2';
+                    arrow1Opacity = 0;
+                    arrow2Opacity = 1;
+                }
+                
+                // Update arrow 1
+                Plotly.restyle('softHandoverChart', {
+                    'x': [[bts1_x, mobile_x]],
+                    'y': [[bts1_y, mobile_y]],
+                    'z': [[4, mobile_z]],
+                    'opacity': [arrow1Opacity]
+                }, [arrow1Index]);
+                
+                // Update arrow 2
+                Plotly.restyle('softHandoverChart', {
+                    'x': [[bts2_x, mobile_x]],
+                    'y': [[bts2_y, mobile_y]],
+                    'z': [[4, mobile_z]],
+                    'opacity': [arrow2Opacity]
+                }, [arrow2Index]);
+                
+                const phaseColor = (arrow1Opacity === 1 && arrow2Opacity === 1) ? '#a855f7' : (arrow2Opacity === 1 ? '#51cf66' : '#4dabf7');
+                const phaseBgColor = (arrow1Opacity === 1 && arrow2Opacity === 1) ? 'rgba(168, 85, 247, 0.2)' : (arrow2Opacity === 1 ? 'rgba(81, 207, 102, 0.2)' : 'rgba(77, 171, 247, 0.2)');
+                
+                Plotly.relayout('softHandoverChart', {
+                    'annotations[0].text': phase,
+                    'annotations[0].font.color': phaseColor,
+                    'annotations[0].bgcolor': phaseBgColor
+                });
+            }, 80);
         }
     </script>
 </body>
